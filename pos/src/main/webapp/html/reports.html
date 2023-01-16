@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+
+<head th:replace="snippets.html :: name_head"></head>
+
+<body>
+
+<nav th:replace="snippets.html :: name_app_navbar"></nav>
+
+<div class="container mt-4">
+
+
+    <div class="row">
+        <h1 class="col my-auto">Reports</h1>
+    </div>
+
+    <!-- Blank Row -->
+    <div class="row m-4">
+        &nbsp;
+    </div>
+    <div class="row justify-content-around home-logo">
+        <a th:href="@{/ui/reports/inventory}" title="Inventory Report">
+            <div class="col">
+                <img th:src="@{/static/images/inventory-report.png}" alt="Inventory Report" />
+                <h4>Inventory Report</h4>
+            </div>
+        </a>
+        <a th:href="@{/ui/reports/brands}" title="Brand-category Report">
+            <div class="col">
+                <img th:src="@{/static/images/brand-category-report.png}" alt="Brand Category Report" />
+                <h4>Brand Category Report</h4>
+            </div>
+        </a>
+        <a th:href="@{/ui/reports/sales}" title="Sales Report">
+            <div class="col">
+                <img th:src="@{/static/images/sales-report.png}" alt="Sales Report" />
+                <h4>Sales Report</h4>
+            </div>
+        </a>
+        <a th:href="@{/ui/reports/dailyReport}" title="Daily Report">
+            <div class="col">
+                <img th:src="@{/static/images/daily-sales-report.png}" alt="Daily Sales Report" />
+                <h4>Daily Sales Report</h4>
+            </div>
+        </a>
+    </div>
+
+
+</div> <!-- Container end-->
+
+<footer th:replace="snippets.html :: name_footer"></footer>
+
+<!--<script th:src="@{/js/reports.js}"/></script>-->
+<script>$('#nav-reports').addClass('active');</script>
+
+</body>
+
+</html>

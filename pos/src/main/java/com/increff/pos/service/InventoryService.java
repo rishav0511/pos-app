@@ -1,0 +1,53 @@
+package com.increff.pos.service;
+
+import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.pojo.InventoryPojo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Service
+public class InventoryService {
+    @Autowired
+    private InventoryDao inventoryDao;
+
+    public void insert(InventoryPojo inventoryPojo) {
+        inventoryDao.insert(inventoryPojo);
+    }
+
+    public InventoryPojo get(Integer productId) {
+        return inventoryDao.select(InventoryPojo.class, productId);
+    }
+
+    public List<InventoryPojo> getAll() {
+        return inventoryDao.selectAll();
+    }
+
+    @Transactional
+    public void update(InventoryPojo inventoryPojo) {
+        InventoryPojo existing = inventoryDao.select(inventoryPojo.getProductId());
+        existing.setQuantity(inventoryPojo.getQuantity());
+        inventoryDao.update(inventoryPojo);
+    }
+
+    // Reduce inventory quantity
+    @Transactional(rollbackOn = ApiException.class)
+    public void reduce(String barcode, int id, int quantity) throws ApiException {
+        InventoryPojo existing = inventoryDao.select(id);
+        if (existing.getQuantity() < quantity) {
+            throw new ApiException("Quantity not available for product, barcode:" + barcode);
+        }
+        existing.setQuantity(existing.getQuantity() - quantity);
+        inventoryDao.update(existing);
+    }
+
+    // Increase inventory quantity
+    @Transactional
+    public void increase(int productId, int quantity) {
+        InventoryPojo p = inventoryDao.select(productId);
+        p.setQuantity(p.getQuantity() + quantity);
+        inventoryDao.update(p);
+    }
+}
