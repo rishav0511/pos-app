@@ -5,6 +5,7 @@ import com.increff.pos.model.InvoiceData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderItemForm;
 import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class OrdersApiController {
 
     @ApiOperation(value = "Adds a Order")
     @RequestMapping(value = "/api/orders", method = RequestMethod.POST)
-    public List<OrderItemPojo> addOrder(@RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
+    public OrderPojo addOrder(@RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
         return orderDto.addOrder(orderItemForms);
     }
 

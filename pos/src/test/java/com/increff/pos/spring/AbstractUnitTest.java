@@ -1,4 +1,4 @@
-package com.increff.pos.service;
+package com.increff.pos.spring;
 
 import javax.transaction.Transactional;
 

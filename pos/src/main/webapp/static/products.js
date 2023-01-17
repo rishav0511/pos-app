@@ -212,8 +212,8 @@ function displayProductList(data){
    for(var i in data){
       var e = data[i];
       var buttonHtml = '';
-      if(getRole==="supervisor") {
-      '<td>' + `<button type="button" onclick="displayEditProduct('${e.id}')" data-toggle="tooltip"
+      if(getRole() === "supervisor") {
+         buttonHtml = '<td>' + `<button type="button" onclick="displayEditProduct('${e.id}')" data-toggle="tooltip"
                                               data-placement="bottom" title="Edit">
                                         <i class="fa fa-pencil-square-o fa-1x"></i>
                                       </button>` + '</td>';
