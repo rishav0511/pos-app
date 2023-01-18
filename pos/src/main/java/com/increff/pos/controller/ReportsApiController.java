@@ -1,10 +1,7 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.ReportDto;
-import com.increff.pos.model.DailySalesReportData;
-import com.increff.pos.model.InventoryReportData;
-import com.increff.pos.model.SalesReportData;
-import com.increff.pos.model.SalesReportForm;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
@@ -37,8 +34,10 @@ public class ReportsApiController {
         return reportDto.getDailySalesReport();
     }
 
+    @ApiOperation(value = "Gets brand-category report")
+    @RequestMapping(value = "/api/reports/brand", method = RequestMethod.GET)
+    public List<BrandCategoryData> brandCategoryReport() throws ApiException {
+        return reportDto.getBrandCategoryReport();
+    }
+
 }
-//            @RequestParam(value = "brand", required = false) String brand,
-//            @RequestParam(value = "category", required = false) String category,
-//            @RequestParam(value = "startDate", required = false) String startDate,
-//            @RequestParam(value = "endDate", required = false) String endDate

@@ -1,9 +1,6 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.BrandCategoryForm;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,5 +42,12 @@ public class TestUtils {
             orderItemFormList.add(orderItemForm);
         }
         return orderItemFormList;
+    }
+
+    public static SalesReportForm getSalesReportForm(String brand,String category) {
+        SalesReportForm salesReportForm = new SalesReportForm();
+        salesReportForm.setBrand(brand);
+        salesReportForm.setCategory(category);
+        return salesReportForm;
     }
 }

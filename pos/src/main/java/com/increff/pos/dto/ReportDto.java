@@ -49,35 +49,38 @@ public class ReportDto {
         return inventoryReportData;
     }
 
+    public List<BrandCategoryData> getBrandCategoryReport() {
+        List<BrandCategoryPojo> pojos = brandCategoryService.selectAll();
+        List<BrandCategoryData> brandDataList = new ArrayList<BrandCategoryData>();
+        for(BrandCategoryPojo pojo:pojos){
+            brandDataList.add(ConvertUtil.convertPojotoData(pojo));
+        }
+        return brandDataList;
+    }
+
     public List<SalesReportData> getSalesReport(SalesReportForm form) throws ApiException {
         ValidationUtils.validateForm(form);
         NormalizeUtil.normalizeForm(form);
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
+        List<BrandCategoryPojo> brandCategoryList = new ArrayList<>();
         // Brand-Category is empty
         if(form.getBrand().equals("") && form.getCategory().equals("")) {
-            List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAll();
-            List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
-            return salesReportData;
+            brandCategoryList = brandCategoryService.selectAll();
         }
         //Category is empty
         else if (form.getBrand()!=null && form.getCategory().equals("")) {
-            List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectByBrand(form.getBrand());
-            List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
-            return salesReportData;
+            brandCategoryList = brandCategoryService.selectByBrand(form.getBrand());
         } else if(form.getBrand().equals("") && form.getCategory()!=null) {
-            List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectByCategory(form.getCategory());
-            List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
-            return salesReportData;
+            brandCategoryList = brandCategoryService.selectByCategory(form.getCategory());
         }
         else {
             BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(form.getBrand(),form.getCategory());
-            List<BrandCategoryPojo> brandCategoryList = new ArrayList<>();
             brandCategoryList.add(brandCategoryPojo);
-            List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
-            return salesReportData;
         }
+        List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
+        return salesReportData;
     }
 
     public List<SalesReportData> getReport(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {

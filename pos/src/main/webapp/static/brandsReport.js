@@ -1,6 +1,6 @@
 function getbrandReportUrl() {
   var baseUrl = $("meta[name=baseUrl]").attr("content");
-  return baseUrl + "/api/brands";
+  return baseUrl + "/api/reports/brand";
 }
 
 function getbrandReport() {
