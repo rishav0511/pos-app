@@ -30,7 +30,7 @@ public class ProductDto {
     private InventoryService inventoryService;
 
     @Transactional(rollbackFor = ApiException.class)
-    public ProductPojo addProduct(ProductForm productForm) throws ApiException {
+    public ProductData addProduct(ProductForm productForm) throws ApiException {
         ValidationUtils.validateForm(productForm);
         BrandCategoryForm brandCategoryForm = ConvertUtil.convertProductFormtoBrandForm(productForm);
         NormalizeUtil.normalizeForm(brandCategoryForm);
@@ -38,15 +38,13 @@ public class ProductDto {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(brandCategoryForm.getBrand(), brandCategoryForm.getCategory());
         ProductPojo productPojo = ConvertUtil.convertFormtoPojo(productForm, brandCategoryPojo);
         ProductPojo p = productService.insert(productPojo);
-
         //throwing an error
 //        productService.getByBarcode("xxx");
-
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setQuantity(0);
         inventoryPojo.setProductId(productPojo.getId());
         inventoryService.insert(inventoryPojo);
-        return p;
+        return ConvertUtil.convertPojotoData(p,brandCategoryPojo);
     }
 
     public ProductData get(Integer id) throws ApiException {
@@ -74,7 +72,7 @@ public class ProductDto {
         return productData;
     }
 
-    public ProductPojo update(Integer id,ProductForm productForm) throws ApiException {
+    public ProductData update(Integer id,ProductForm productForm) throws ApiException {
         ValidationUtils.validateForm(productForm);
         BrandCategoryForm brandCategoryForm = ConvertUtil.convertProductFormtoBrandForm(productForm);
         NormalizeUtil.normalizeForm(brandCategoryForm);
@@ -82,6 +80,7 @@ public class ProductDto {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(brandCategoryForm.getBrand(), brandCategoryForm.getCategory());
         ProductPojo productPojo = ConvertUtil.convertFormtoPojo(productForm, brandCategoryPojo);
         productPojo.setId(id);
-        return productService.update(id,productPojo);
+        ProductPojo pojo = productService.update(id,productPojo);
+        return ConvertUtil.convertPojotoData(pojo,brandCategoryPojo);
     }
 }

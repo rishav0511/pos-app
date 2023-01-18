@@ -19,11 +19,12 @@ public class BrandCategoryDto {
     @Autowired
     private BrandCategoryService brandCategoryService;
 
-    public BrandCategoryPojo addBrand(BrandCategoryForm brandCategoryForm) throws ApiException {
+    public BrandCategoryData addBrand(BrandCategoryForm brandCategoryForm) throws ApiException {
         ValidationUtils.validateForm(brandCategoryForm);
         NormalizeUtil.normalizeForm(brandCategoryForm);
         BrandCategoryPojo brandCategoryPojo = ConvertUtil.convertFormtoPojo(brandCategoryForm);
-        return brandCategoryService.insert(brandCategoryPojo);
+        brandCategoryService.insert(brandCategoryPojo);
+        return ConvertUtil.convertPojotoData(brandCategoryPojo);
     }
 
     public BrandCategoryData getBrand(Integer id) throws ApiException {
@@ -40,10 +41,11 @@ public class BrandCategoryDto {
         return brandDataList;
     }
 
-    public BrandCategoryPojo update(Integer id, BrandCategoryForm brandCategoryForm) throws ApiException {
+    public BrandCategoryData update(Integer id, BrandCategoryForm brandCategoryForm) throws ApiException {
         ValidationUtils.validateForm(brandCategoryForm);
         NormalizeUtil.normalizeForm(brandCategoryForm);
         BrandCategoryPojo brandCategoryPojo = ConvertUtil.convertFormtoPojo(brandCategoryForm);
-        return brandCategoryService.update(id, brandCategoryPojo);
+        BrandCategoryPojo pojo = brandCategoryService.update(id, brandCategoryPojo);
+        return ConvertUtil.convertPojotoData(pojo);
     }
 }

@@ -22,7 +22,7 @@ public class InventoryDao extends AbstractDao{
         return getSingle(query);
     }
 
-    public void update(InventoryPojo inventoryPojo) {
-        em.merge(inventoryPojo);
+    public InventoryPojo update(InventoryPojo inventoryPojo) {
+        return em.merge(inventoryPojo);
     }
 }

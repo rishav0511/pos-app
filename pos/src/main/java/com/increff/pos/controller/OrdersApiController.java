@@ -31,7 +31,7 @@ public class OrdersApiController {
 
     @ApiOperation(value = "Adds a Order")
     @RequestMapping(value = "/api/orders", method = RequestMethod.POST)
-    public OrderPojo addOrder(@RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
+    public OrderData addOrder(@RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
         return orderDto.addOrder(orderItemForms);
     }
 

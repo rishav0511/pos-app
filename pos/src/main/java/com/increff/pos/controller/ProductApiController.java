@@ -18,7 +18,7 @@ public class ProductApiController {
 
     @ApiOperation(value = "Adds a Product")
     @RequestMapping(value = "/api/product", method = RequestMethod.POST)
-    public ProductPojo addProduct(@RequestBody ProductForm productForm) throws ApiException {
+    public ProductData addProduct(@RequestBody ProductForm productForm) throws ApiException {
         return productDto.addProduct(productForm);
     }
 
@@ -43,7 +43,7 @@ public class ProductApiController {
 
     @ApiOperation(value = "Updates a Product")
     @RequestMapping(value = "/api/product/{id}", method = RequestMethod.PUT)
-    public ProductPojo update(@PathVariable int id, @RequestBody ProductForm productForm) throws ApiException {
+    public ProductData update(@PathVariable int id, @RequestBody ProductForm productForm) throws ApiException {
         return productDto.update(id, productForm);
     }
 }

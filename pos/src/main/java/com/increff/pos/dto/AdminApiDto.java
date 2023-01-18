@@ -24,23 +24,11 @@ public class AdminApiDto {
         userService.add(user);
     }
 
-    public void delete(int id) throws ApiException {
-        userService.delete(id);
-    }
-
     public List<UserData> getAll() {
         return userService
                 .getAll()
                 .stream()
                 .map(ConvertUtil::convertPojoToData)
                 .collect(Collectors.toList());
-    }
-
-    public String getRoleByEmail(String email) {
-        try {
-            return userService.get(email).getRole();
-        } catch (Exception ex) {
-            return "operator";
-        }
     }
 }

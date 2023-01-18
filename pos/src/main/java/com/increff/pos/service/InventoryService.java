@@ -26,10 +26,10 @@ public class InventoryService {
     }
 
     @Transactional
-    public void update(InventoryPojo inventoryPojo) {
+    public InventoryPojo update(InventoryPojo inventoryPojo) {
         InventoryPojo existing = inventoryDao.select(inventoryPojo.getProductId());
         existing.setQuantity(inventoryPojo.getQuantity());
-        inventoryDao.update(inventoryPojo);
+        return inventoryDao.update(inventoryPojo);
     }
 
     // Reduce inventory quantity

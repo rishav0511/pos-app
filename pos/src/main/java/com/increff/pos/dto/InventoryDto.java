@@ -43,13 +43,14 @@ public class InventoryDto {
     }
 
 
-    public void update(InventoryForm inventoryForm) throws ApiException {
+    public InventoryData update(InventoryForm inventoryForm) throws ApiException {
         ValidationUtils.validateForm(inventoryForm);
         NormalizeUtil.normalizeForm(inventoryForm);
         ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setProductId(productPojo.getId());
         inventoryPojo.setQuantity(inventoryForm.getQuantity());
-        inventoryService.update(inventoryPojo);
+        InventoryPojo pojo = inventoryService.update(inventoryPojo);
+        return ConvertUtil.convertPojotoData(pojo,productPojo);
     }
 }

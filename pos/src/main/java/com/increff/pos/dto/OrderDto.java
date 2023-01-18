@@ -31,7 +31,7 @@ public class OrderDto {
     private OrderItemService orderItemService;
 
     @Transactional(rollbackFor = ApiException.class)
-    public OrderPojo addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
+    public OrderData addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItemForms);
             NormalizeUtil.normalizeForm(orderItemForms);
@@ -51,7 +51,7 @@ public class OrderDto {
             String path = generateInvoice(orderPojo.getId());
             orderPojo.setPath(path);
             orderService.update(orderPojo.getId(), orderPojo);
-            return orderPojo;
+            return ConvertUtil.convertPojoToData(orderPojo,orderItemPojos);
         } catch (Exception e) {
             throw new ApiException(e.getMessage());
         }
