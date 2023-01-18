@@ -1,10 +1,10 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.BrandCategoryForm;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.pojo.UserPojo;
+
+import java.util.List;
 
 public class NormalizeUtil {
 
@@ -22,6 +22,17 @@ public class NormalizeUtil {
 
     public static void normalizeForm(InventoryForm inventoryForm) {
         inventoryForm.setBarcode(StringUtil.toLowerCase(inventoryForm.getBarcode()));
+    }
+
+    public static void normalizeForm(List<OrderItemForm> orderItemForms) {
+        for(OrderItemForm form:orderItemForms) {
+            form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
+        }
+    }
+
+    public static void normalizeForm(SalesReportForm salesReportForm) {
+        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()));
+        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()));
     }
 
     public static void normalizeUser(UserPojo p) {

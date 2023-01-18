@@ -12,5 +12,4 @@ public class OrderData {
     private Integer orderId;
     private Timestamp createdAt;
     private Double billAmount;
-    private Boolean isInvoiceCreated;
 }

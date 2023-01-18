@@ -9,6 +9,7 @@ import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
+import com.increff.pos.util.StringUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,12 +26,13 @@ public class InventoryDto {
     private InventoryService inventoryService;
 
     public InventoryData get(String barcode) throws ApiException {
+        barcode = StringUtil.toLowerCase(barcode);
         ProductPojo productPojo = productService.getByBarcode(barcode);
         InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
         return ConvertUtil.convertPojotoData(inventoryPojo, productPojo);
     }
 
-    public List<InventoryData> getAll() {
+    public List<InventoryData> getAll() throws ApiException {
         List<InventoryPojo> inventoryPojos = inventoryService.getAll();
         List<InventoryData> reqList = new ArrayList<>();
         for (InventoryPojo pojo : inventoryPojos) {

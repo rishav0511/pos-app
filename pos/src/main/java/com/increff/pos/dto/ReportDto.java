@@ -4,6 +4,7 @@ import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ConvertUtil;
+import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.TimeUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class ReportDto {
 
     public List<SalesReportData> getSalesReport(SalesReportForm form) throws ApiException {
         ValidationUtils.validateForm(form);
+        NormalizeUtil.normalizeForm(form);
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
@@ -78,7 +80,7 @@ public class ReportDto {
         }
     }
 
-    public List<SalesReportData> getReport(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryList) {
+    public List<SalesReportData> getReport(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
         List<SalesReportData> salesReportData = new ArrayList<SalesReportData>();
         List<OrderItemPojo> orderItemList = new ArrayList<OrderItemPojo>();
         // Get all order items of all orders

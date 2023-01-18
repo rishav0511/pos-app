@@ -47,6 +47,16 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("dairy",productData.getBCategory());
     }
 
+    @Test(expected = ApiException.class)
+    public void addProductWithNonExistingBrandCategoryTest() throws ApiException {
+        ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
+                50.75,"Puma", "footwear");
+        ProductPojo productPojo = productDto.addProduct(productForm);
+        ProductData productData = productDto.get(productPojo.getId());
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Brand-Category doesn't exist");
+    }
+
     @Test
     public void getAllProductTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -60,7 +70,7 @@ public class ProductDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void getByBarcodeProductTest() throws ApiException {
+    public void getByBarcodeTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
                 50.75," Amul ", "daiRY");
         ProductPojo productPojo = productDto.addProduct(productForm);
@@ -70,6 +80,39 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals((Double)50.75,productData.getMrp());
         assertEquals("amul",productData.getBName());
         assertEquals("dairy",productData.getBCategory());
+    }
+
+    @Test
+    public void getByIdTest() throws ApiException {
+        ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
+                50.75," Amul ", "daiRY");
+        ProductPojo productPojo = productDto.addProduct(productForm);
+        ProductData productData = productDto.get(productPojo.getId());
+        assertEquals("half litre pasteurized milk",productData.getProduct());
+        assertEquals("am111",productData.getBarcode());
+        assertEquals((Double)50.75,productData.getMrp());
+        assertEquals("amul",productData.getBName());
+        assertEquals("dairy",productData.getBCategory());
+    }
+
+    @Test(expected = ApiException.class)
+    public void getByInvalidIdTest() throws ApiException {
+        ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
+                50.75," Amul ", "daiRY");
+        ProductPojo productPojo = productDto.addProduct(productForm);
+        ProductData productData = productDto.get(20);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Product with given Id doesn't exist, id:20");
+    }
+
+    @Test(expected = ApiException.class)
+    public void getByInvalidBarcodeTest() throws ApiException {
+        ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
+                50.75," Amul ", "daiRY");
+        ProductPojo productPojo = productDto.addProduct(productForm);
+        ProductData productData = productDto.getByBarcode("xy111");
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Barcode doesn't exist");
     }
 
     @Test

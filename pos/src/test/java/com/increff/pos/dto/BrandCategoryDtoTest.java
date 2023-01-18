@@ -8,11 +8,11 @@ import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.AbstractUnitTest;
 import com.increff.pos.util.TestUtils;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -31,6 +31,24 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         BrandCategoryData data = brandCategoryDto.getBrand(pojo.getId());
         assertEquals("amul",data.getBrand());
         assertEquals("dairy",data.getCategory());
+    }
+
+    @Test(expected = ApiException.class)
+    public void addDuplicateBrandCategoryTest() throws ApiException {
+        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
+        brandCategoryDto.addBrand(brandCategoryForm);
+        BrandCategoryForm newBrandCategoryForm = TestUtils.getBrandCategoryForm("Amul","Dairy");
+        brandCategoryDto.addBrand(newBrandCategoryForm);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Brand and Category already exists");
+    }
+
+    @Test(expected = ApiException.class)
+    public void addNullBrandCategoryTest() throws ApiException {
+        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm(null,"  Dairy  ");
+        BrandCategoryPojo pojo = brandCategoryDto.addBrand(brandCategoryForm);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("No brand and category provided");
     }
 
     @Test
@@ -54,27 +72,20 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         assertEquals("dairy",data.getCategory());
     }
 
-    @Test(expected = ApiException.class)
-    public void invalidAddBrandCategoryTest() throws ApiException {
-        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm(null,"  Dairy  ");
-        BrandCategoryPojo pojo = brandCategoryDto.addBrand(brandCategoryForm);
-        exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("No brand and category provided");
-    }
-
-    @Test(expected = ApiException.class)
-    public void brandCategoryAlreadyExistsTest() throws ApiException {
-        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
-        brandCategoryDto.addBrand(brandCategoryForm);
-        BrandCategoryForm newBrandCategoryForm = TestUtils.getBrandCategoryForm("Amul","Dairy");
-        brandCategoryDto.addBrand(newBrandCategoryForm);
-        exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Brand and Category already exists");
-    }
-
     @Test(expected = PersistenceException.class)
     public void searchInvalidIdTest() throws ApiException {
-        brandCategoryDto.getBrand(1);
-        exceptionRule.expect(PersistenceException.class);
+        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
+        BrandCategoryPojo pojo = brandCategoryDto.addBrand(brandCategoryForm);
+        BrandCategoryData data = brandCategoryDto.getBrand(5);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Brand with given id doesn't exist, id:5");
+    }
+
+    @Test(expected = ApiException.class)
+    public void addBlankBrandCategoryTest() throws ApiException {
+        BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("    ","    ");
+        brandCategoryDto.addBrand(brandCategoryForm);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("No brand and category provided");
     }
 }

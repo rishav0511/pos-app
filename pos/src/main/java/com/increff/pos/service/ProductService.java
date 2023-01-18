@@ -25,8 +25,12 @@ public class ProductService {
         }
     }
 
-    public ProductPojo get(Integer id) {
-        return productDao.select(ProductPojo.class, id);
+    public ProductPojo get(Integer id) throws ApiException {
+        ProductPojo pojo = productDao.select(ProductPojo.class, id);
+        if(pojo==null) {
+            throw new ApiException("Product with given Id doesn't exist, id:"+id);
+        }
+        return pojo;
     }
 
     public List<ProductPojo> getAll() {

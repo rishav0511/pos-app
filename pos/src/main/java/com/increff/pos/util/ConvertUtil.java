@@ -84,7 +84,6 @@ public class ConvertUtil {
             billAmount+=orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
         }
         orderData.setBillAmount(billAmount);
-        orderData.setIsInvoiceCreated(false);
         return orderData;
     }
 

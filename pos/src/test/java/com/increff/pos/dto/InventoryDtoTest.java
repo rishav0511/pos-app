@@ -4,7 +4,6 @@ import com.increff.pos.model.BrandCategoryForm;
 import com.increff.pos.model.InventoryData;
 import com.increff.pos.model.InventoryForm;
 import com.increff.pos.model.ProductForm;
-import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.AbstractUnitTest;
@@ -44,13 +43,13 @@ public class InventoryDtoTest extends AbstractUnitTest {
     }
 
     @Test
-    public void addInventoryTest() throws ApiException {
+    public void getDefaultInventoryTest() throws ApiException {
         InventoryData inventoryData = inventoryDto.get(productPojo.getBarcode());
         assertEquals((Integer) 0,inventoryData.getQuantity());
     }
 
     @Test
-    public void getAllInventoryTest() {
+    public void getAllInventoryTest() throws ApiException {
         List<InventoryData> list = inventoryDto.getAll();
         assertEquals(2,list.size());
     }

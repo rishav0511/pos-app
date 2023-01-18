@@ -10,6 +10,7 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.GeneratePDFUtil;
+import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ public class OrderDto {
     public OrderPojo addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItemForms);
+            NormalizeUtil.normalizeForm(orderItemForms);
             OrderPojo orderPojo = orderService.createNewOrder();
             List<OrderItemPojo> orderItemPojos = new ArrayList<>();
             for (OrderItemForm orderItemForm : orderItemForms) {
@@ -88,9 +90,10 @@ public class OrderDto {
     }
 
     @Transactional(rollbackFor = ApiException.class)
-    public void updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
+    public String updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItems);
+            NormalizeUtil.normalizeForm(orderItems);
             revertInventory(orderId);
             List<OrderItemPojo> newOrderItems = new ArrayList<OrderItemPojo>();
             for (OrderItemForm orderItem : orderItems) {
@@ -104,7 +107,7 @@ public class OrderDto {
             }
             orderItemService.deleteByOrderId(orderId);
             orderItemService.insertMutiple(newOrderItems);
-            generateInvoice(orderId);
+            return generateInvoice(orderId);
         } catch (Exception e) {
             throw new ApiException(e.getMessage());
         }

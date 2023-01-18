@@ -40,13 +40,13 @@ public class ValidationUtils {
         for (OrderItemForm orderItem : orderItemForms) {
             if (orderItem.getQuantity() <= 0) {
                 throw new ApiException("Quantity cannot be less than or equal to 0");
+            } else if (orderItem.getSellingPrice() < 0) {
+                throw new ApiException("Selling Price cannot be less than 0");
             }
         }
     }
 
     public static void validateForm(SalesReportForm salesReportForm) {
-        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()));
-        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()));
         if(salesReportForm.getEndDate()==null) {
             salesReportForm.setEndDate(new Date());
         }
