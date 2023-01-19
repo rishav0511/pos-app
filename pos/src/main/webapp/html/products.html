@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <label for="inputMrp" class="col-sm-8 col-form-label">MRP</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="mrp" placeholder="Enter MRP">
+                                <input type="number" class="form-control" name="mrp" placeholder="Enter MRP" step="0.01">
                             </div>
                         </div>
                         <input type="hidden" name="id" >
@@ -173,7 +173,7 @@
                         <div class="form-group">
                             <label for="inputMrp" class="col-sm-4 col-form-label">MRP</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="mrp" placeholder="Enter MRP">
+                                <input type="number" class="form-control" name="mrp" placeholder="Enter MRP" step="0.01">
                             </div>
                         </div>
                         <input type="hidden" name="id" >
@@ -222,6 +222,11 @@
     </div>
 
 </div> <!-- Container end-->
+<button type="button"
+        class="btn btn-secondary btn-floating btn-sm"
+        id="btn-back-to-top">
+    <i class="fa fa-arrow-up fa-2x"></i>
+</button>
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 

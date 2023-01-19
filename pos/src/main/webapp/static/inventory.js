@@ -4,6 +4,10 @@ function getInventoryUrl(){
 	return baseUrl + "/api/inventory";
 }
 
+function getRole() {
+	var role = $("meta[name=role]").attr("content")
+	return role;
+}
 
 function updateInventory(event){
 	$('#edit-inventory-modal').modal('toggle');
@@ -107,15 +111,18 @@ function displayInventoryList(data){
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-		var buttonHtml = `<button type="button" onclick="displayEditInventory('${e.barcode}')" data-toggle="tooltip"
+		var buttonHtml = '';
+		if(getRole() === "supervisor") {
+		 buttonHtml = '<td>' + `<button type="button" onclick="displayEditInventory('${e.barcode}')" data-toggle="tooltip"
                                                       data-placement="bottom" title="Edit">
                                                 <i class="fa fa-pencil-square-o fa-1x"></i>
-                                              </button>`;
+                                              </button>` + '</td>';
+        }
 		var row = '<tr>'
 		+ '<td>' + e.barcode + '</td>'
 		+ '<td>' + e.pname + '</td>'
 		+ '<td>'  + e.quantity + '</td>'
-		+ '<td>' + buttonHtml + '</td>'
+		+  buttonHtml
 		+ '</tr>';
         $tbody.append(row);
 	}
@@ -179,6 +186,31 @@ function init(){
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
     $('#employeeFile').on('change', updateFileName)
+}
+//Get the button
+let mybutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    document.body.scrollTop > 20 ||
+    document.documentElement.scrollTop > 20
+  ) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
 
 $(document).ready(init);
