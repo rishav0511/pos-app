@@ -27,6 +27,10 @@ public class InventoryDtoTest extends AbstractUnitTest {
 
     private ProductData productData;
 
+    /**
+     * Setting up of BrandDb,ProductDb
+     * @throws ApiException
+     */
     @Before
     public void init() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -39,18 +43,30 @@ public class InventoryDtoTest extends AbstractUnitTest {
         productData = productDto.addProduct(secondProductForm);
     }
 
+    /**
+     * Default quantity of newly added product test
+     * @throws ApiException
+     */
     @Test
     public void getDefaultInventoryTest() throws ApiException {
         InventoryData inventoryData = inventoryDto.get(productData.getBarcode());
         assertEquals((Integer) 0,inventoryData.getQuantity());
     }
 
+    /**
+     * Fetch all InventoryData test
+     * @throws ApiException
+     */
     @Test
     public void getAllInventoryTest() throws ApiException {
         List<InventoryData> list = inventoryDto.getAll();
         assertEquals(2,list.size());
     }
 
+    /**
+     * Updating inventory test
+     * @throws ApiException
+     */
     @Test
     public void updateInventoryTest() throws ApiException {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("am111",50);
@@ -60,6 +76,10 @@ public class InventoryDtoTest extends AbstractUnitTest {
         assertEquals("half litre pasteurized milk",inventoryData.getPName());
     }
 
+    /**
+     * Fetching invalid barcode test
+     * @throws ApiException
+     */
     @Test
     public void invalidBarcodeTest() throws ApiException {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("xy111",50);

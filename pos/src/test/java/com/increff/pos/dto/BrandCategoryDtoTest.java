@@ -25,6 +25,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
     @Autowired
     private BrandCategoryDto brandCategoryDto;
 
+    /**
+     * Add a new Brand Category test
+     * @throws ApiException
+     */
     @Test
     public void addBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -34,6 +38,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         assertEquals("dairy",data.getCategory());
     }
 
+    /**
+     * Add a duplicate Brand Category test i.e. Brand Category already exists
+     * @throws ApiException
+     */
     @Test
     public void addDuplicateBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -44,6 +52,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         brandCategoryDto.addBrand(newBrandCategoryForm);
     }
 
+    /**
+     * Add a null Brand Category test
+     * @throws ApiException
+     */
     @Test
     public void addNullBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm(null,"  Dairy  ");
@@ -52,6 +64,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         BrandCategoryData data = brandCategoryDto.addBrand(brandCategoryForm);
     }
 
+    /**
+     * Fetch all BrandCategoryData test
+     * @throws ApiException
+     */
     @Test
     public void getAllBrandCategoryTest() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -62,6 +78,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         assertEquals(2,data.size());
     }
 
+    /**
+     * Update a Brand Category test
+     * @throws ApiException
+     */
     @Test
     public void updateBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -73,6 +93,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         assertEquals("dairy",updatedData.getCategory());
     }
 
+    /**
+     * Fetching an invalid BrandId test
+     * @throws ApiException
+     */
     @Test
     public void searchInvalidIdTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -82,6 +106,10 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         BrandCategoryData invalidData = brandCategoryDto.getBrand(5);
     }
 
+    /**
+     * Adding blank Brand Category test
+     * @throws ApiException
+     */
     @Test
     public void addBlankBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("    ","    ");

@@ -16,6 +16,10 @@ public class AdminDtoTest extends AbstractUnitTest {
     @Autowired
     private AdminApiDto adminApiDto;
 
+    /**
+     * Add a Supervisor User test
+     * @throws ApiException
+     */
     @Test
     public void addSupervisorTest() throws ApiException {
         UserForm userForm = TestUtils.getUserForm("xyz@increff.com","xyz");
@@ -26,6 +30,10 @@ public class AdminDtoTest extends AbstractUnitTest {
         assertEquals("supervisor",list.get(0).getRole());
     }
 
+    /**
+     * Add an operator User test
+     * @throws ApiException
+     */
     @Test
     public void addOperatorTest() throws ApiException {
         UserForm userForm = TestUtils.getUserForm("operator1@increff.com","xyz");

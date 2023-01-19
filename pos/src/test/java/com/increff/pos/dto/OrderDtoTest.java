@@ -38,6 +38,10 @@ public class OrderDtoTest extends AbstractUnitTest {
     private OrderDto orderDto;
     private OrderData orderData;
 
+    /**
+     * Setting up BrandDb,ProductDb,InventoryDb
+     * @throws ApiException
+     */
     @Before
     public void init() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -54,6 +58,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         inventoryDto.update(secondInventoryForm);
     }
 
+    /**
+     * Adding an order test
+     * @throws ApiException
+     */
     @Test
     public void addOrderTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -69,6 +77,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals((Double)312.0,orderData.getBillAmount());
     }
 
+    /**
+     * Updating an order test
+     * @throws ApiException
+     */
     @Test
     public void updateOrderTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -89,6 +101,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals((Double)812.0,orderData.getBillAmount());
     }
 
+    /**
+     * Creating an order with exceeding inventory quantity test
+     * @throws ApiException
+     */
     @Test
     public void quantityExceededTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -103,6 +119,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         orderData = orderDto.addOrder(orderItemFormList);
     }
 
+    /**
+     * Creating order with non-exiting barcode test
+     * @throws ApiException
+     */
     @Test
     public void nonExistingBarcodeTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -117,6 +137,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         orderData = orderDto.addOrder(orderItemFormList);
     }
 
+    /**
+     * Fetching OrderData test
+     * @throws ApiException
+     */
     @Test
     public void getAllOrdersTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -134,6 +158,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals(1,data.size());
     }
 
+    /**
+     * Fetching orderItems by orderId test
+     * @throws ApiException
+     */
     @Test
     public void getOrderItemsTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -157,6 +185,10 @@ public class OrderDtoTest extends AbstractUnitTest {
                 && invoiceData.getOrderItemDataList().containsAll(expected));
     }
 
+    /**
+     * Fetching invoice path by orderId test
+     * @throws ApiException
+     */
     @Test
     public void getPathForOrderTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -171,6 +203,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertNotNull(path);
     }
 
+    /**
+     * Fetching orderDetails test
+     * @throws ApiException
+     */
     @Test
     public void getOrderDetailsTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
@@ -187,6 +223,9 @@ public class OrderDtoTest extends AbstractUnitTest {
         assertEquals((Double)260.0,fetchedOrderData.getBillAmount());
     }
 
+    /**
+     * Deleting invoice generated during order creation
+     */
     @After
     public void deleteGeneratedInvoice() {
         try {

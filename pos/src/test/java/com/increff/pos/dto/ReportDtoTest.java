@@ -29,6 +29,10 @@ public class ReportDtoTest extends AbstractUnitTest {
     @Autowired
     private ReportDto reportDto;
 
+    /**
+     * Setting up BrandDb,ProductDb,InventoryDb,OrderDb
+     * @throws ApiException
+     */
     @Before
     public void init() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -53,18 +57,28 @@ public class ReportDtoTest extends AbstractUnitTest {
         orderDto.addOrder(orderItemFormList);
     }
 
+    /**
+     * Fetching inventory report test
+     */
     @Test
     public void getInventoryReportTest() {
         List<InventoryReportData> list = reportDto.getInventoryReport();
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching BrandCategory report test
+     */
     @Test
     public void getBrandCategoryReportTest() {
         List<BrandCategoryData> list = reportDto.getBrandCategoryReport();
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching sales report with empty brand category test
+     * @throws ApiException
+     */
     @Test
     public void getSalesReportEmptyBrandCategoryTest() throws ApiException {
         SalesReportForm salesReportForm = TestUtils.getSalesReportForm("","");
@@ -72,6 +86,10 @@ public class ReportDtoTest extends AbstractUnitTest {
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching sales report with empty brand test
+     * @throws ApiException
+     */
     @Test
     public void getSalesReportEmptyBrandTest() throws ApiException {
         SalesReportForm salesReportForm = TestUtils.getSalesReportForm("","dairy");
@@ -79,6 +97,10 @@ public class ReportDtoTest extends AbstractUnitTest {
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching sales report with empty category test
+     * @throws ApiException
+     */
     @Test
     public void getSalesReportEmptyCategoryTest() throws ApiException {
         SalesReportForm salesReportForm = TestUtils.getSalesReportForm("amul","");
@@ -86,6 +108,10 @@ public class ReportDtoTest extends AbstractUnitTest {
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching sales report test
+     * @throws ApiException
+     */
     @Test
     public void getSalesReportTest() throws ApiException {
         SalesReportForm salesReportForm = TestUtils.getSalesReportForm("amul","dairy");
@@ -93,6 +119,10 @@ public class ReportDtoTest extends AbstractUnitTest {
         assertEquals(1,list.size());
     }
 
+    /**
+     * Fetching daily report test
+     * @throws ApiException
+     */
     @Test
     public void getDailyReportTest() throws ApiException {
         reportDto.generateDailySalesReport();

@@ -26,6 +26,10 @@ public class ProductDtoTest extends AbstractUnitTest {
     @Autowired
     private ProductDto productDto;
 
+    /**
+     * Setting up BrandDb
+     * @throws ApiException
+     */
     @Before
     public void addBrands() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
@@ -34,6 +38,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         brandCategoryDto.addBrand(secondBrandCategoryForm);
     }
 
+    /**
+     * Adding a product test
+     * @throws ApiException
+     */
     @Test
     public void addProductTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -46,6 +54,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("dairy",productData.getBCategory());
     }
 
+    /**
+     * Adding a product with non-existing Brand Category
+     * @throws ApiException
+     */
     @Test
     public void addProductWithNonExistingBrandCategoryTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -55,6 +67,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductData productData = productDto.addProduct(productForm);
     }
 
+    /**
+     * Fetching all productData test
+     * @throws ApiException
+     */
     @Test
     public void getAllProductTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -67,6 +83,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals(2,productDataList.size());
     }
 
+    /**
+     * Fetching product by barcode test
+     * @throws ApiException
+     */
     @Test
     public void getByBarcodeTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -80,6 +100,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("dairy",fetchedProductData.getBCategory());
     }
 
+    /**
+     * Fetching product by productId test
+     * @throws ApiException
+     */
     @Test
     public void getByIdTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -93,6 +117,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("dairy",fetchedProductData.getBCategory());
     }
 
+    /**
+     * Fetching invalid productId test
+     * @throws ApiException
+     */
     @Test
     public void getByInvalidIdTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -103,6 +131,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductData fetchedProductData = productDto.get(20);
     }
 
+    /**
+     * Fetching invalid barcode test
+     * @throws ApiException
+     */
     @Test
     public void getByInvalidBarcodeTest() throws ApiException {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -113,6 +145,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductData productData = productDto.getByBarcode("xy111");
     }
 
+    /**
+     * Update product test
+     * @throws ApiException
+     */
     @Test
     public void updateProductTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
@@ -129,6 +165,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         assertEquals("dairy",productData.getBCategory());
     }
 
+    /**
+     * Add product with invalid barcode test
+     * @throws ApiException
+     */
     @Test
     public void invalidBarcodeAddProductTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm("HaLF litre PasteurizED MIlk",null,
@@ -138,6 +178,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 
+    /**
+     * Add product with invalid name and mrp test
+     * @throws ApiException
+     */
     @Test
     public void invalidNameAndMrpAddProductTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm(null,"AM111",
@@ -147,6 +191,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 
+    /**
+     * Add product with repeated barcode test
+     * @throws ApiException
+     */
     @Test
     public void barcodeRepeatTest() throws ApiException {
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
