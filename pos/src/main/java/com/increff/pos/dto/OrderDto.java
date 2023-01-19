@@ -12,6 +12,7 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.GeneratePDFUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidationUtils;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,9 +40,6 @@ public class OrderDto {
             List<OrderItemPojo> orderItemPojos = new ArrayList<>();
             for (OrderItemForm orderItemForm : orderItemForms) {
                 ProductPojo product = productService.getByBarcode(orderItemForm.getBarcode());
-                if (product == null) {
-                    throw new ApiException("Product with barcode " + orderItemForm.getBarcode() + " not found");
-                }
                 OrderItemPojo orderItemPojo = ConvertUtil.
                         convertFormToPojo(orderItemForm, orderPojo.getId(), product.getId());
                 orderItemPojos.add(orderItemPojo);
@@ -90,7 +88,7 @@ public class OrderDto {
     }
 
     @Transactional(rollbackFor = ApiException.class)
-    public String updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
+    public OrderData updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItems);
             NormalizeUtil.normalizeForm(orderItems);
@@ -98,16 +96,15 @@ public class OrderDto {
             List<OrderItemPojo> newOrderItems = new ArrayList<OrderItemPojo>();
             for (OrderItemForm orderItem : orderItems) {
                 ProductPojo product = productService.getByBarcode(orderItem.getBarcode());
-                if (product == null) {
-                    throw new ApiException("Product with barcode " + orderItem.getBarcode() + " not found");
-                }
                 OrderItemPojo orderItemPojo = ConvertUtil.convertFormToPojo(orderItem, orderId, product.getId());
                 newOrderItems.add(orderItemPojo);
                 inventoryService.reduce(orderItem.getBarcode(), orderItemPojo.getProductId(), orderItemPojo.getQuantity());
             }
             orderItemService.deleteByOrderId(orderId);
             orderItemService.insertMutiple(newOrderItems);
-            return generateInvoice(orderId);
+            generateInvoice(orderId);
+            OrderPojo orderPojo = orderService.getById(orderId);
+            return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);
         } catch (Exception e) {
             throw new ApiException(e.getMessage());
         }

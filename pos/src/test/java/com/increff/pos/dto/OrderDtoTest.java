@@ -36,7 +36,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     private InventoryDto inventoryDto;
     @Autowired
     private OrderDto orderDto;
-    private OrderPojo orderPojo;
+    private OrderData orderData;
 
     @Before
     public void init() throws ApiException {
@@ -63,10 +63,10 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
-        assertThat(new Date().after(orderPojo.getCreatedAt()), is(true));
-        assertNotNull(orderPojo.getId());
-        assertNotNull(orderPojo.getPath());
+        orderData = orderDto.addOrder(orderItemFormList);
+        assertThat(new Date().after(orderData.getCreatedAt()), is(true));
+        assertNotNull(orderData.getOrderId());
+        assertEquals((Double)312.0,orderData.getBillAmount());
     }
 
     @Test
@@ -78,16 +78,18 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
+        orderData = orderDto.addOrder(orderItemFormList);
         barcodes.add("am112");
         quantities.add(5);
         sellingPrices.add(100.0);
         orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        String path = orderDto.updateOrder(orderPojo.getId(),orderItemFormList);
-        assertEquals(path,orderPojo.getPath());
+        orderData = orderDto.updateOrder(orderData.getOrderId(),orderItemFormList);
+        assertThat(new Date().after(orderData.getCreatedAt()), is(true));
+        assertNotNull(orderData.getOrderId());
+        assertEquals((Double)812.0,orderData.getBillAmount());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void quantityExceededTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
         barcodes.add("am111");
@@ -96,12 +98,12 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Quantity not available for product, barcode:am111");
+        orderData = orderDto.addOrder(orderItemFormList);
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void nonExistingBarcodeTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
         barcodes.add("xy111");
@@ -110,9 +112,9 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Product with barcode xy111 not found");
+        exceptionRule.expectMessage("Barcode doesn't exist:xy111");
+        orderData = orderDto.addOrder(orderItemFormList);
     }
 
     @Test
@@ -127,7 +129,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         sellingPrices.add(52.0);
         sellingPrices.add(100.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
+        orderData = orderDto.addOrder(orderItemFormList);
         List<OrderData> data = orderDto.getAllOrders();
         assertEquals(1,data.size());
     }
@@ -141,8 +143,8 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
-        InvoiceData invoiceData = orderDto.getInvoiceDataByOrderId(orderPojo.getId());
+        orderData = orderDto.addOrder(orderItemFormList);
+        InvoiceData invoiceData = orderDto.getInvoiceDataByOrderId(orderData.getOrderId());
         List<OrderItemData>expected = new ArrayList<>();
         OrderItemData orderItemData = new OrderItemData();
         orderItemData.setProduct("half litre pasteurized milk");
@@ -164,8 +166,8 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
-        String path = orderDto.getFilePath(orderPojo.getId());
+        orderData = orderDto.addOrder(orderItemFormList);
+        String path = orderDto.getFilePath(orderData.getOrderId());
         assertNotNull(path);
     }
 
@@ -178,17 +180,18 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderPojo = orderDto.addOrder(orderItemFormList);
-        OrderData orderData = orderDto.getOrderDetails(orderPojo.getId());
-        assertNotNull(orderData.getOrderId());
-        assertThat(new Date().after(orderData.getCreatedAt()), is(true));
-        assertEquals((Double)260.0,orderData.getBillAmount());
+        orderData = orderDto.addOrder(orderItemFormList);
+        OrderData fetchedOrderData = orderDto.getOrderDetails(orderData.getOrderId());
+        assertNotNull(fetchedOrderData.getOrderId());
+        assertThat(new Date().after(fetchedOrderData.getCreatedAt()), is(true));
+        assertEquals((Double)260.0,fetchedOrderData.getBillAmount());
     }
 
     @After
     public void deleteGeneratedInvoice() {
         try {
-            Files.deleteIfExists(Paths.get(orderPojo.getPath()));
+            int orderId = orderData.getOrderId();
+            Files.deleteIfExists(Paths.get(orderDto.getFilePath(orderId)));
         } catch (Exception e) {
             System.out.println("Error encountered: " + e.getMessage());
         }

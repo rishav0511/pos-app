@@ -50,4 +50,11 @@ public class TestUtils {
         salesReportForm.setCategory(category);
         return salesReportForm;
     }
+
+    public static UserForm getUserForm(String email,String password) {
+        UserForm userForm = new UserForm();
+        userForm.setEmail(email);
+        userForm.setPassword(password);
+        return userForm;
+    }
 }

@@ -41,7 +41,7 @@ public class ProductService {
         barcode = StringUtil.toLowerCase(barcode);
         ProductPojo productPojo = productDao.select(barcode);
         if (productPojo == null) {
-            throw new ApiException("Barcode doesn't exist");
+            throw new ApiException("Barcode doesn't exist:"+barcode);
         } else {
             return productPojo;
         }

@@ -1,9 +1,6 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.BrandCategoryForm;
-import com.increff.pos.model.InventoryData;
-import com.increff.pos.model.InventoryForm;
-import com.increff.pos.model.ProductForm;
+import com.increff.pos.model.*;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.AbstractUnitTest;
@@ -28,7 +25,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Autowired
     private InventoryDto inventoryDto;
 
-    private ProductPojo productPojo;
+    private ProductData productData;
 
     @Before
     public void init() throws ApiException {
@@ -36,15 +33,15 @@ public class InventoryDtoTest extends AbstractUnitTest {
         brandCategoryDto.addBrand(firstBrandCategoryForm);
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
                 50.75," Amul ", "daiRY");
-        productPojo = productDto.addProduct(firstProductForm);
+        productData = productDto.addProduct(firstProductForm);
         ProductForm secondProductForm = TestUtils.getProductForm(" One litre PasteurizED MIlk ","AM112",
                 100.0," Amul ", "daiRY");
-        productPojo = productDto.addProduct(secondProductForm);
+        productData = productDto.addProduct(secondProductForm);
     }
 
     @Test
     public void getDefaultInventoryTest() throws ApiException {
-        InventoryData inventoryData = inventoryDto.get(productPojo.getBarcode());
+        InventoryData inventoryData = inventoryDto.get(productData.getBarcode());
         assertEquals((Integer) 0,inventoryData.getQuantity());
     }
 
@@ -63,11 +60,11 @@ public class InventoryDtoTest extends AbstractUnitTest {
         assertEquals("half litre pasteurized milk",inventoryData.getPName());
     }
 
-    @Test(expected = ApiException.class)
+    @Test
     public void invalidBarcodeTest() throws ApiException {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("xy111",50);
-        inventoryDto.update(inventoryForm);
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Barcode doesn't exist");
+        exceptionRule.expectMessage("Barcode doesn't exist:xy111");
+        inventoryDto.update(inventoryForm);
     }
 }
