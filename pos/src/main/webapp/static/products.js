@@ -125,6 +125,9 @@ function processData(){
 
 function readFileDataCallback(results){
    fileData = results.data;
+   if(fileData.length >= 5000) {
+       $.notify("Row Count greater than 5000!", "error");
+   }
    uploadRows();
 }
 
@@ -133,6 +136,7 @@ function uploadRows(){
    updateUploadDialog();
    //If everything processed then return
    if(processCount==fileData.length){
+      getProductList();
       return;
    }
 

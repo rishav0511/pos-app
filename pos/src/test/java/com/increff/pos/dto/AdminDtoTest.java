@@ -31,7 +31,7 @@ public class AdminDtoTest extends AbstractUnitTest {
         List<UserPojo> pojos = userService.getAll();
         assertEquals(pojos.size(),list.size());
         assertEquals(pojos.get(0).getEmail(),list.get(0).getEmail());
-        assertEquals(list.get(0).getRole(),list.get(0).getRole());
+        assertEquals(pojos.get(0).getRole(),list.get(0).getRole());
     }
 
     /**
@@ -46,6 +46,6 @@ public class AdminDtoTest extends AbstractUnitTest {
         List<UserPojo> pojos = userService.getAll();
         assertEquals(pojos.size(),list.size());
         assertEquals(pojos.get(0).getEmail(),list.get(0).getEmail());
-        assertEquals(list.get(0).getRole(),list.get(0).getRole());
+        assertEquals(pojos.get(0).getRole(),list.get(0).getRole());
     }
 }

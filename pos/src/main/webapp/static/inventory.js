@@ -62,6 +62,9 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	if(fileData.length >= 5000) {
+        $.notify("Row Count greater than 5000!", "error");
+    }
 	uploadRows();
 }
 
@@ -70,6 +73,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+	    getInventoryList();
 		return;
 	}
 
@@ -83,7 +87,7 @@ function uploadRows(){
 	//Make ajax call
 	$.ajax({
 	   url: url,
-	   type: 'POST',
+	   type: 'PUT',
 	   data: json,
 	   headers: {
        	'Content-Type': 'application/json'
