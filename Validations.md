@@ -5,8 +5,9 @@ BrandCategoryDtoTest:
 3. Invalid brand with null fields
 4. GetAll Brand-Category
 5. Update Brand-Category 
-6. Search Invalid Id
-7. Brand And Category made up of blanks
+6. Search valid Id
+7. Search Invalid Id
+8. Brand And Category made up of blanks
 
 ProductDtoTest:
 
@@ -32,11 +33,12 @@ OrderDtoTest:
 1. Adding Order
 2. Updating Order
 3. Ordering for quantity more than inventory 
-4. Order for Non existing barcode 
-5. Get All Orders
-6. Get OrderItem from Order
-7. Get Path for generated Invoice
-8. Get OrderData by orderId
+4. Creating Order for Non-existing barcode
+5. Updating Order for Non-existing barcode
+6. Get All Orders
+7. Get OrderItem from Order
+8. Get Path for generated Invoice
+9. Get OrderData by orderId
 
 ReportDtoTest: 
 1. Get inventory report 

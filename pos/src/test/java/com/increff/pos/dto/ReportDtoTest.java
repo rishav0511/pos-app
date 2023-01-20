@@ -3,7 +3,8 @@ package com.increff.pos.dto;
 import static org.junit.Assert.assertEquals;
 
 import com.increff.pos.model.*;
-import com.increff.pos.service.ApiException;
+import com.increff.pos.pojo.*;
+import com.increff.pos.service.*;
 import com.increff.pos.spring.AbstractUnitTest;
 import com.increff.pos.util.TestUtils;
 import org.junit.Before;
@@ -19,13 +20,15 @@ public class ReportDtoTest extends AbstractUnitTest {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
     @Autowired
-    private BrandCategoryDto brandCategoryDto;
+    private BrandCategoryService brandCategoryService;
     @Autowired
-    private ProductDto productDto;
+    private ProductService productService;
     @Autowired
-    private InventoryDto inventoryDto;
+    private InventoryService inventoryService;
     @Autowired
-    private OrderDto orderDto;
+    private OrderService orderService;
+    @Autowired
+    private OrderItemService orderItemService;
     @Autowired
     private ReportDto reportDto;
 
@@ -35,26 +38,28 @@ public class ReportDtoTest extends AbstractUnitTest {
      */
     @Before
     public void init() throws ApiException {
-        BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
-        brandCategoryDto.addBrand(firstBrandCategoryForm);
-        ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
-                50.75," Amul ", "daiRY");
-        productDto.addProduct(firstProductForm);
-        ProductForm secondProductForm = TestUtils.getProductForm(" One litre PasteurizED MIlk ","AM112",
-                100.0," Amul ", "daiRY");
-        productDto.addProduct(secondProductForm);
-        InventoryForm firstInventoryForm = TestUtils.getInventoryForm("am111",10);
-        inventoryDto.update(firstInventoryForm);
-        InventoryForm secondInventoryForm = TestUtils.getInventoryForm("am112",10);
-        inventoryDto.update(secondInventoryForm);
-        List<String>barcodes = new ArrayList<>();
-        barcodes.add("am111");
+        BrandCategoryPojo pojo = TestUtils.getBrandCategoryPojo("amul","dairy");
+        brandCategoryService.insert(pojo);
+        BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
+        ProductPojo firstProductPojo = TestUtils.getProductpojo("am111",
+                "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
+        productService.insert(firstProductPojo);
+        ProductPojo secondProductPojo = TestUtils.getProductpojo("am112",
+                "one litre pasteurized milk",100.00,brandCategoryPojo.getId());
+        productService.insert(secondProductPojo);
+        InventoryPojo firstInventoryPojo = TestUtils.getInventoryPojo(firstProductPojo.getId(),0);
+        inventoryService.insert(firstInventoryPojo);
+        InventoryPojo secondInventoryPojo = TestUtils.getInventoryPojo(secondProductPojo.getId(),0);
+        inventoryService.insert(secondInventoryPojo);
+        OrderPojo orderPojo = orderService.createNewOrder();
+        List<ProductPojo>products = new ArrayList<>();
+        products.add(firstProductPojo);
         List<Integer>quantities = new ArrayList<>();
         quantities.add(6);
         List<Double>sellingPrices = new ArrayList<>();
         sellingPrices.add(52.0);
-        List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
-        orderDto.addOrder(orderItemFormList);
+        List<OrderItemPojo> orderItemPojos = TestUtils.getOrderItemPojoList(orderPojo.getId(),products,quantities,sellingPrices);
+        orderItemService.insertMultiple(orderItemPojos);
     }
 
     /**

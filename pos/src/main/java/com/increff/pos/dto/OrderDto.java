@@ -12,7 +12,6 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.GeneratePDFUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidationUtils;
-import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,7 +100,7 @@ public class OrderDto {
                 inventoryService.reduce(orderItem.getBarcode(), orderItemPojo.getProductId(), orderItemPojo.getQuantity());
             }
             orderItemService.deleteByOrderId(orderId);
-            orderItemService.insertMutiple(newOrderItems);
+            orderItemService.insertMultiple(newOrderItems);
             generateInvoice(orderId);
             OrderPojo orderPojo = orderService.getById(orderId);
             return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);

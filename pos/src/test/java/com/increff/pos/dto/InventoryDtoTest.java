@@ -1,8 +1,13 @@
 package com.increff.pos.dto;
 
 import com.increff.pos.model.*;
+import com.increff.pos.pojo.BrandCategoryPojo;
+import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
+import com.increff.pos.service.BrandCategoryService;
+import com.increff.pos.service.InventoryService;
+import com.increff.pos.service.ProductService;
 import com.increff.pos.spring.AbstractUnitTest;
 import com.increff.pos.util.TestUtils;
 import org.junit.Before;
@@ -19,13 +24,13 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
     @Autowired
-    private BrandCategoryDto brandCategoryDto;
+    private BrandCategoryService brandCategoryService;
     @Autowired
-    private ProductDto productDto;
+    private ProductService productService;
+    @Autowired
+    private InventoryService inventoryService;
     @Autowired
     private InventoryDto inventoryDto;
-
-    private ProductData productData;
 
     /**
      * Setting up of BrandDb,ProductDb
@@ -33,14 +38,19 @@ public class InventoryDtoTest extends AbstractUnitTest {
      */
     @Before
     public void init() throws ApiException {
-        BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
-        brandCategoryDto.addBrand(firstBrandCategoryForm);
-        ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
-                50.75," Amul ", "daiRY");
-        productData = productDto.addProduct(firstProductForm);
-        ProductForm secondProductForm = TestUtils.getProductForm(" One litre PasteurizED MIlk ","AM112",
-                100.0," Amul ", "daiRY");
-        productData = productDto.addProduct(secondProductForm);
+        BrandCategoryPojo pojo = TestUtils.getBrandCategoryPojo("amul","dairy");
+        brandCategoryService.insert(pojo);
+        BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
+        ProductPojo firstProductPojo = TestUtils.getProductpojo("am111",
+                "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
+        productService.insert(firstProductPojo);
+        ProductPojo secondProductPojo = TestUtils.getProductpojo("am112",
+                "one litre pasteurized milk",100.00,brandCategoryPojo.getId());
+        productService.insert(secondProductPojo);
+        InventoryPojo firstInventoryPojo = TestUtils.getInventoryPojo(firstProductPojo.getId(),0);
+        inventoryService.insert(firstInventoryPojo);
+        InventoryPojo secondInventoryPojo = TestUtils.getInventoryPojo(secondProductPojo.getId(),0);
+        inventoryService.insert(secondInventoryPojo);
     }
 
     /**
@@ -49,7 +59,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
      */
     @Test
     public void getDefaultInventoryTest() throws ApiException {
-        InventoryData inventoryData = inventoryDto.get(productData.getBarcode());
+        InventoryData inventoryData = inventoryDto.get("am111");
         assertEquals((Integer) 0,inventoryData.getQuantity());
     }
 
@@ -60,7 +70,8 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Test
     public void getAllInventoryTest() throws ApiException {
         List<InventoryData> list = inventoryDto.getAll();
-        assertEquals(2,list.size());
+        List<InventoryPojo> pojos = inventoryService.getAll();
+        assertEquals(pojos.size(),list.size());
     }
 
     /**
@@ -70,10 +81,12 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Test
     public void updateInventoryTest() throws ApiException {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("am111",50);
-        inventoryDto.update(inventoryForm);
-        InventoryData inventoryData = inventoryDto.get("am111");
-        assertEquals((Integer) 50,inventoryData.getQuantity());
-        assertEquals("half litre pasteurized milk",inventoryData.getPName());
+        InventoryData inventoryData = inventoryDto.update(inventoryForm);
+        ProductPojo productPojo = productService.getByBarcode("am111");
+        InventoryPojo pojo = inventoryService.get(productPojo.getId());
+        assertEquals( productPojo.getBarcode(),inventoryData.getBarcode());
+        assertEquals( pojo.getQuantity(),inventoryData.getQuantity());
+        assertEquals(productPojo.getProduct(),inventoryData.getPName());
     }
 
     /**

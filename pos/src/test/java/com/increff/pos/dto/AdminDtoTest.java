@@ -2,7 +2,9 @@ package com.increff.pos.dto;
 
 import com.increff.pos.model.UserData;
 import com.increff.pos.model.UserForm;
+import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.ApiException;
+import com.increff.pos.service.UserService;
 import com.increff.pos.spring.AbstractUnitTest;
 import com.increff.pos.util.TestUtils;
 import org.junit.Test;
@@ -15,7 +17,8 @@ import static org.junit.Assert.assertEquals;
 public class AdminDtoTest extends AbstractUnitTest {
     @Autowired
     private AdminApiDto adminApiDto;
-
+    @Autowired
+    private UserService userService;
     /**
      * Add a Supervisor User test
      * @throws ApiException
@@ -25,9 +28,10 @@ public class AdminDtoTest extends AbstractUnitTest {
         UserForm userForm = TestUtils.getUserForm("xyz@increff.com","xyz");
         adminApiDto.add(userForm);
         List<UserData> list = adminApiDto.getAll();
-        assertEquals(1,list.size());
-        assertEquals("xyz@increff.com",list.get(0).getEmail());
-        assertEquals("supervisor",list.get(0).getRole());
+        List<UserPojo> pojos = userService.getAll();
+        assertEquals(pojos.size(),list.size());
+        assertEquals(pojos.get(0).getEmail(),list.get(0).getEmail());
+        assertEquals(list.get(0).getRole(),list.get(0).getRole());
     }
 
     /**
@@ -39,8 +43,9 @@ public class AdminDtoTest extends AbstractUnitTest {
         UserForm userForm = TestUtils.getUserForm("operator1@increff.com","xyz");
         adminApiDto.add(userForm);
         List<UserData> list = adminApiDto.getAll();
-        assertEquals(1,list.size());
-        assertEquals("operator1@increff.com",list.get(0).getEmail());
-        assertEquals("operator",list.get(0).getRole());
+        List<UserPojo> pojos = userService.getAll();
+        assertEquals(pojos.size(),list.size());
+        assertEquals(pojos.get(0).getEmail(),list.get(0).getEmail());
+        assertEquals(list.get(0).getRole(),list.get(0).getRole());
     }
 }

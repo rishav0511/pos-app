@@ -22,7 +22,7 @@ public class OrderItemService {
         orderItemDao.insert(orderItemPojo);
     }
 
-    public void insertMutiple(List<OrderItemPojo> newOrderItems) {
+    public void insertMultiple(List<OrderItemPojo> newOrderItems) {
         for (OrderItemPojo orderItemPojo : newOrderItems) {
             orderItemDao.insert(orderItemPojo);
         }

@@ -1,6 +1,10 @@
 package com.increff.pos.util;
 
 import com.increff.pos.model.*;
+import com.increff.pos.pojo.BrandCategoryPojo;
+import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.pojo.OrderItemPojo;
+import com.increff.pos.pojo.ProductPojo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,5 +60,42 @@ public class TestUtils {
         userForm.setEmail(email);
         userForm.setPassword(password);
         return userForm;
+    }
+
+    public static BrandCategoryPojo getBrandCategoryPojo (String brand, String category) {
+        BrandCategoryPojo pojo = new BrandCategoryPojo();
+        pojo.setBrand(brand);
+        pojo.setCategory(category);
+        return pojo;
+    }
+
+    public static ProductPojo getProductpojo (String barcode, String product,Double mrp,Integer brandId) {
+        ProductPojo productPojo = new ProductPojo();
+        productPojo.setBarcode(barcode);
+        productPojo.setProduct(product);
+        productPojo.setMrp(mrp);
+        productPojo.setBrandId(brandId);
+        return productPojo;
+    }
+
+    public static InventoryPojo getInventoryPojo (int productId,int quantity) {
+        InventoryPojo inventoryPojo = new InventoryPojo();
+        inventoryPojo.setProductId(productId);
+        inventoryPojo.setQuantity(quantity);
+        return inventoryPojo;
+    }
+
+    public static List<OrderItemPojo> getOrderItemPojoList (int orderId,List<ProductPojo>products,
+                                                            List<Integer>quantities, List<Double>sellingPrices) {
+        List<OrderItemPojo> orderItemPojos = new ArrayList<>();
+        for (int i=0; i<products.size(); i++) {
+            OrderItemPojo orderItemPojo = new OrderItemPojo();
+            orderItemPojo.setProductId(products.get(i).getId());
+            orderItemPojo.setOrderId(orderId);
+            orderItemPojo.setQuantity(quantities.get(i));
+            orderItemPojo.setSellingPrice(sellingPrices.get(i));
+            orderItemPojos.add(orderItemPojo);
+        }
+        return orderItemPojos;
     }
 }

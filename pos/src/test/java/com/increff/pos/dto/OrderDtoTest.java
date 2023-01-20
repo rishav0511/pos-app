@@ -124,7 +124,7 @@ public class OrderDtoTest extends AbstractUnitTest {
      * @throws ApiException
      */
     @Test
-    public void nonExistingBarcodeTest() throws ApiException {
+    public void creatingNonExistingBarcodeTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
         barcodes.add("xy111");
         List<Integer>quantities = new ArrayList<>();
@@ -135,6 +135,29 @@ public class OrderDtoTest extends AbstractUnitTest {
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Barcode doesn't exist:xy111");
         orderData = orderDto.addOrder(orderItemFormList);
+    }
+
+    /**
+     * Updating order with non-exiting barcode test
+     * @throws ApiException
+     */
+    @Test
+    public void updatingNonExistingBarcodeTest() throws ApiException {
+        List<String>barcodes = new ArrayList<>();
+        barcodes.add("am111");
+        List<Integer>quantities = new ArrayList<>();
+        quantities.add(6);
+        List<Double>sellingPrices = new ArrayList<>();
+        sellingPrices.add(52.0);
+        List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
+        orderData = orderDto.addOrder(orderItemFormList);
+        barcodes.add("xy111");
+        quantities.add(20);
+        sellingPrices.add(52.0);
+        List<OrderItemForm> updatedOrderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Barcode doesn't exist:xy111");
+        orderData = orderDto.updateOrder(orderData.getOrderId(),updatedOrderItemFormList);
     }
 
     /**
