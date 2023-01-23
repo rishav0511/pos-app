@@ -44,7 +44,7 @@ public class ReportDto {
         Integer totalQuantity = 0;
         List<ProductPojo> productPojoList = productService.getProductByBrandCategory(brandId);
         for(ProductPojo product : productPojoList) {
-            InventoryPojo inventory = inventoryService.get(product.getId());
+            InventoryPojo inventory = inventoryService.getInventory(product.getId());
             totalQuantity += inventory.getQuantity();
         }
         return totalQuantity;
@@ -61,7 +61,7 @@ public class ReportDto {
 
     public List<SalesReportData> getSalesReport(SalesReportForm form) throws ApiException {
         ValidationUtils.validateForm(form);
-        NormalizeUtil.normalizeForm(form);
+        NormalizeUtil.normalizePojo(form);
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
@@ -99,7 +99,7 @@ public class ReportDto {
             Integer quantity = 0;
             Double revenue = 0.0;
             for(OrderItemPojo orderItemPojo:orderItemList){
-                ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
+                ProductPojo productPojo = productService.getProduct(orderItemPojo.getProductId());
                 if(productPojo.getBrandId()==brandCategoryPojo.getId()){
                     quantity += orderItemPojo.getQuantity();
                     revenue += (orderItemPojo.getQuantity())*(orderItemPojo.getSellingPrice());

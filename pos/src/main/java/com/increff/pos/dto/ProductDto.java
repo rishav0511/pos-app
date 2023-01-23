@@ -11,7 +11,6 @@ import com.increff.pos.service.BrandCategoryService;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ProductDto {
@@ -33,38 +33,40 @@ public class ProductDto {
     public ProductData addProduct(ProductForm productForm) throws ApiException {
         ValidationUtils.validateForm(productForm);
         BrandCategoryForm brandCategoryForm = ConvertUtil.convertProductFormtoBrandForm(productForm);
-        NormalizeUtil.normalizeForm(brandCategoryForm);
-        NormalizeUtil.normalizeForm(productForm);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(brandCategoryForm.getBrand(), brandCategoryForm.getCategory());
         ProductPojo productPojo = ConvertUtil.convertFormtoPojo(productForm, brandCategoryPojo);
-        ProductPojo p = productService.insert(productPojo);
-        //throwing an error
-//        productService.getByBarcode("xxx");
+        productService.insertProduct(productPojo);
         InventoryPojo inventoryPojo = new InventoryPojo();
         inventoryPojo.setQuantity(0);
         inventoryPojo.setProductId(productPojo.getId());
         inventoryService.insert(inventoryPojo);
-        return ConvertUtil.convertPojotoData(p,brandCategoryPojo);
+        return ConvertUtil.convertPojotoData(productPojo,brandCategoryPojo);
     }
 
-    public ProductData get(Integer id) throws ApiException {
-        ProductPojo productPojo = productService.get(id);
+    public ProductData getProduct(Integer id) throws ApiException {
+        ProductPojo productPojo = productService.getProduct(id);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.select(productPojo.getBrandId());
         return ConvertUtil.convertPojotoData(productPojo, brandCategoryPojo);
     }
 
-    public List<ProductData> getAll() throws ApiException {
-        List<ProductPojo> pList = productService.getAll();
+    // todo Ask shubham for this
+    public List<ProductData> getAllProducts() throws ApiException {
+        List<ProductPojo> allProducts = productService.getAllProducts();
+//        return allProducts.stream().map(it-> {
+//            try {
+//                return ConvertUtil.convertPojotoData(it,brandCategoryService.select(it.getBrandId()));
+//            } catch (ApiException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }).collect(Collectors.toList());
         List<ProductData> reqList = new ArrayList<>();
-        for(ProductPojo p:pList){
+        for(ProductPojo p:allProducts){
             ProductData d = ConvertUtil.convertPojotoData(p, brandCategoryService.select(p.getBrandId()));
             reqList.add(d);
         }
         return reqList;
     }
 
-    // Todo use this while inventory management create
-    // Todo ProductDetails will extend from ProductData with some varible to show availability
     public ProductData getByBarcode(String barcode) throws ApiException {
         ProductPojo productPojo = productService.getByBarcode(barcode);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.select(productPojo.getBrandId());
@@ -72,15 +74,13 @@ public class ProductDto {
         return productData;
     }
 
-    public ProductData update(Integer id,ProductForm productForm) throws ApiException {
+    public ProductData updateProduct(Integer id, ProductForm productForm) throws ApiException {
         ValidationUtils.validateForm(productForm);
         BrandCategoryForm brandCategoryForm = ConvertUtil.convertProductFormtoBrandForm(productForm);
-        NormalizeUtil.normalizeForm(brandCategoryForm);
-        NormalizeUtil.normalizeForm(productForm);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(brandCategoryForm.getBrand(), brandCategoryForm.getCategory());
         ProductPojo productPojo = ConvertUtil.convertFormtoPojo(productForm, brandCategoryPojo);
         productPojo.setId(id);
-        ProductPojo pojo = productService.update(id,productPojo);
+        ProductPojo pojo = productService.updateProduct(id,productPojo);
         return ConvertUtil.convertPojotoData(pojo,brandCategoryPojo);
     }
 }

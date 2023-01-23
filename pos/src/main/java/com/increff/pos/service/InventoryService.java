@@ -17,7 +17,7 @@ public class InventoryService {
         inventoryDao.insert(inventoryPojo);
     }
 
-    public InventoryPojo get(Integer productId) {
+    public InventoryPojo getInventory(Integer productId) {
         return inventoryDao.select(InventoryPojo.class, productId);
     }
 
@@ -26,7 +26,7 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryPojo update(InventoryPojo inventoryPojo) {
+    public InventoryPojo updateInventory(InventoryPojo inventoryPojo) {
         InventoryPojo existing = inventoryDao.select(inventoryPojo.getProductId());
         existing.setQuantity(inventoryPojo.getQuantity());
         return inventoryDao.update(inventoryPojo);

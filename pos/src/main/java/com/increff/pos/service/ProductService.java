@@ -3,6 +3,7 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.ProductDao;
 import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,8 @@ public class ProductService {
     private ProductDao productDao;
 
     @Transactional(rollbackOn = ApiException.class)
-    public ProductPojo insert(ProductPojo productPojo) throws ApiException {
+    public ProductPojo insertProduct(ProductPojo productPojo) throws ApiException {
+        NormalizeUtil.normalizePojo(productPojo);
         ProductPojo existing = productDao.select(productPojo.getBarcode());
         if (existing == null) {
             return productDao.insert(productPojo);
@@ -25,7 +27,7 @@ public class ProductService {
         }
     }
 
-    public ProductPojo get(Integer id) throws ApiException {
+    public ProductPojo getProduct(Integer id) throws ApiException {
         ProductPojo pojo = productDao.select(ProductPojo.class, id);
         if(pojo==null) {
             throw new ApiException("Product with given Id doesn't exist, id:"+id);
@@ -33,7 +35,7 @@ public class ProductService {
         return pojo;
     }
 
-    public List<ProductPojo> getAll() {
+    public List<ProductPojo> getAllProducts() {
         return productDao.selectAll();
     }
 
@@ -52,7 +54,8 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductPojo update(Integer id, ProductPojo productPojo) throws ApiException {
+    public ProductPojo updateProduct(Integer id, ProductPojo productPojo) throws ApiException {
+        NormalizeUtil.normalizePojo(productPojo);
         ProductPojo existing = productDao.select(productPojo.getBarcode());
         if (existing != null && existing.getId() != id) {
             throw new ApiException("Barcode already taken by another product.");

@@ -34,7 +34,7 @@ public class OrderDto {
     public OrderData addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItemForms);
-            NormalizeUtil.normalizeForm(orderItemForms);
+            NormalizeUtil.normalizePojo(orderItemForms);
             OrderPojo orderPojo = orderService.createNewOrder();
             List<OrderItemPojo> orderItemPojos = new ArrayList<>();
             for (OrderItemForm orderItemForm : orderItemForms) {
@@ -78,7 +78,7 @@ public class OrderDto {
         OrderData orderData = ConvertUtil.convertPojoToData(orderPojo, orderItemPojos);
         List<OrderItemData> orderItemDatas = new ArrayList<OrderItemData>();
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
-            ProductPojo product = productService.get(orderItemPojo.getProductId());
+            ProductPojo product = productService.getProduct(orderItemPojo.getProductId());
             orderItemDatas
                     .add(ConvertUtil.convertPojoToData(orderItemPojo, product));
         }
@@ -90,7 +90,7 @@ public class OrderDto {
     public OrderData updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
         try {
             ValidationUtils.validateForm(orderItems);
-            NormalizeUtil.normalizeForm(orderItems);
+            NormalizeUtil.normalizePojo(orderItems);
             revertInventory(orderId);
             List<OrderItemPojo> newOrderItems = new ArrayList<OrderItemPojo>();
             for (OrderItemForm orderItem : orderItems) {

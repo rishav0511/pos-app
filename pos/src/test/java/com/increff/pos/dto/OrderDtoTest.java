@@ -1,8 +1,6 @@
 package com.increff.pos.dto;
 
-import com.google.protobuf.Api;
 import com.increff.pos.model.*;
-import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.AbstractUnitTest;
 import com.increff.pos.util.TestUtils;
@@ -15,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +40,7 @@ public class OrderDtoTest extends AbstractUnitTest {
     @Before
     public void init() throws ApiException {
         BrandCategoryForm firstBrandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ","  Dairy  ");
-        brandCategoryDto.addBrand(firstBrandCategoryForm);
+        brandCategoryDto.addBrandCategory(firstBrandCategoryForm);
         ProductForm firstProductForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
                 50.75," Amul ", "daiRY");
         productDto.addProduct(firstProductForm);
@@ -53,9 +48,9 @@ public class OrderDtoTest extends AbstractUnitTest {
                 100.0," Amul ", "daiRY");
         productDto.addProduct(secondProductForm);
         InventoryForm firstInventoryForm = TestUtils.getInventoryForm("am111",10);
-        inventoryDto.update(firstInventoryForm);
+        inventoryDto.updateInventory(firstInventoryForm);
         InventoryForm secondInventoryForm = TestUtils.getInventoryForm("am112",10);
-        inventoryDto.update(secondInventoryForm);
+        inventoryDto.updateInventory(secondInventoryForm);
     }
 
     /**

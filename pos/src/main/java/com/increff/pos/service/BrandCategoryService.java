@@ -2,6 +2,8 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.BrandCategoryDao;
 import com.increff.pos.pojo.BrandCategoryPojo;
+import com.increff.pos.util.NormalizeUtil;
+import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,8 @@ public class BrandCategoryService {
     private BrandCategoryDao brandCategoryDao;
 
     @Transactional(rollbackOn = ApiException.class)
-    public BrandCategoryPojo insert(BrandCategoryPojo brandCategoryPojo) throws ApiException {
+    public BrandCategoryPojo addBrandCategory(BrandCategoryPojo brandCategoryPojo) throws ApiException {
+        NormalizeUtil.normalizePojo(brandCategoryPojo);
         getCheckBrandCategoryExist(brandCategoryPojo.getBrand(), brandCategoryPojo.getCategory());
         return brandCategoryDao.insert(brandCategoryPojo);
     }
@@ -28,15 +31,18 @@ public class BrandCategoryService {
     }
 
     public List<BrandCategoryPojo> selectByBrand(String brand) {
+        brand = StringUtil.toLowerCase(brand);
         return brandCategoryDao.selectByBrand(brand);
     }
 
     public List<BrandCategoryPojo> selectByCategory(String category) {
+        category = StringUtil.toLowerCase(category);
         return brandCategoryDao.selectByCategory(category);
     }
 
     @Transactional
-    public BrandCategoryPojo update(Integer id, BrandCategoryPojo brandCategoryPojo) throws ApiException {
+    public BrandCategoryPojo updateBrandCategory(Integer id, BrandCategoryPojo brandCategoryPojo) throws ApiException {
+        NormalizeUtil.normalizePojo(brandCategoryPojo);
         getCheckBrandCategoryExist(brandCategoryPojo.getBrand(), brandCategoryPojo.getCategory());
         BrandCategoryPojo existing = brandCategoryDao.select(id);
         existing.setBrand(brandCategoryPojo.getBrand());
@@ -53,16 +59,20 @@ public class BrandCategoryService {
     }
 
     public void getCheckBrandCategoryExist(String brand, String category) throws ApiException {
+        brand = StringUtil.toLowerCase(brand);
+        category = StringUtil.toLowerCase(category);
         BrandCategoryPojo brandCategoryPojo = brandCategoryDao.selectByBrandCategory(brand, category);
         if (brandCategoryPojo != null) {
-            throw new ApiException("Brand and Category already exists");
+            throw new ApiException("Brand " +brand + " and Category "+ category +" already exists");
         }
     }
 
     public BrandCategoryPojo getCheckForBrandCategory(String brand, String category) throws ApiException {
+        brand = StringUtil.toLowerCase(brand);
+        category = StringUtil.toLowerCase(category);
         BrandCategoryPojo pojo = brandCategoryDao.selectByBrandCategory(brand, category);
         if (pojo == null) {
-            throw new ApiException("Brand-Category doesn't exist");
+            throw new ApiException("Brand " +brand + " and Category "+ category +" doesn't exists.");
         }
         return pojo;
     }

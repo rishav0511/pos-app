@@ -3,7 +3,6 @@ package com.increff.pos.controller;
 import com.increff.pos.dto.ProductDto;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
-import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class ProductApiController {
 
     @ApiOperation(value = "Gets a Product")
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.GET)
-    public ProductData get(@PathVariable int id) throws ApiException {
-        return productDto.get(id);
+    public ProductData getProduct(@PathVariable int id) throws ApiException {
+        return productDto.getProduct(id);
     }
 
     @ApiOperation(value = "Gets a Product")
@@ -37,14 +36,14 @@ public class ProductApiController {
 
     @ApiOperation(value = "Gets list of all Products")
     @RequestMapping(value = "/api/products", method = RequestMethod.GET)
-    public List<ProductData> getAll() throws ApiException {
-        return productDto.getAll();
+    public List<ProductData> getAllProducts() throws ApiException {
+        return productDto.getAllProducts();
     }
 
     @ApiOperation(value = "Updates a Product")
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.PUT)
-    public ProductData update(@PathVariable int id, @RequestBody ProductForm productForm) throws ApiException {
-        return productDto.update(id, productForm);
+    public ProductData updateProduct(@PathVariable int id, @RequestBody ProductForm productForm) throws ApiException {
+        return productDto.updateProduct(id, productForm);
     }
 }
 
