@@ -47,10 +47,9 @@ public class InventoryDto {
         ValidationUtils.validateForm(inventoryForm);
         NormalizeUtil.normalizeForm(inventoryForm);
         ProductPojo productPojo = productService.getByBarcode(inventoryForm.getBarcode());
-        InventoryPojo inventoryPojo = new InventoryPojo();
-        inventoryPojo.setProductId(productPojo.getId());
+        InventoryPojo inventoryPojo = inventoryService.get(productPojo.getId());
         inventoryPojo.setQuantity(inventoryForm.getQuantity());
-        InventoryPojo pojo = inventoryService.update(inventoryPojo);
-        return ConvertUtil.convertPojotoData(pojo,productPojo);
+        inventoryService.update(inventoryPojo);
+        return ConvertUtil.convertPojotoData(inventoryPojo,productPojo);
     }
 }

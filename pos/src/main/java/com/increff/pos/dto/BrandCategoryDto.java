@@ -13,6 +13,7 @@ import com.increff.pos.util.ConvertUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BrandCategoryDto {
@@ -34,11 +35,12 @@ public class BrandCategoryDto {
 
     public List<BrandCategoryData> getAllBrand(){
         List<BrandCategoryPojo> pojos = brandCategoryService.selectAll();
-        List<BrandCategoryData> brandDataList = new ArrayList<BrandCategoryData>();
-        for(BrandCategoryPojo pojo:pojos){
-            brandDataList.add(ConvertUtil.convertPojotoData(pojo));
-        }
-        return brandDataList;
+        return pojos.stream().map(ConvertUtil::convertPojotoData).collect(Collectors.toList());
+//        List<BrandCategoryData> brandDataList = new ArrayList<BrandCategoryData>();
+//        for(BrandCategoryPojo pojo:pojos){
+//            brandDataList.add(ConvertUtil.convertPojotoData(pojo));
+//        }
+//        return brandDataList;
     }
 
     public BrandCategoryData update(Integer id, BrandCategoryForm brandCategoryForm) throws ApiException {
