@@ -15,9 +15,9 @@ public class InventoryApiController {
     @Autowired
     private InventoryDto inventoryDto;
 
-    @ApiOperation(value = "Gets a product's inventory by Id")
+    @ApiOperation(value = "Gets a product's inventory by barcode")
     @RequestMapping(value = "/api/inventory/{barcode}", method = RequestMethod.GET)
-    public InventoryData getQuantitybyBarcode(@PathVariable String barcode) throws ApiException {
+    public InventoryData getQuantityByBarcode(@PathVariable String barcode) throws ApiException {
         return inventoryDto.get(barcode);
     }
 

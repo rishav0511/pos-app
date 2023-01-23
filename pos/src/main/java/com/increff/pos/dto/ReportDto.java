@@ -29,24 +29,25 @@ public class ReportDto {
     @Autowired
     private DailySalesReportService dailySalesReportService;
 
-    public List<InventoryReportData> getInventoryReport() {
-        List<InventoryReportData> inventoryReportData = new ArrayList();
-        List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAll();
-        for (BrandCategoryPojo brandCategory : brandCategoryList) {
-            InventoryReportData inventoryReportItemDataItem = new InventoryReportData();
-            inventoryReportItemDataItem.setBrand(brandCategory.getBrand());
-            inventoryReportItemDataItem.setCategory(brandCategory.getCategory());
-            inventoryReportItemDataItem.setId(brandCategory.getId());
-            int quantity = 0;
-            List<ProductPojo> productList = productService.getProductByBrandCategory(brandCategory.getId());
-            for (ProductPojo pojo : productList) {
-                InventoryPojo inventoryPojo = inventoryService.get(pojo.getId());
-                quantity+=inventoryPojo.getQuantity();
-            }
-            inventoryReportItemDataItem.setQuantity(quantity);
-            inventoryReportData.add(inventoryReportItemDataItem);
+    public List<InventoryReportData> getInventoryReport() throws ApiException {
+        List<InventoryReportData> inventoryReportDataList = new ArrayList<InventoryReportData>();
+        List<BrandCategoryPojo> brandPojoList = brandCategoryService.selectAll();
+        for(BrandCategoryPojo pojo : brandPojoList) {
+            int totalQuantity = getProductQuantityForBrandCategory(pojo.getId());
+            InventoryReportData inventoryReportData = new InventoryReportData(pojo.getBrand(), pojo.getCategory(), totalQuantity);
+            inventoryReportDataList.add(inventoryReportData);
         }
-        return inventoryReportData;
+        return inventoryReportDataList;
+    }
+
+    private Integer getProductQuantityForBrandCategory(Integer brandId) throws ApiException {
+        Integer totalQuantity = 0;
+        List<ProductPojo> productPojoList = productService.getProductByBrandCategory(brandId);
+        for(ProductPojo product : productPojoList) {
+            InventoryPojo inventory = inventoryService.get(product.getId());
+            totalQuantity += inventory.getQuantity();
+        }
+        return totalQuantity;
     }
 
     public List<BrandCategoryData> getBrandCategoryReport() {
@@ -84,44 +85,31 @@ public class ReportDto {
     }
 
     public List<SalesReportData> getReport(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
-        List<SalesReportData> salesReportData = new ArrayList<SalesReportData>();
+        List<SalesReportData> salesReportDataList = new ArrayList<SalesReportData>();
         List<OrderItemPojo> orderItemList = new ArrayList<OrderItemPojo>();
         // Get all order items of all orders
         for (OrderPojo order : orderPojoList) {
             List<OrderItemPojo> orderItemListTemp = orderItemService.selectByOrderId(order.getId());
             orderItemList.addAll(orderItemListTemp);
         }
-
-        // Get all product of all order items
-        List<ProductPojo> productList = new ArrayList<ProductPojo>();
-        for (OrderItemPojo orderItem : orderItemList) {
-            ProductPojo product = productService.get(orderItem.getProductId());
-            productList.add(product);
-        }
-
-        // Initialize salesReportData
-        for (BrandCategoryPojo brandCategory : brandCategoryList) {
-            SalesReportData salesReportItemDataItem = new SalesReportData(brandCategory, 0, 0.00);
-            salesReportData.add(salesReportItemDataItem);
-        }
-
-        // Calculate salesReportData
-        for (OrderItemPojo orderItem : orderItemList) {
-            int productId = orderItem.getProductId();
-            ProductPojo product = productList.stream().filter(p -> p.getId() == productId).findFirst().get();
-            int brandCategoryId = product.getBrandId();
-            // Find and update salesReportData
-            for (SalesReportData salesReportItemDataItem : salesReportData) {
-                if (salesReportItemDataItem.getBrandCategoryId() == brandCategoryId) {
-                    salesReportItemDataItem
-                            .setQuantity(salesReportItemDataItem.getQuantity() + orderItem.getQuantity());
-                    salesReportItemDataItem.setRevenue(
-                            salesReportItemDataItem.getRevenue()
-                                    + orderItem.getQuantity() * orderItem.getSellingPrice());
+        for(BrandCategoryPojo brandCategoryPojo:brandCategoryList){
+            SalesReportData salesReportData = new SalesReportData();
+            salesReportData.setCategory(brandCategoryPojo.getCategory());
+            salesReportData.setBrand(brandCategoryPojo.getBrand());
+            Integer quantity = 0;
+            Double revenue = 0.0;
+            for(OrderItemPojo orderItemPojo:orderItemList){
+                ProductPojo productPojo = productService.get(orderItemPojo.getProductId());
+                if(productPojo.getBrandId()==brandCategoryPojo.getId()){
+                    quantity += orderItemPojo.getQuantity();
+                    revenue += (orderItemPojo.getQuantity())*(orderItemPojo.getSellingPrice());
                 }
             }
+            salesReportData.setQuantity(quantity);
+            salesReportData.setRevenue(revenue);
+            salesReportDataList.add(salesReportData);
         }
-        return salesReportData;
+        return salesReportDataList;
     }
 
     public List<DailySalesReportData> getDailySalesReport() {

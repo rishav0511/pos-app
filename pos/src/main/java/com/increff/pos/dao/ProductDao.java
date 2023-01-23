@@ -35,18 +35,6 @@ public class ProductDao extends AbstractDao {
     }
 
     public ProductPojo update(ProductPojo productPojo) {
-
-//        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-//        CriteriaUpdate<ProductPojo> update = criteriaBuilder.createCriteriaUpdate(ProductPojo.class);
-//        Root<ProductPojo> root = update.from(ProductPojo.class);
-//        Path<Object> primaryKey = root.get("id");
-//        update.where(criteriaBuilder.equal(primaryKey, productPojo.getId()));
-//        update.set("barcode", productPojo.getBarcode());
-//        update.set("brandId", productPojo.getBrandId());
-//        update.set("mrp", productPojo.getMrp());
-//        update.set("product", productPojo.getProduct());
-//        Query query = em.createQuery(update);
-//        query.executeUpdate();
         return em.merge(productPojo);
     }
 }

@@ -2,7 +2,7 @@
 function getProductUrl(){
    var baseUrl = $("meta[name=baseUrl]").attr("content")
    //console.log(baseUrl);
-   return baseUrl + "/api/product";
+   return baseUrl + "/api/products";
 }
 
 function getRole() {

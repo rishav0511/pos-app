@@ -12,12 +12,4 @@ public class SalesReportData {
     private String category;
     private String brand;
     private Integer brandCategoryId;
-
-    public SalesReportData(BrandCategoryPojo brandCategory, int i, double d) {
-        this.brand = brandCategory.getBrand();
-        this.category = brandCategory.getCategory();
-        this.brandCategoryId = brandCategory.getId();
-        this.quantity = i;
-        this.revenue = d;
-    }
 }
