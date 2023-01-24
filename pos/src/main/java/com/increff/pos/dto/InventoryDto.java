@@ -39,12 +39,12 @@ public class InventoryDto {
 //                throw new RuntimeException(e);
 //            }
 //        }).collect(Collectors.toList());
-        List<InventoryData> reqList = new ArrayList<>();
+        List<InventoryData> inventoryData = new ArrayList<>();
         for (InventoryPojo pojo : inventoryPojos) {
             ProductPojo productPojo = productService.getProduct(pojo.getProductId());
-            reqList.add(ConvertUtil.convertPojotoData(pojo, productPojo));
+            inventoryData.add(ConvertUtil.convertPojotoData(pojo, productPojo));
         }
-        return reqList;
+        return inventoryData;
     }
 
 

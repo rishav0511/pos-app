@@ -73,7 +73,7 @@ public class ProductService {
         barcode = StringUtil.toLowerCase(barcode);
         ProductPojo productPojo = productDao.select(barcode);
         if(productPojo.getMrp()<sellingPrice) {
-            throw new  ApiException("Selling price can't be higher than mrp.");
+            throw new  ApiException("Selling price higher than mrp for " + barcode);
         }
         return productPojo;
     }
