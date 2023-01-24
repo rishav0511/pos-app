@@ -68,4 +68,13 @@ public class ProductService {
             throw new ApiException("Product doesn't exist.");
         }
     }
+
+    public ProductPojo checkSellingPrice(String barcode,Double sellingPrice) throws ApiException {
+        barcode = StringUtil.toLowerCase(barcode);
+        ProductPojo productPojo = productDao.select(barcode);
+        if(productPojo.getMrp()<sellingPrice) {
+            throw new  ApiException("Selling price can't be higher than mrp.");
+        }
+        return productPojo;
+    }
 }

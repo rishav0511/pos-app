@@ -3,6 +3,7 @@ package com.increff.pos.service;
 import com.increff.pos.dao.InventoryDao;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class InventoryService {
     // Reduce inventory quantity
     @Transactional(rollbackOn = ApiException.class)
     public void reduce(String barcode, int id, int quantity) throws ApiException {
+        barcode = StringUtil.toLowerCase(barcode);
         InventoryPojo existing = inventoryDao.select(id);
         if (existing.getQuantity() < quantity) {
             throw new ApiException("Quantity not available for product, barcode:" + barcode);
