@@ -7,6 +7,7 @@ import com.increff.pos.pojo.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class ConvertUtil {
     public static BrandCategoryPojo convertFormtoPojo(BrandCategoryForm brandCategoryForm) {
@@ -129,5 +130,22 @@ public class ConvertUtil {
         dailySalesReportData.setItemCount(dailySalesReportPojo.getInvoiced_items_count());
         dailySalesReportData.setTotalRevenue(dailySalesReportPojo.getTotal_revenue());
         return dailySalesReportData;
+    }
+
+    public static SalesReportData setSalesReportData(String brand,String category,int quantity,double revenue) {
+        SalesReportData salesReportData = new SalesReportData();
+        salesReportData.setBrand(brand);
+        salesReportData.setCategory(category);
+        salesReportData.setQuantity(quantity);
+        salesReportData.setRevenue(revenue);
+        return salesReportData;
+    }
+
+    public static List<SalesReportData> getSalesReportData(Map<BrandCategoryPojo,SalesReportData> salesReportDataMap) {
+        List<SalesReportData> salesReportDataList = new ArrayList<SalesReportData>();
+        for (Map.Entry<BrandCategoryPojo, SalesReportData> pair : salesReportDataMap.entrySet()) {
+            salesReportDataList.add(pair.getValue());
+        }
+        return salesReportDataList;
     }
 }

@@ -7,6 +7,7 @@ import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.TimeUtil;
 import com.increff.pos.util.ValidationUtils;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -57,44 +58,22 @@ public class ReportDto {
     }
 
     public List<SalesReportData> getSalesReport(SalesReportForm form) throws ApiException {
-//        ValidationUtils.validateForm(form);
-//        NormalizeUtil.normalizePojo(form);
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
-//         new ArrayList<>();
-        // Brand-Category is empty
-//        List<BrandCategoryPojo> brandCategoryList;
-//        if(form.getBrand().equals("") && form.getCategory().equals("")) {
-//            brandCategoryList = brandCategoryService.selectAll();
-//        }
-//        //Category is empty
-//        else if (form.getBrand()!=null && form.getCategory().equals("")) {
-//            brandCategoryList = brandCategoryService.selectByBrand(form.getBrand());
-//        } else if(form.getBrand().equals("") && form.getCategory()!=null) {
-//            brandCategoryList = brandCategoryService.selectByCategory(form.getCategory());
-//        }
-//        else {
-//            BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(form.getBrand(),form.getCategory());
-//            brandCategoryList.add(brandCategoryPojo);
-//        }
         List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAlikeBrandCategory(form.getBrand(),form.getCategory());
-        List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
-        return salesReportData;
-    }
-
-    public List<SalesReportData> getReport(List<OrderPojo> orderPojoList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
-        List<SalesReportData> salesReportDataList = new ArrayList<SalesReportData>();
         List<OrderItemPojo> orderItemList = new ArrayList<OrderItemPojo>();
-        // Get all order items of all orders
-        for (OrderPojo order : orderPojoList) {
+        for (OrderPojo order : orderList) {
             List<OrderItemPojo> orderItemListTemp = orderItemService.selectByOrderId(order.getId());
             orderItemList.addAll(orderItemListTemp);
         }
+        List<SalesReportData> salesReportData = getReport(orderItemList,brandCategoryList);
+        return salesReportData;
+    }
+
+    public List<SalesReportData> getReport(List<OrderItemPojo> orderItemList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
+        Map<BrandCategoryPojo,SalesReportData> salesReportDataMap = new HashMap<BrandCategoryPojo,SalesReportData>();
         for(BrandCategoryPojo brandCategoryPojo:brandCategoryList){
-            SalesReportData salesReportData = new SalesReportData();
-            salesReportData.setCategory(brandCategoryPojo.getCategory());
-            salesReportData.setBrand(brandCategoryPojo.getBrand());
             Integer quantity = 0;
             Double revenue = 0.0;
             for(OrderItemPojo orderItemPojo:orderItemList){
@@ -104,11 +83,11 @@ public class ReportDto {
                     revenue += (orderItemPojo.getQuantity())*(orderItemPojo.getSellingPrice());
                 }
             }
-            salesReportData.setQuantity(quantity);
-            salesReportData.setRevenue(revenue);
-            salesReportDataList.add(salesReportData);
+            SalesReportData salesReportData = ConvertUtil
+                    .setSalesReportData(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory(),quantity,revenue);
+            salesReportDataMap.putIfAbsent(brandCategoryPojo,salesReportData);
         }
-        return salesReportDataList;
+        return ConvertUtil.getSalesReportData(salesReportDataMap);
     }
 
     public List<DailySalesReportData> getDailySalesReport() {
