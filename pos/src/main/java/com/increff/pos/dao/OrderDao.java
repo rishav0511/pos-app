@@ -12,6 +12,8 @@ public class OrderDao extends AbstractDao{
     private static String select_By_OrderId = "select p from OrderPojo p where orderId=:orderId";
     private static String select_all = "select p from OrderPojo p";
     private static String select_Between = "select p from OrderPojo p where p.createdAt between :startingDate and :endingDate";
+    private static String select_After = "select p from OrderPojo p where p.createdAt >= :startingDate";
+    private static String select_Before = "select p from OrderPojo p where p.createdAt <= :endingDate";
 
     public List<OrderPojo> selectAll() {
         TypedQuery<OrderPojo> query = em.createQuery(select_all, OrderPojo.class);
@@ -27,6 +29,18 @@ public class OrderDao extends AbstractDao{
     public List<OrderPojo> selectAllBetween(Date startingDate, Date endingDate) {
         TypedQuery<OrderPojo>query = em.createQuery(select_Between, OrderPojo.class);
         query.setParameter("startingDate",startingDate);
+        query.setParameter("endingDate",endingDate);
+        return query.getResultList();
+    }
+
+    public List<OrderPojo> selectAfter(Date startingDate) {
+        TypedQuery<OrderPojo>query = em.createQuery(select_After, OrderPojo.class);
+        query.setParameter("startingDate",startingDate);
+        return query.getResultList();
+    }
+
+    public List<OrderPojo> selectBefore(Date endingDate) {
+        TypedQuery<OrderPojo>query = em.createQuery(select_Before, OrderPojo.class);
         query.setParameter("endingDate",endingDate);
         return query.getResultList();
     }

@@ -52,13 +52,6 @@ public class ProductDto {
     // todo Ask shubham for this
     public List<ProductData> getAllProducts() throws ApiException {
         List<ProductPojo> allProducts = productService.getAllProducts();
-//        return allProducts.stream().map(it-> {
-//            try {
-//                return ConvertUtil.convertPojotoData(it,brandCategoryService.select(it.getBrandId()));
-//            } catch (ApiException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }).collect(Collectors.toList());
         List<ProductData> productDataList = new ArrayList<>();
         for(ProductPojo pojo:allProducts){
             ProductData productData = ConvertUtil.convertPojotoData(pojo, brandCategoryService.select(pojo.getBrandId()));

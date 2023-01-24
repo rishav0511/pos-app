@@ -43,7 +43,7 @@ public class SignUpApiController extends AbstractUiController {
 		try {
 			adminApiDto.add(form);
 		} catch (ApiException ex) {
-			info.setMessage("User with email: " + form.getEmail() + " already exists!");
+			info.setMessage(ex.getMessage());
 		}
 		return mav("signup.html");
 	}

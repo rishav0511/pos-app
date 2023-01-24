@@ -29,11 +29,6 @@ public class NormalizeUtil {
         }
     }
 
-    public static void normalizePojo(SalesReportForm salesReportForm) {
-        salesReportForm.setBrand(StringUtil.toLowerCase(salesReportForm.getBrand()));
-        salesReportForm.setCategory(StringUtil.toLowerCase(salesReportForm.getCategory()));
-    }
-
     public static void normalizeUser(UserPojo p) {
         p.setEmail(p.getEmail().toLowerCase().trim());
     }

@@ -30,14 +30,18 @@ public class BrandCategoryService {
         return brandCategoryDao.selectAll();
     }
 
-    public List<BrandCategoryPojo> selectByBrand(String brand) {
+    public List<BrandCategoryPojo> selectAlikeBrandCategory(String brand,String category) {
         brand = StringUtil.toLowerCase(brand);
-        return brandCategoryDao.selectByBrand(brand);
-    }
-
-    public List<BrandCategoryPojo> selectByCategory(String category) {
         category = StringUtil.toLowerCase(category);
-        return brandCategoryDao.selectByCategory(category);
+        if(brand.isEmpty() && category.isEmpty()) {
+            return brandCategoryDao.selectAll();
+        } else if(!brand.isEmpty() && category.isEmpty()) {
+            return brandCategoryDao.selectByBrand(brand);
+        } else if(!category.isEmpty() && brand.isEmpty()) {
+            return brandCategoryDao.selectByCategory(category);
+        } else {
+            return brandCategoryDao.selectAlikeBrandCategory(brand,category);
+        }
     }
 
     // todo ask shubham for Api exception
@@ -46,13 +50,9 @@ public class BrandCategoryService {
         NormalizeUtil.normalizePojo(brandCategoryPojo);
         getCheckBrandCategoryExist(brandCategoryPojo.getBrand(), brandCategoryPojo.getCategory());
         BrandCategoryPojo existing = brandCategoryDao.select(id);
-        if (existing != null && existing.getId() == id) {
-            existing.setBrand(brandCategoryPojo.getBrand());
-            existing.setCategory(brandCategoryPojo.getCategory());
-            return brandCategoryDao.update(existing);
-        } else {
-            throw new ApiException("Error encountered while updating.");
-        }
+        existing.setBrand(brandCategoryPojo.getBrand());
+        existing.setCategory(brandCategoryPojo.getCategory());
+        return brandCategoryDao.update(existing);
     }
 
     public BrandCategoryPojo brandExists(Integer id) throws ApiException {

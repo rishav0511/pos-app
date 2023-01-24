@@ -5,6 +5,7 @@ import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ConvertUtil {
@@ -109,6 +110,16 @@ public class ConvertUtil {
         data.setOrderData(orderData);
         data.setOrderItemDataList(orderItemDataList);
         return data;
+    }
+
+
+    public static DailySalesReportPojo setDailySalesReportPojo(Date date, int invoiced_items_count, int invoiced_orders_count, double total_revenue) {
+        DailySalesReportPojo dailySalesReportPojo = new DailySalesReportPojo();
+        dailySalesReportPojo.setDate(date);
+        dailySalesReportPojo.setInvoiced_orders_count(invoiced_orders_count);
+        dailySalesReportPojo.setInvoiced_items_count(invoiced_items_count);
+        dailySalesReportPojo.setTotal_revenue(total_revenue);
+        return dailySalesReportPojo;
     }
 
     public static DailySalesReportData getDailySalesReportData(DailySalesReportPojo dailySalesReportPojo) {

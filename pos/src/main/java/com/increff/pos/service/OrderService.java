@@ -2,6 +2,7 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.OrderDao;
 import com.increff.pos.pojo.OrderPojo;
+import com.increff.pos.util.TimeUtil;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,18 @@ public class OrderService {
     }
 
     public List<OrderPojo> getAllBetween (Date startingDate, Date endingDate) {
-        return orderDao.selectAllBetween(startingDate,endingDate);
+        if(startingDate==null && endingDate==null) {
+            return orderDao.selectAll();
+        } else if(startingDate==null) {
+            endingDate = TimeUtil.getEndOfDay(endingDate);
+            return orderDao.selectBefore(endingDate);
+        } else if(endingDate==null) {
+            startingDate = TimeUtil.getStartOfDay(startingDate);
+            return orderDao.selectAfter(startingDate);
+        } else {
+            startingDate = TimeUtil.getStartOfDay(startingDate);
+            endingDate = TimeUtil.getEndOfDay(endingDate);
+            return orderDao.selectAllBetween(startingDate, endingDate);
+        }
     }
 }

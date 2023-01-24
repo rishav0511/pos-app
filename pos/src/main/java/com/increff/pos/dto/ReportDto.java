@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class ReportDto {
@@ -52,34 +53,32 @@ public class ReportDto {
 
     public List<BrandCategoryData> getBrandCategoryReport() {
         List<BrandCategoryPojo> pojos = brandCategoryService.selectAll();
-        List<BrandCategoryData> brandDataList = new ArrayList<BrandCategoryData>();
-        for(BrandCategoryPojo pojo:pojos){
-            brandDataList.add(ConvertUtil.convertPojotoData(pojo));
-        }
-        return brandDataList;
+        return pojos.stream().map(ConvertUtil::convertPojotoData).collect(Collectors.toList());
     }
 
     public List<SalesReportData> getSalesReport(SalesReportForm form) throws ApiException {
-        ValidationUtils.validateForm(form);
-        NormalizeUtil.normalizePojo(form);
+//        ValidationUtils.validateForm(form);
+//        NormalizeUtil.normalizePojo(form);
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
-        List<BrandCategoryPojo> brandCategoryList = new ArrayList<>();
+//         new ArrayList<>();
         // Brand-Category is empty
-        if(form.getBrand().equals("") && form.getCategory().equals("")) {
-            brandCategoryList = brandCategoryService.selectAll();
-        }
-        //Category is empty
-        else if (form.getBrand()!=null && form.getCategory().equals("")) {
-            brandCategoryList = brandCategoryService.selectByBrand(form.getBrand());
-        } else if(form.getBrand().equals("") && form.getCategory()!=null) {
-            brandCategoryList = brandCategoryService.selectByCategory(form.getCategory());
-        }
-        else {
-            BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(form.getBrand(),form.getCategory());
-            brandCategoryList.add(brandCategoryPojo);
-        }
+//        List<BrandCategoryPojo> brandCategoryList;
+//        if(form.getBrand().equals("") && form.getCategory().equals("")) {
+//            brandCategoryList = brandCategoryService.selectAll();
+//        }
+//        //Category is empty
+//        else if (form.getBrand()!=null && form.getCategory().equals("")) {
+//            brandCategoryList = brandCategoryService.selectByBrand(form.getBrand());
+//        } else if(form.getBrand().equals("") && form.getCategory()!=null) {
+//            brandCategoryList = brandCategoryService.selectByCategory(form.getCategory());
+//        }
+//        else {
+//            BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(form.getBrand(),form.getCategory());
+//            brandCategoryList.add(brandCategoryPojo);
+//        }
+        List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAlikeBrandCategory(form.getBrand(),form.getCategory());
         List<SalesReportData> salesReportData = getReport(orderList,brandCategoryList);
         return salesReportData;
     }
@@ -123,13 +122,10 @@ public class ReportDto {
 
     @Scheduled(cron = "0 0 0 * * ?")
     public void generateDailySalesReport() {
-        DailySalesReportPojo dailySalesReportPojo = new DailySalesReportPojo();
-        dailySalesReportPojo.setDate(new Date());
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         Date yesterday = TimeUtil.getStartOfDay(cal.getTime());
         Date present = new Date();
-        System.out.println("From: " + yesterday.toString() + "\nTo: " + present.toString());
 
         List<OrderPojo> orderPojoList = orderService.getAllBetween(yesterday, present);
         int itemsSold = 0;
@@ -141,9 +137,8 @@ public class ReportDto {
             }
             itemsSold += orderItemList.size();
         }
-        dailySalesReportPojo.setInvoiced_orders_count(orderPojoList.size());
-        dailySalesReportPojo.setInvoiced_items_count(itemsSold);
-        dailySalesReportPojo.setTotal_revenue(revenue);
+        DailySalesReportPojo dailySalesReportPojo = ConvertUtil
+                .setDailySalesReportPojo(new Date(),itemsSold,orderPojoList.size(),revenue);
         dailySalesReportService.insert(dailySalesReportPojo);
     }
 }
