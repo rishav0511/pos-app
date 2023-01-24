@@ -1,6 +1,7 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,16 @@ public class InventoryService {
         inventoryDao.insert(inventoryPojo);
     }
 
-    public InventoryPojo getInventory(Integer productId) {
-        return inventoryDao.select(InventoryPojo.class, productId);
+    public InventoryPojo getInventory(Integer productId) throws ApiException {
+        return inventoryExists(productId);
+    }
+
+    public InventoryPojo inventoryExists(Integer productId) throws ApiException {
+        InventoryPojo inventoryPojo = inventoryDao.select(productId);
+        if (inventoryPojo == null) {
+            throw new ApiException("Inventory doesn't exist");
+        }
+        return inventoryPojo;
     }
 
     public List<InventoryPojo> getAll() {

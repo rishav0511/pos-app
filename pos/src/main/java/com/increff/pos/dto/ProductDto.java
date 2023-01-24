@@ -59,12 +59,12 @@ public class ProductDto {
 //                throw new RuntimeException(e);
 //            }
 //        }).collect(Collectors.toList());
-        List<ProductData> reqList = new ArrayList<>();
-        for(ProductPojo p:allProducts){
-            ProductData d = ConvertUtil.convertPojotoData(p, brandCategoryService.select(p.getBrandId()));
-            reqList.add(d);
+        List<ProductData> productDataList = new ArrayList<>();
+        for(ProductPojo pojo:allProducts){
+            ProductData productData = ConvertUtil.convertPojotoData(pojo, brandCategoryService.select(pojo.getBrandId()));
+            productDataList.add(productData);
         }
-        return reqList;
+        return productDataList;
     }
 
     public ProductData getByBarcode(String barcode) throws ApiException {

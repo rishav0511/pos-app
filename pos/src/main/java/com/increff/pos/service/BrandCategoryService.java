@@ -40,20 +40,25 @@ public class BrandCategoryService {
         return brandCategoryDao.selectByCategory(category);
     }
 
+    // todo ask shubham for Api exception
     @Transactional
     public BrandCategoryPojo updateBrandCategory(Integer id, BrandCategoryPojo brandCategoryPojo) throws ApiException {
         NormalizeUtil.normalizePojo(brandCategoryPojo);
         getCheckBrandCategoryExist(brandCategoryPojo.getBrand(), brandCategoryPojo.getCategory());
         BrandCategoryPojo existing = brandCategoryDao.select(id);
-        existing.setBrand(brandCategoryPojo.getBrand());
-        existing.setCategory(brandCategoryPojo.getCategory());
-        return brandCategoryDao.update(existing);
+        if (existing != null && existing.getId() == id) {
+            existing.setBrand(brandCategoryPojo.getBrand());
+            existing.setCategory(brandCategoryPojo.getCategory());
+            return brandCategoryDao.update(existing);
+        } else {
+            throw new ApiException("Error encountered while updating.");
+        }
     }
 
     public BrandCategoryPojo brandExists(Integer id) throws ApiException {
         BrandCategoryPojo brandCategoryPojo = brandCategoryDao.select(id);
         if (brandCategoryPojo == null) {
-            throw new ApiException("Brand with given id doesn't exist, id:" + id);
+            throw new ApiException("Brand Category doesn't exist.");
         }
         return brandCategoryPojo;
     }
