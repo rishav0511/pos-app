@@ -32,9 +32,9 @@ public class ValidationUtils {
     }
 
     public static void validateForm(BrandCategoryForm brandCategoryForm) throws ApiException {
-        if(StringUtil.isEmpty(brandCategoryForm.getCategory())){
+        if(StringUtil.isEmpty(brandCategoryForm.getBrand())){
             throw new ApiException("No Brand provided");
-        } else if( StringUtil.isEmpty(brandCategoryForm.getBrand())) {
+        } else if( StringUtil.isEmpty(brandCategoryForm.getCategory())) {
             throw new ApiException("No Category provided");
         }
     }
@@ -56,17 +56,6 @@ public class ValidationUtils {
                 throw new ApiException("Selling Price cannot be less than 0");
             }
         }
-    }
-
-    public static void validateForm(SalesReportForm salesReportForm) {
-        if(salesReportForm.getEndDate()==null) {
-            salesReportForm.setEndDate(new Date());
-        }
-        if(salesReportForm.getStartDate()==null) {
-            salesReportForm.setStartDate(new GregorianCalendar(2021, Calendar.JANUARY, 1).getTime());
-        }
-        salesReportForm.setStartDate(TimeUtil.getStartOfDay(salesReportForm.getStartDate()));
-        salesReportForm.setEndDate(TimeUtil.getEndOfDay(salesReportForm.getEndDate()));
     }
 
     public static void validateForm (UserForm userForm) throws ApiException {
