@@ -70,7 +70,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
                 50.75,"Puma", "footwear");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Brand-Category doesn't exist");
+        exceptionRule.expectMessage("Brand puma and Category footwear doesn't exists.");
         ProductData productData = productDto.addProduct(productForm);
     }
 
@@ -172,7 +172,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
         productService.insertProduct(firstPojo);
-        ProductForm secondProductForm = TestUtils.getProductForm(" ONe litre PasteurizED MIlk ","AM112",
+        ProductForm secondProductForm = TestUtils.getProductForm(" ONe litre PasteurizED MIlk ","AM111",
                 100.0," Amul ", "daiRY");
         ProductData updatedData = productDto.updateProduct(firstPojo.getId(),secondProductForm);
         ProductPojo pojo = productService.getProduct(firstPojo.getId());
@@ -193,7 +193,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm firstProductForm = TestUtils.getProductForm("HaLF litre PasteurizED MIlk",null,
                 55.75," Amul ", "daiRY");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Please Enter Barcode, Name and a positive mrp!");
+        exceptionRule.expectMessage("Please Enter Barcode!");
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 
@@ -206,7 +206,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm firstProductForm = TestUtils.getProductForm(null,"AM111",
                 null," Amul ", "daiRY");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Please Enter Barcode, Name and a positive mrp!");
+        exceptionRule.expectMessage("Please Enter Product Name!");
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 

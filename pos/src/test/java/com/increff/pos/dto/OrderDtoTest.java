@@ -64,12 +64,12 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(6);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         assertThat(new Date().after(orderData.getCreatedAt()), is(true));
         assertNotNull(orderData.getOrderId());
-        assertEquals((Double)312.0,orderData.getBillAmount());
+        assertEquals((Double)300.0,orderData.getBillAmount());
     }
 
     /**
@@ -83,7 +83,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(6);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         barcodes.add("am112");
@@ -93,7 +93,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         orderData = orderDto.updateOrder(orderData.getOrderId(),orderItemFormList);
         assertThat(new Date().after(orderData.getCreatedAt()), is(true));
         assertNotNull(orderData.getOrderId());
-        assertEquals((Double)812.0,orderData.getBillAmount());
+        assertEquals((Double)800.0,orderData.getBillAmount());
     }
 
     /**
@@ -107,7 +107,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(20);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Quantity not available for product, barcode:am111");
@@ -125,7 +125,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(20);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Barcode doesn't exist:xy111");
@@ -143,12 +143,12 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(6);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         barcodes.add("xy111");
         quantities.add(20);
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> updatedOrderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Barcode doesn't exist:xy111");
@@ -168,7 +168,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         quantities.add(5);
         quantities.add(5);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         sellingPrices.add(100.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
@@ -187,7 +187,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(5);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         InvoiceData invoiceData = orderDto.getInvoiceDataByOrderId(orderData.getOrderId());
@@ -195,7 +195,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         OrderItemData orderItemData = new OrderItemData();
         orderItemData.setProduct("half litre pasteurized milk");
         orderItemData.setBarcode("am111");
-        orderItemData.setSellingPrice(52.0);
+        orderItemData.setSellingPrice(50.0);
         orderItemData.setQuantity(5);
         expected.add(orderItemData);
         assertTrue(expected.size() == invoiceData.getOrderItemDataList().size()
@@ -214,7 +214,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(5);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         String path = orderDto.getFilePath(orderData.getOrderId());
@@ -232,13 +232,31 @@ public class OrderDtoTest extends AbstractUnitTest {
         List<Integer>quantities = new ArrayList<>();
         quantities.add(5);
         List<Double>sellingPrices = new ArrayList<>();
-        sellingPrices.add(52.0);
+        sellingPrices.add(50.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         orderData = orderDto.addOrder(orderItemFormList);
         OrderData fetchedOrderData = orderDto.getOrderDetails(orderData.getOrderId());
         assertNotNull(fetchedOrderData.getOrderId());
         assertThat(new Date().after(fetchedOrderData.getCreatedAt()), is(true));
-        assertEquals((Double)260.0,fetchedOrderData.getBillAmount());
+        assertEquals((Double)250.0,fetchedOrderData.getBillAmount());
+    }
+
+    /**
+     * Selling price more than mrp test
+     * @throws ApiException
+     */
+    @Test
+    public void addOrderSellingPriceMoreThanMRP() throws ApiException {
+        List<String>barcodes = new ArrayList<>();
+        barcodes.add("am111");
+        List<Integer>quantities = new ArrayList<>();
+        quantities.add(5);
+        List<Double>sellingPrices = new ArrayList<>();
+        sellingPrices.add(52.0);
+        List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Selling price higher than mrp for am111");
+        orderData = orderDto.addOrder(orderItemFormList);
     }
 
     /**

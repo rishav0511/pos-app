@@ -132,18 +132,9 @@ public class ConvertUtil {
         return dailySalesReportData;
     }
 
-    public static SalesReportData setSalesReportData(String brand,String category,int quantity,double revenue) {
-        SalesReportData salesReportData = new SalesReportData();
-        salesReportData.setBrand(brand);
-        salesReportData.setCategory(category);
-        salesReportData.setQuantity(quantity);
-        salesReportData.setRevenue(revenue);
-        return salesReportData;
-    }
-
-    public static List<SalesReportData> getSalesReportData(Map<BrandCategoryPojo,SalesReportData> salesReportDataMap) {
+    public static List<SalesReportData> getSalesReportData(Map<Integer,SalesReportData> salesReportDataMap) {
         List<SalesReportData> salesReportDataList = new ArrayList<SalesReportData>();
-        for (Map.Entry<BrandCategoryPojo, SalesReportData> pair : salesReportDataMap.entrySet()) {
+        for (Map.Entry<Integer, SalesReportData> pair : salesReportDataMap.entrySet()) {
             salesReportDataList.add(pair.getValue());
         }
         return salesReportDataList;

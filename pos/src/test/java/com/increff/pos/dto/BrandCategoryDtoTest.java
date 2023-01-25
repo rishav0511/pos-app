@@ -50,7 +50,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ", "  Dairy  ");
         brandCategoryDto.addBrandCategory(brandCategoryForm);
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Brand and Category already exists");
+        exceptionRule.expectMessage("Brand amul and Category dairy already exists");
         BrandCategoryForm newBrandCategoryForm = TestUtils.getBrandCategoryForm("Amul", "Dairy");
         brandCategoryDto.addBrandCategory(newBrandCategoryForm);
     }
@@ -64,7 +64,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
     public void addNullBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm(null, "  Dairy  ");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("No brand and category provided");
+        exceptionRule.expectMessage("No Brand provided");
         BrandCategoryData data = brandCategoryDto.addBrandCategory(brandCategoryForm);
     }
 
@@ -126,7 +126,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("   Amul  ", "  Dairy  ");
         BrandCategoryData data = brandCategoryDto.addBrandCategory(brandCategoryForm);
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Brand with given id doesn't exist, id:5");
+        exceptionRule.expectMessage("Brand Category doesn't exist.");
         BrandCategoryData invalidData = brandCategoryDto.getBrandCategory(5);
     }
 
@@ -139,7 +139,7 @@ public class BrandCategoryDtoTest extends AbstractUnitTest {
     public void addBlankBrandCategoryTest() throws ApiException {
         BrandCategoryForm brandCategoryForm = TestUtils.getBrandCategoryForm("    ", "    ");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("No brand and category provided");
+        exceptionRule.expectMessage("No Brand provided");
         brandCategoryDto.addBrandCategory(brandCategoryForm);
     }
 }

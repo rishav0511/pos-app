@@ -11,4 +11,11 @@ public class SalesReportData {
     private Integer quantity;
     private String category;
     private String brand;
+
+    public SalesReportData(String brand, String category, Integer quantity, Double revenue) {
+        this.brand = brand;
+        this.category = category;
+        this.quantity = quantity;
+        this.revenue = revenue;
+    }
 }

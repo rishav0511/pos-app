@@ -72,22 +72,26 @@ public class ReportDto {
     }
 
     public List<SalesReportData> getReport(List<OrderItemPojo> orderItemList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
-        Map<BrandCategoryPojo,SalesReportData> salesReportDataMap = new HashMap<BrandCategoryPojo,SalesReportData>();
-        for(BrandCategoryPojo brandCategoryPojo:brandCategoryList){
-            Integer quantity = 0;
-            Double revenue = 0.0;
-            for(OrderItemPojo orderItemPojo:orderItemList){
-                ProductPojo productPojo = productService.getProduct(orderItemPojo.getProductId());
-                if(productPojo.getBrandId()==brandCategoryPojo.getId()){
-                    quantity += orderItemPojo.getQuantity();
-                    revenue += (orderItemPojo.getQuantity())*(orderItemPojo.getSellingPrice());
-                }
+        Map<Integer,SalesReportData> salesReportDataMap = initializeBrandSalesMap(brandCategoryList);
+        for(OrderItemPojo orderItemPojo:orderItemList){
+            ProductPojo productPojo = productService.getProduct(orderItemPojo.getProductId());
+            if(salesReportDataMap.containsKey(productPojo.getBrandId())) {
+                SalesReportData salesReportData = salesReportDataMap.get(productPojo.getBrandId());
+                salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQuantity());
+                salesReportData.setRevenue(salesReportData.getRevenue() + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
+                salesReportDataMap.put(productPojo.getBrandId(), salesReportData);
             }
-            SalesReportData salesReportData = ConvertUtil
-                    .setSalesReportData(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory(),quantity,revenue);
-            salesReportDataMap.putIfAbsent(brandCategoryPojo,salesReportData);
         }
         return ConvertUtil.getSalesReportData(salesReportDataMap);
+    }
+
+    private Map<Integer,SalesReportData> initializeBrandSalesMap(List<BrandCategoryPojo> brandCategoryPojos){
+        Map<Integer,SalesReportData> brandSalesMapping = new HashMap<>();
+        for(BrandCategoryPojo brandCategoryPojo:brandCategoryPojos){
+            SalesReportData salesReportData = new SalesReportData(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory(),(Integer) 0,(Double) 0.0);
+            brandSalesMapping.put(brandCategoryPojo.getId(),salesReportData);
+        }
+        return brandSalesMapping;
     }
 
     public List<DailySalesReportData> getDailySalesReport() {

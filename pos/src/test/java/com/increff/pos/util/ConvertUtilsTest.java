@@ -166,13 +166,4 @@ public class ConvertUtilsTest {
         assertEquals((Double) 10.0,dailySalesReportData.getTotalRevenue());
     }
 
-    @Test
-    public void setSalesReportDataTest() {
-        SalesReportData salesReportData = ConvertUtil.setSalesReportData("brand","category",5,20.0);
-        assertEquals("brand",salesReportData.getBrand());
-        assertEquals("category",salesReportData.getCategory());
-        assertEquals((Integer) 5,salesReportData.getQuantity());
-        assertEquals((Double) 20.0,salesReportData.getRevenue());
-    }
-
 }
