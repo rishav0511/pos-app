@@ -45,6 +45,7 @@ public class SignUpApiController extends AbstractUiController {
 		} catch (ApiException ex) {
 			info.setMessage(ex.getMessage());
 		}
+		info.setMessage("");
 		return mav("signup.html");
 	}
 }

@@ -1,12 +1,10 @@
 package com.increff.pos.util;
 
 import com.increff.pos.model.*;
-import com.increff.pos.pojo.BrandCategoryPojo;
-import com.increff.pos.pojo.InventoryPojo;
-import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.ProductPojo;
+import com.increff.pos.pojo.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TestUtils {
@@ -97,5 +95,14 @@ public class TestUtils {
             orderItemPojos.add(orderItemPojo);
         }
         return orderItemPojos;
+    }
+
+    public static DailySalesReportPojo getDailySalesReportPojo(Date date, int invoiced_items_count, int invoiced_orders_count, double total_revenue) {
+        DailySalesReportPojo dailySalesReportPojo = new DailySalesReportPojo();
+        dailySalesReportPojo.setDate(date);
+        dailySalesReportPojo.setInvoiced_orders_count(invoiced_orders_count);
+        dailySalesReportPojo.setInvoiced_items_count(invoiced_items_count);
+        dailySalesReportPojo.setTotal_revenue(total_revenue);
+        return dailySalesReportPojo;
     }
 }

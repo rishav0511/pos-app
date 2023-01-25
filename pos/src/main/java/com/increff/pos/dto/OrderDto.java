@@ -88,9 +88,8 @@ public class OrderDto {
     public OrderData updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
         ValidationUtils.validateForm(orderItems);
         revertInventory(orderId);
-        List<OrderItemPojo> newOrderItems = alterInventory(orderId,orderItems);
         orderItemService.deleteByOrderId(orderId);
-        orderItemService.insertMultiple(newOrderItems);
+        List<OrderItemPojo> newOrderItems = alterInventory(orderId,orderItems);
         generateInvoice(orderId);
         OrderPojo orderPojo = orderService.getById(orderId);
         return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);

@@ -15,7 +15,6 @@ public class ValidationUtils {
         return email.matches(EMAIL_PATTERN);
     }
 
-    // todo ask shubham for brand category dropdown
     public static void validateForm(ProductForm productForm) throws ApiException {
         if (productForm.getBarcode() == null) {
             throw new ApiException("Please Enter Barcode!");
