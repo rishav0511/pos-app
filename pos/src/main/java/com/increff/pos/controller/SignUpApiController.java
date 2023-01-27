@@ -28,7 +28,7 @@ public class SignUpApiController extends AbstractUiController {
 	@RequestMapping(path = "/site/signup", method = RequestMethod.GET)
 	public ModelAndView showPage() {
 		if(info.getEmail() != "") {
-			return new ModelAndView("redirect:/ui/home");
+			return mav("redirect:/ui/home");
 		}
 		info.setMessage("");
 		return mav("signup.html");
@@ -38,14 +38,15 @@ public class SignUpApiController extends AbstractUiController {
 	@RequestMapping(path = "/site/signup", method = RequestMethod.POST)
 	public ModelAndView initSite(UserForm form) throws ApiException{
 		if(info.getEmail() != "") {
-			return new ModelAndView("redirect:/ui/home");
+			return mav("redirect:/ui/home");
 		}
 		try {
 			adminApiDto.add(form);
 		} catch (ApiException ex) {
 			info.setMessage(ex.getMessage());
+			return mav("redirect:/site/signup");
 		}
 		info.setMessage("");
-		return mav("signup.html");
+		return mav("redirect:/site/login");
 	}
 }

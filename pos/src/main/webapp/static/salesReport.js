@@ -22,6 +22,11 @@ function filterSalesReport() {
 }
 
 function displaySalesReport(data) {
+    if(data.length==0) {
+        $('#sales-table').hide();
+    } else {
+        $('#sales-table').show();
+    }
     var $tbody = $('#sales-table').find('tbody');
     $tbody.empty();
     for(var i in data){
@@ -40,6 +45,7 @@ function displaySalesReport(data) {
 //INITIALIZATION CODE
 function init(){
    $('#filter-sales-report').click(filterSalesReport);
+   displaySalesReport([]);
 }
 
 let mybutton = document.getElementById("btn-back-to-top");

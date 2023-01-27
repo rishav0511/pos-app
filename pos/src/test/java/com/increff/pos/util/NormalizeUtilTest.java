@@ -24,7 +24,7 @@ public class NormalizeUtilTest {
         NormalizeUtil.normalizePojo(productPojo);
         assertEquals("am111",productPojo.getBarcode());
         assertEquals("half litre milk",productPojo.getProduct());
-        assertEquals((Double)69.98765,productPojo.getMrp());
+        assertEquals((Double)69.98,productPojo.getMrp());
     }
 
     @Test
