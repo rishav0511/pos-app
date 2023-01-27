@@ -10,6 +10,7 @@ function getRole() {
 }
 
 function addBrand(event){
+    event.preventDefault();
 	var $form = $("#brand-form");
 	var json = toJson($form);
 	var url = getBrandsUrl();
@@ -33,7 +34,7 @@ function addBrand(event){
 }
 
 function updateBrand(event){
-	$('#edit-brand-modal').modal('toggle');
+    event.preventDefault();
 	var id = $("#brand-edit-form input[name=id]").val();
 	var url = getBrandsUrl() + "/" + id;
 	var $form = $("#brand-edit-form");
@@ -47,6 +48,7 @@ function updateBrand(event){
        },	   
 	   success: function(response) {
 	   		getBrandList();
+	   		$('#edit-brand-modal').modal('toggle');
 	   		$.notify("Brand and Category Updated", "success");
 	   },
 	   error: handleAjaxError
@@ -204,8 +206,8 @@ function displayBrand(data){
 
 function init(){
     $('#nav-brands').addClass('active');
-	$('#add-brand').click(addBrand);
-	$('#update-brand').click(updateBrand);
+	$('#add-brand').submit(addBrand);
+	$('#brand-edit-form').submit(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);

@@ -93,7 +93,7 @@ function displayOrderList(data){
 		var row = '<tr>'
 		+ '<td>&nbsp;</td>'
 		+ '<td>' + convertTimeStampToDateTime(e.createdAt) + '</td>'
-		+ '<td style="text-align: right;">'  + numberWithCommas(e.billAmount.toFixed(2)) + '</td>'
+		+ '<td style="text-align: right;">' + '₹' + numberWithCommas(e.billAmount.toFixed(2)) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
@@ -156,7 +156,7 @@ function displayEditOrderItems(orderItems) {
                        </td>
                        <td>
                          <button type="button" onclick="deleteEditOrderItem('${e.barcode}')" data-toggle="tooltip"
-                                                  data-placement="bottom" title="Delete">
+                            style='background-color: transparent;border: 0;' data-placement="bottom" title="Delete">
                                                   <i class="fa fa-trash-o fa-1x"></i>
                                               </button>
                        </td>
@@ -260,7 +260,7 @@ function displayCreateOrderItems(orderItems) {
                    </td>
                    <td>
                      <button type="button" onclick="deleteOrderItem('${e.barcode}')" data-toggle="tooltip"
-                                              data-placement="bottom" title="Delete">
+                        style='background-color: transparent;border: 0;' data-placement="bottom" title="Delete">
                                               <i class="fa fa-trash-o fa-1x"></i>
                                           </button>
                    </td>
@@ -393,3 +393,5 @@ function backToTop() {
 }
 $(document).ready(init);
 $(document).ready(getOrderList);
+
+

@@ -16,6 +16,7 @@ function getBrandCategoryUrl() {
 
 
 function addProduct(event){
+    event.preventDefault();
    var $form = $("#product-add-form");
 
    var brandCategory = $('#inputBrandCategory').val();
@@ -52,7 +53,7 @@ function addProduct(event){
 }
 
 function updateProduct(event){
-   $('#edit-product-modal').modal('toggle');
+    event.preventDefault();
    //Get the ID
    var id = $("#product-edit-form input[name=id]").val();
    var url = getProductUrl() + "/" + id;
@@ -75,6 +76,7 @@ function updateProduct(event){
        },
       success: function(response) {
              getProductList();
+             $('#edit-product-modal').modal('toggle');
              $.notify("Product Updated", "success");
       },
       error: handleAjaxError
@@ -225,7 +227,7 @@ function displayProductList(data){
       + '<td>' + e.product + '</td>'
       + '<td>' + e.bname + '</td>'
       + '<td>'  + e.bcategory + '</td>'
-      + '<td style="text-align: right;">' + numberWithCommas(e.mrp.toFixed(2)) + '</td>'
+      + '<td style="text-align: right;">' + '₹' +  numberWithCommas(e.mrp.toFixed(2)) + '</td>'
       +  buttonHtml
       + '</tr>';
         $tbody.append(row);
@@ -294,8 +296,8 @@ function addProductModal() {
 function init(){
    $('#nav-products').addClass('active');
    $('#add-product-button').click(addProductModal);
-   $('#add-product').click(addProduct);
-   $('#update-product').click(updateProduct);
+   $('#add-product').submit(addProduct);
+   $('#edit-product-modal').submit(updateProduct);
    $('#refresh-data').click(getProductList);
    $('#upload-data').click(displayUploadData);
    $('#process-data').click(processData);

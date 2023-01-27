@@ -10,10 +10,15 @@ function getRole() {
 }
 
 function updateInventory(event){
-	$('#edit-inventory-modal').modal('toggle');
+    event.preventDefault();
 	var barcode = $("#inventory-edit-form input[name=barcode]").val();
 	var url = getInventoryUrl();
 	var $form = $("#inventory-edit-form");
+	var quantity =  $("#inventory-edit-form input[name=quantity]").val();
+	if(quantity<=0) {
+	    $.notify("Quantity can't be negative", "error");
+	    return;
+	}
 	var json = toJson($form);
 	$.ajax({
 	   url: url,
@@ -24,6 +29,7 @@ function updateInventory(event){
        },
 	   success: function(response) {
 	   		getInventoryList();
+	   		$('#edit-inventory-modal').modal('toggle');
 	   		$.notify("Inventory Updated", "success");
 	   },
 	   error: handleAjaxError
@@ -180,7 +186,7 @@ function displayInventory(data){
 //INITIALIZATION CODE
 function init(){
     $('#nav-inventory').addClass('active');
-	$('#update-inventory').click(updateInventory);
+	$('#inventory-edit-form').submit(updateInventory);
 	$('#refresh-data').click(getInventoryList);
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
