@@ -16,14 +16,26 @@ public class ValidationUtils {
     }
 
     public static void validateForm(ProductForm productForm) throws ApiException {
-        if (productForm.getBarcode() == null || productForm.getProduct() == null || productForm.getMrp()==null || productForm.getMrp() <= 0) {
-            throw new ApiException("Please Enter Barcode, Name and a positive mrp!");
+        if (productForm.getBarcode() == null) {
+            throw new ApiException("Please Enter Barcode!");
+        } else if (productForm.getProduct() == null) {
+            throw new ApiException("Please Enter Product Name!");
+        } else if(productForm.getMrp()==null) {
+            throw new ApiException("Please Enter mrp!");
+        } else if(productForm.getMrp() <= 0) {
+            throw new ApiException("Please Enter a positive mrp!");
+        } else if(productForm.getBName()==null) {
+            throw new ApiException("Please Enter a Brand Name!");
+        } else if(productForm.getBCategory()==null) {
+            throw new ApiException("Please Enter a Brand Category!");
         }
     }
 
     public static void validateForm(BrandCategoryForm brandCategoryForm) throws ApiException {
-        if(StringUtil.isEmpty(brandCategoryForm.getCategory()) || StringUtil.isEmpty(brandCategoryForm.getBrand()) ){
-            throw new ApiException("No brand and category provided");
+        if(StringUtil.isEmpty(brandCategoryForm.getBrand())){
+            throw new ApiException("No Brand provided");
+        } else if( StringUtil.isEmpty(brandCategoryForm.getCategory())) {
+            throw new ApiException("No Category provided");
         }
     }
 
@@ -44,17 +56,6 @@ public class ValidationUtils {
                 throw new ApiException("Selling Price cannot be less than 0");
             }
         }
-    }
-
-    public static void validateForm(SalesReportForm salesReportForm) {
-        if(salesReportForm.getEndDate()==null) {
-            salesReportForm.setEndDate(new Date());
-        }
-        if(salesReportForm.getStartDate()==null) {
-            salesReportForm.setStartDate(new GregorianCalendar(2021, Calendar.JANUARY, 1).getTime());
-        }
-        salesReportForm.setStartDate(TimeUtil.getStartOfDay(salesReportForm.getStartDate()));
-        salesReportForm.setEndDate(TimeUtil.getEndOfDay(salesReportForm.getEndDate()));
     }
 
     public static void validateForm (UserForm userForm) throws ApiException {

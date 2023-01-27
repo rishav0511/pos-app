@@ -27,7 +27,7 @@ function displaySalesReport(data) {
         + '<td>' + convertTimeStampToDateTime(b.date) + '</td>'
         + '<td>' + b.orderCount + '</td>'
         + '<td>' + b.itemCount + '</td>'
-        + '<td>' + b.totalRevenue + '</td>'
+        + '<td style="text-align: right;">' + numberWithCommas(b.totalRevenue.toFixed(2)) + '</td>'
         + '</tr>';
         $tbody.append(row);
     }
@@ -55,10 +55,10 @@ function convertTimeStampToDateTime(timestamp) {
     );
   }
 
-  //Get the button
+
   let mybutton = document.getElementById("btn-back-to-top");
 
-  // When the user scrolls down 20px from the top of the document, show the button
+
   window.onscroll = function () {
     scrollFunction();
   };
@@ -73,7 +73,7 @@ function convertTimeStampToDateTime(timestamp) {
       mybutton.style.display = "none";
     }
   }
-  // When the user clicks on the button, scroll to the top of the document
+
   mybutton.addEventListener("click", backToTop);
 
   function backToTop() {

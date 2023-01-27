@@ -9,12 +9,9 @@ function getRole() {
 	return role;
 }
 
-//BUTTON ACTIONS
 function addBrand(event){
-	//Set the values to update
 	var $form = $("#brand-form");
 	var json = toJson($form);
-//	console.log(json);
 	var url = getBrandsUrl();
 	$.ajax({
 	   url: url,
@@ -37,13 +34,10 @@ function addBrand(event){
 
 function updateBrand(event){
 	$('#edit-brand-modal').modal('toggle');
-	//Get the ID
 	var id = $("#brand-edit-form input[name=id]").val();
 	var url = getBrandsUrl() + "/" + id;
-	//Set the values to update
 	var $form = $("#brand-edit-form");
 	var json = toJson($form);
-//	console.log(json);
 	$.ajax({
 	   url: url,
 	   type: 'PUT',
@@ -102,7 +96,7 @@ function uploadRows(){
 	    getBrandList();
 		return;
 	}
-	
+
 	//Process next row
 	var row = fileData[processCount];
 	processCount++;
@@ -134,18 +128,16 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-//UI DISPLAY METHODS
 
 function displayBrandList(data){
 	var $tbody = $('#brand-table').find('tbody');
 	$tbody.empty();
-	console.log(data)
 	for(var i in data){
 		var e = data[i];
 		var buttonHtml = '';
 		if(getRole() === "supervisor") {
 		    buttonHtml = '<td>' + `<button type="button" onclick="displayEditBrand('${e.id}')" data-toggle="tooltip"
-                                        data-placement="bottom" title="Edit">
+                                        data-placement="bottom" style='background-color: transparent;border: 0;' title="Edit" >
                                   <i class="fa fa-pencil-square-o fa-1x"></i>
                                 </button>` + '</td>';
         }
@@ -209,7 +201,7 @@ function displayBrand(data){
 }
 
 
-//INITIALIZATION CODE
+
 function init(){
     $('#nav-brands').addClass('active');
 	$('#add-brand').click(addBrand);
@@ -221,10 +213,10 @@ function init(){
     $('#employeeFile').on('change', updateFileName)
 }
 
-//Get the button
+
 let mybutton = document.getElementById("btn-back-to-top");
 
-// When the user scrolls down 20px from the top of the document, show the button
+
 window.onscroll = function () {
   scrollFunction();
 };
@@ -239,7 +231,7 @@ function scrollFunction() {
     mybutton.style.display = "none";
   }
 }
-// When the user clicks on the button, scroll to the top of the document
+
 mybutton.addEventListener("click", backToTop);
 
 function backToTop() {

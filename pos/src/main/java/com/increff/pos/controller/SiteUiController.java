@@ -15,15 +15,16 @@ public class SiteUiController extends AbstractUiController {
 	// WEBSITE PAGES
 	@RequestMapping(value = "")
 	public ModelAndView index() {
-		if(infoData.getEmail() != "") {
+		if(!infoData.getEmail().isEmpty()) {
 			return new ModelAndView("redirect:/ui/home");
 		}
+		infoData.setMessage("");
 		return mav("index.html");
 	}
 
 	@RequestMapping(value = "/site/login")
 	public ModelAndView login() {
-		if(infoData.getEmail() != "") {
+		if(!infoData.getEmail().isEmpty()) {
 			return new ModelAndView("redirect:/ui/home");
 		}
 		return mav("login.html");

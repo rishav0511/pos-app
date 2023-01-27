@@ -11,13 +11,11 @@ public class SalesReportData {
     private Integer quantity;
     private String category;
     private String brand;
-    private Integer brandCategoryId;
 
-    public SalesReportData(BrandCategoryPojo brandCategory, int i, double d) {
-        this.brand = brandCategory.getBrand();
-        this.category = brandCategory.getCategory();
-        this.brandCategoryId = brandCategory.getId();
-        this.quantity = i;
-        this.revenue = d;
+    public SalesReportData(String brand, String category, Integer quantity, Double revenue) {
+        this.brand = brand;
+        this.category = category;
+        this.quantity = quantity;
+        this.revenue = revenue;
     }
 }

@@ -6,7 +6,7 @@ import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 import com.increff.pos.service.*;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,14 +39,14 @@ public class ReportDtoTest extends AbstractUnitTest {
     @Before
     public void init() throws ApiException {
         BrandCategoryPojo pojo = TestUtils.getBrandCategoryPojo("amul","dairy");
-        brandCategoryService.insert(pojo);
+        brandCategoryService.addBrandCategory(pojo);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstProductPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstProductPojo);
+        productService.insertProduct(firstProductPojo);
         ProductPojo secondProductPojo = TestUtils.getProductpojo("am112",
                 "one litre pasteurized milk",100.00,brandCategoryPojo.getId());
-        productService.insert(secondProductPojo);
+        productService.insertProduct(secondProductPojo);
         InventoryPojo firstInventoryPojo = TestUtils.getInventoryPojo(firstProductPojo.getId(),0);
         inventoryService.insert(firstInventoryPojo);
         InventoryPojo secondInventoryPojo = TestUtils.getInventoryPojo(secondProductPojo.getId(),0);
@@ -66,7 +66,7 @@ public class ReportDtoTest extends AbstractUnitTest {
      * Fetching inventory report test
      */
     @Test
-    public void getInventoryReportTest() {
+    public void getInventoryReportTest() throws ApiException {
         List<InventoryReportData> list = reportDto.getInventoryReport();
         assertEquals(1,list.size());
     }

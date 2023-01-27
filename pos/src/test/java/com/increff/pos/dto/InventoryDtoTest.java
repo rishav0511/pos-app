@@ -9,7 +9,7 @@ import com.increff.pos.service.BrandCategoryService;
 import com.increff.pos.service.InventoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -39,14 +39,14 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Before
     public void init() throws ApiException {
         BrandCategoryPojo pojo = TestUtils.getBrandCategoryPojo("amul","dairy");
-        brandCategoryService.insert(pojo);
+        brandCategoryService.addBrandCategory(pojo);
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstProductPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstProductPojo);
+        productService.insertProduct(firstProductPojo);
         ProductPojo secondProductPojo = TestUtils.getProductpojo("am112",
                 "one litre pasteurized milk",100.00,brandCategoryPojo.getId());
-        productService.insert(secondProductPojo);
+        productService.insertProduct(secondProductPojo);
         InventoryPojo firstInventoryPojo = TestUtils.getInventoryPojo(firstProductPojo.getId(),0);
         inventoryService.insert(firstInventoryPojo);
         InventoryPojo secondInventoryPojo = TestUtils.getInventoryPojo(secondProductPojo.getId(),0);
@@ -59,7 +59,7 @@ public class InventoryDtoTest extends AbstractUnitTest {
      */
     @Test
     public void getDefaultInventoryTest() throws ApiException {
-        InventoryData inventoryData = inventoryDto.get("am111");
+        InventoryData inventoryData = inventoryDto.getInventory("am111");
         assertEquals((Integer) 0,inventoryData.getQuantity());
     }
 
@@ -81,9 +81,9 @@ public class InventoryDtoTest extends AbstractUnitTest {
     @Test
     public void updateInventoryTest() throws ApiException {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("am111",50);
-        InventoryData inventoryData = inventoryDto.update(inventoryForm);
+        InventoryData inventoryData = inventoryDto.updateInventory(inventoryForm);
         ProductPojo productPojo = productService.getByBarcode("am111");
-        InventoryPojo pojo = inventoryService.get(productPojo.getId());
+        InventoryPojo pojo = inventoryService.getInventory(productPojo.getId());
         assertEquals( productPojo.getBarcode(),inventoryData.getBarcode());
         assertEquals( pojo.getQuantity(),inventoryData.getQuantity());
         assertEquals(productPojo.getProduct(),inventoryData.getPName());
@@ -98,6 +98,6 @@ public class InventoryDtoTest extends AbstractUnitTest {
         InventoryForm inventoryForm = TestUtils.getInventoryForm("xy111",50);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Barcode doesn't exist:xy111");
-        inventoryDto.update(inventoryForm);
+        inventoryDto.updateInventory(inventoryForm);
     }
 }

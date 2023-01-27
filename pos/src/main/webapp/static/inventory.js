@@ -11,10 +11,8 @@ function getRole() {
 
 function updateInventory(event){
 	$('#edit-inventory-modal').modal('toggle');
-	//Get the ID
 	var barcode = $("#inventory-edit-form input[name=barcode]").val();
 	var url = getInventoryUrl();
-	//Set the values to update
 	var $form = $("#inventory-edit-form");
 	var json = toJson($form);
 	$.ajax({
@@ -42,7 +40,6 @@ function getInventoryList(){
 	   type: 'GET',
 	   success: function(data) {
 	   		displayInventoryList(data);
-	   		console.log(data);
 	   },
 	   error: handleAjaxError
 	});
@@ -108,7 +105,6 @@ function downloadErrors(){
 	writeFileData(errorData);
 }
 
-//UI DISPLAY METHODS
 
 function displayInventoryList(data){
 	var $tbody = $('#inventory-table').find('tbody');
@@ -118,7 +114,7 @@ function displayInventoryList(data){
 		var buttonHtml = '';
 		if(getRole() === "supervisor") {
 		 buttonHtml = '<td>' + `<button type="button" onclick="displayEditInventory('${e.barcode}')" data-toggle="tooltip"
-                                                      data-placement="bottom" title="Edit">
+                                                      data-placement="bottom" style='background-color: transparent;border: 0;' title="Edit">
                                                 <i class="fa fa-pencil-square-o fa-1x"></i>
                                               </button>` + '</td>';
         }
@@ -191,10 +187,9 @@ function init(){
 	$('#download-errors').click(downloadErrors);
     $('#employeeFile').on('change', updateFileName)
 }
-//Get the button
+
 let mybutton = document.getElementById("btn-back-to-top");
 
-// When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () {
   scrollFunction();
 };
@@ -209,7 +204,6 @@ function scrollFunction() {
     mybutton.style.display = "none";
   }
 }
-// When the user clicks on the button, scroll to the top of the document
 mybutton.addEventListener("click", backToTop);
 
 function backToTop() {

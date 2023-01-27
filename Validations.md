@@ -22,6 +22,7 @@ ProductDtoTest:
 9. Add product with invalid barcode
 10. Add product with invalid name and mrp
 11. Add product with Duplicate Barcode
+12. Add product with Selling price more than mrp
 
 InventoryDtoTest:
 1. Add Product to inventory and setting it quantity to zero(0) by default

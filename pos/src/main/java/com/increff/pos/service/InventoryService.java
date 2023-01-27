@@ -1,7 +1,9 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.InventoryDao;
+import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.InventoryPojo;
+import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,16 @@ public class InventoryService {
         inventoryDao.insert(inventoryPojo);
     }
 
-    public InventoryPojo get(Integer productId) {
-        return inventoryDao.select(InventoryPojo.class, productId);
+    public InventoryPojo getInventory(Integer productId) throws ApiException {
+        return inventoryExists(productId);
+    }
+
+    public InventoryPojo inventoryExists(Integer productId) throws ApiException {
+        InventoryPojo inventoryPojo = inventoryDao.select(productId);
+        if (inventoryPojo == null) {
+            throw new ApiException("Inventory doesn't exist");
+        }
+        return inventoryPojo;
     }
 
     public List<InventoryPojo> getAll() {
@@ -26,7 +36,7 @@ public class InventoryService {
     }
 
     @Transactional
-    public InventoryPojo update(InventoryPojo inventoryPojo) {
+    public InventoryPojo updateInventory(InventoryPojo inventoryPojo) {
         InventoryPojo existing = inventoryDao.select(inventoryPojo.getProductId());
         existing.setQuantity(inventoryPojo.getQuantity());
         return inventoryDao.update(inventoryPojo);
@@ -35,6 +45,7 @@ public class InventoryService {
     // Reduce inventory quantity
     @Transactional(rollbackOn = ApiException.class)
     public void reduce(String barcode, int id, int quantity) throws ApiException {
+        barcode = StringUtil.toLowerCase(barcode);
         InventoryPojo existing = inventoryDao.select(id);
         if (existing.getQuantity() < quantity) {
             throw new ApiException("Quantity not available for product, barcode:" + barcode);

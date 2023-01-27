@@ -32,26 +32,25 @@ public class OrderDto {
 
     @Transactional(rollbackFor = ApiException.class)
     public OrderData addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
-        try {
-            ValidationUtils.validateForm(orderItemForms);
-            NormalizeUtil.normalizeForm(orderItemForms);
-            OrderPojo orderPojo = orderService.createNewOrder();
-            List<OrderItemPojo> orderItemPojos = new ArrayList<>();
-            for (OrderItemForm orderItemForm : orderItemForms) {
-                ProductPojo product = productService.getByBarcode(orderItemForm.getBarcode());
-                OrderItemPojo orderItemPojo = ConvertUtil.
-                        convertFormToPojo(orderItemForm, orderPojo.getId(), product.getId());
-                orderItemPojos.add(orderItemPojo);
-                orderItemService.insert(orderItemPojo);
-                inventoryService.reduce(orderItemForm.getBarcode(), orderItemPojo.getProductId(), orderItemPojo.getQuantity());
-            }
-            String path = generateInvoice(orderPojo.getId());
-            orderPojo.setPath(path);
-            orderService.update(orderPojo.getId(), orderPojo);
-            return ConvertUtil.convertPojoToData(orderPojo,orderItemPojos);
-        } catch (Exception e) {
-            throw new ApiException(e.getMessage());
+        ValidationUtils.validateForm(orderItemForms);
+        OrderPojo orderPojo = orderService.createNewOrder();
+        List<OrderItemPojo> orderItemPojos = alterInventory(orderPojo.getId(),orderItemForms);
+        String path = generateInvoice(orderPojo.getId());
+        orderPojo.setPath(path);
+        return ConvertUtil.convertPojoToData(orderPojo,orderItemPojos);
+    }
+
+    public List<OrderItemPojo> alterInventory(int orderId,List<OrderItemForm> orderItemForms) throws ApiException {
+        List<OrderItemPojo> orderItemPojos = new ArrayList<>();
+        for (OrderItemForm orderItemForm : orderItemForms) {
+            ProductPojo productPojo = productService.checkSellingPrice(orderItemForm.getBarcode(),orderItemForm.getSellingPrice());
+            OrderItemPojo orderItemPojo = ConvertUtil.
+                    convertFormToPojo(orderItemForm, orderId, productPojo.getId());
+            orderItemPojos.add(orderItemPojo);
+            orderItemService.insert(orderItemPojo);
+            inventoryService.reduce(orderItemForm.getBarcode(), orderItemPojo.getProductId(), orderItemPojo.getQuantity());
         }
+        return orderItemPojos;
     }
 
     public List<OrderData> getAllOrders() {
@@ -68,8 +67,7 @@ public class OrderDto {
     public OrderData getOrderDetails(int id) throws ApiException {
         OrderPojo orderPojo = orderService.getById(id);
         List<OrderItemPojo> orderItemPojos = orderItemService.selectByOrderId(orderPojo.getId());
-        OrderData orderData = ConvertUtil.convertPojoToData(orderPojo, orderItemPojos);
-        return orderData;
+        return ConvertUtil.convertPojoToData(orderPojo, orderItemPojos);
     }
 
     public InvoiceData getInvoiceDataByOrderId(int orderId) throws ApiException {
@@ -78,7 +76,7 @@ public class OrderDto {
         OrderData orderData = ConvertUtil.convertPojoToData(orderPojo, orderItemPojos);
         List<OrderItemData> orderItemDatas = new ArrayList<OrderItemData>();
         for (OrderItemPojo orderItemPojo : orderItemPojos) {
-            ProductPojo product = productService.get(orderItemPojo.getProductId());
+            ProductPojo product = productService.getProduct(orderItemPojo.getProductId());
             orderItemDatas
                     .add(ConvertUtil.convertPojoToData(orderItemPojo, product));
         }
@@ -88,25 +86,13 @@ public class OrderDto {
 
     @Transactional(rollbackFor = ApiException.class)
     public OrderData updateOrder(int orderId, List<OrderItemForm> orderItems) throws ApiException {
-        try {
-            ValidationUtils.validateForm(orderItems);
-            NormalizeUtil.normalizeForm(orderItems);
-            revertInventory(orderId);
-            List<OrderItemPojo> newOrderItems = new ArrayList<OrderItemPojo>();
-            for (OrderItemForm orderItem : orderItems) {
-                ProductPojo product = productService.getByBarcode(orderItem.getBarcode());
-                OrderItemPojo orderItemPojo = ConvertUtil.convertFormToPojo(orderItem, orderId, product.getId());
-                newOrderItems.add(orderItemPojo);
-                inventoryService.reduce(orderItem.getBarcode(), orderItemPojo.getProductId(), orderItemPojo.getQuantity());
-            }
-            orderItemService.deleteByOrderId(orderId);
-            orderItemService.insertMultiple(newOrderItems);
-            generateInvoice(orderId);
-            OrderPojo orderPojo = orderService.getById(orderId);
-            return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);
-        } catch (Exception e) {
-            throw new ApiException(e.getMessage());
-        }
+        ValidationUtils.validateForm(orderItems);
+        revertInventory(orderId);
+        orderItemService.deleteByOrderId(orderId);
+        List<OrderItemPojo> newOrderItems = alterInventory(orderId,orderItems);
+        generateInvoice(orderId);
+        OrderPojo orderPojo = orderService.getById(orderId);
+        return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);
     }
 
     public String generateInvoice(Integer orderId) throws ApiException {

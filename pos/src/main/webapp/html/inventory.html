@@ -13,10 +13,6 @@
     <div class="row">
         <h3 class="column">Inventory</h3>
         <div class="col d-flex justify-content-end" float="left">
-            <button type="button" class="btn btn-secondary" id="refresh-data" data-toggle="tooltip"
-                    data-placement="bottom" title="Refresh">
-                <i class="fa fa-refresh fa-2x"></i>
-            </button>
             &nbsp;
             <button type="button" class="btn btn-info" id="upload-data"  data-toggle="tooltip"
                     data-placement="bottom" title="Upload">
@@ -37,7 +33,7 @@
         <!-- Table -->
         <div class="col-12">
             <table class="table table-striped" id="inventory-table">
-                <thead>
+                <thead class="sticky-top" style="top: 78px; z-index: 2;">
                 <tr>
                     <th scope="col">Barcode</th>
                     <th scope="col">Product Name</th>

@@ -1,13 +1,9 @@
-
 function getOrdersUrl(){
 	var baseUrl = $("meta[name=baseUrl]").attr("content")
 	return baseUrl + "/api/orders";
 }
 
-//BUTTON ACTIONS
 function addOrder(event){
-	//Set the values to update
-//	var $form = $("#order-form");
 	const data = orderItems.map((it) => {
         return {
           barcode: it.barcode,
@@ -15,9 +11,7 @@ function addOrder(event){
           sellingPrice: it.sellingPrice,
         };
       });
-//	var json = toJson($form);
     const json = JSON.stringify(data);
-//	console.log(json);
 
 	var url = getOrdersUrl();
 	$.ajax({
@@ -46,12 +40,9 @@ function updateOrder(event){
               sellingPrice: it.sellingPrice,
             };
           });
-    //	var json = toJson($form);
     const json = JSON.stringify(data);
-//    console.log(json);
     var id = $("#edit-order-modal input[name=id]").val();
     var url = getOrdersUrl() + "/" + id;
-//    console.log(url);
     $.ajax({
        url: url,
        type: 'PUT',
@@ -82,109 +73,40 @@ function getOrderList(){
 }
 
 
-// FILE UPLOAD METHODS
-var fileData = [];
-var errorData = [];
-var processCount = 0;
-
-
-function processData(){
-	var file = $('#employeeFile')[0].files[0];
-	readFileData(file, readFileDataCallback);
-}
-
-function readFileDataCallback(results){
-	fileData = results.data;
-	uploadRows();
-}
-
-function uploadRows(){
-	//Update progress
-	updateUploadDialog();
-	//If everything processed then return
-	if(processCount==fileData.length){
-		return;
-	}
-
-	//Process next row
-	var row = fileData[processCount];
-	processCount++;
-
-	var json = JSON.stringify(row);
-	var url = getBrandsUrl();
-
-	//Make ajax call
-	$.ajax({
-	   url: url,
-	   type: 'POST',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	   		uploadRows();
-	   },
-	   error: function(response){
-	   		row.error=response.responseText
-	   		errorData.push(row);
-	   		uploadRows();
-	   }
-	});
-
-}
-
-function downloadErrors(){
-	writeFileData(errorData);
-}
-
-//UI DISPLAY METHODS
-
 function displayOrderList(data){
 	var $tbody = $('#order-table').find('tbody');
 	$tbody.empty();
 	for(var i in data){
 		var e = data[i];
-//		console.log(e);
-//		var buttonHtml = ' <button onclick="displayEditOrder(' + e.orderId +')">edit</button>'
-//        		        + ' <button onclick="displayOrderDetails(' + e.orderId +')">details</button>'
-//        		        + ' <button onclick="downloadInvoice(' + e.orderId +')">Invoice</button>'
 		var buttonHtml = `<button type="button" onclick="displayEditOrder('${e.orderId}')" data-toggle="tooltip"
-                                                                  data-placement="bottom" title="Edit">
+                        style='background-color: transparent;border: 0;' data-placement="bottom" title="Edit">
                                                                   <i class="fa fa-pencil-square-o fa-1x"></i>
                                                               </button>` +
                          `<button type="button" class="mx-2" onclick="displayOrderDetails('${e.orderId}')" data-toggle="tooltip"
-                                                                  data-placement="bottom" title="Order Details">
+                         style='background-color: transparent;border: 0;' data-placement="bottom" title="Order Details">
                                                                   <i class="fa fa-info-circle fa-1x"></i>
                                                               </button>` +
-                         `<button class = "downloadInvoiceBtn" type="button" disabled onclick="downloadInvoice('${e.orderId}')" data-toggle="tooltip"
-                                                                 data-placement="bottom" title="Download Invoice">
+                         `<button class = "downloadInvoiceBtn" type="button" onclick="downloadInvoice('${e.orderId}')" data-toggle="tooltip"
+                         style='background-color: transparent;border: 0;' data-placement="bottom" title="Download Invoice">
                                                                  <i class="fa fa-file-pdf-o fa-1x"></i>
                                                               </button>`;
 		var row = '<tr>'
 		+ '<td>&nbsp;</td>'
 		+ '<td>' + convertTimeStampToDateTime(e.createdAt) + '</td>'
-		+ '<td>'  + e.billAmount + '</td>'
+		+ '<td style="text-align: right;">'  + numberWithCommas(e.billAmount.toFixed(2)) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'
 		+ '</tr>';
         $tbody.append(row);
 	}
-	setTimeout(() => {
-        const box = document.getElementsByClassName('downloadInvoiceBtn');
-        for(let i=0;i<box.length;++i){
-              box[i].disabled = false
-        }
-      }, 0);
 }
 
 function downloadInvoice(id) {
     var req = new XMLHttpRequest();
-//    req.open("GET", `/pos/download/invoice/${id}`, true);
     req.open("GET", `/pos/api/orders/download/${id}`, true);
     req.responseType = "blob";
 
     req.onload = function (event) {
       var blob = req.response;
-      console.log(blob.size);
       var link=document.createElement('a');
       link.href=window.URL.createObjectURL(blob);
       link.download=`invoice${id}.pdf`;
@@ -201,7 +123,6 @@ function displayEditOrder(id) {
        url: url,
        type: 'GET',
        success: function(data) {
-//            console.log(data);
             orderItems = data.orderItemDataList;
             $('#edit-order-modal').modal('toggle');
             $("#edit-order-modal input[name=id]").val(data.orderData.orderId);
@@ -219,30 +140,11 @@ function displayEditOrderItems(orderItems) {
     $tbody.empty();
     for(var i in orderItems) {
                var e = orderItems[i];
-    //           var buttonHtml = `<button onclick="deleteOrderItem('${e.barcode}')">Delete</button>`
-    //           var buttonHtml = `<button type="button" onclick="deleteOrderItem('${e.barcode}')" data-toggle="tooltip"
-    //                                                                     data-placement="bottom" title="Delete">
-    //                                                                     <i class="fa fa-trash-o fa-1x"></i>
-    //                                                                 </button>`
-    //           var row = '<tr>'
-    //           + '<td>&nbsp;</td>'
-    //           + '<td>' + e.barcode + '</td>'
-    //           + '<td>'  + e.sellingPrice + '</td>'
-    //           + '<td>'  + <input
-    //                       id="order-item-${item.barcode}"
-    //                       type="number"
-    //                       class="form-controll
-    //                       quantityData"
-    //                       value="${item.quantity}"
-    //                       onchange="onQuantityChanged('${item.barcode}')"
-    //                       style="width:70%" min="1"> + '</td>'
-    //           + '<td>' + buttonHtml + '</td>'
-    //           + '</tr>';
                const row = `
                      <tr>
                        <td>&nbsp;</td>
                        <td class="barcodeData">${e.barcode}</td>
-                       <td>${e.sellingPrice}</td>
+                       <td class="text-right">${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
                        <td>
                          <input
                            id="order-item-${e.barcode}"
@@ -272,7 +174,6 @@ function displayOrderDetails(id) {
        url: url,
        type: 'GET',
        success: function(data) {
-//            console.log(data);
             displayDetailsModal(data);
        },
        error: handleAjaxError
@@ -294,44 +195,14 @@ function displayDetailsModal(data) {
        + '<td>&nbsp;</td>'
        + '<td>' + e.barcode + '</td>'
        + '<td>' + e.product + '</td>'
-       + '<td>'  + e.sellingPrice + '</td>'
+       + '<td class="text-right">' + numberWithCommas(e.sellingPrice.toFixed(2)) + '</td>'
        + '<td>'  + e.quantity + '</td>'
-       + '<td>' + e.sellingPrice * e.quantity + '</td>'
+       + '<td class="text-right">' + numberWithCommas((e.sellingPrice * e.quantity).toFixed(2)) + '</td>'
        + '</tr>';
        total=total+(e.sellingPrice * e.quantity);
        $tbody.append(row);
     }
     $('#grand-total').text(total.toFixed(2))
-}
-
-function resetUploadDialog(){
-	//Reset file name
-	var $file = $('#employeeFile');
-	$file.val('');
-	$('#employeeFileName').html("Choose File");
-	//Reset various counts
-	processCount = 0;
-	fileData = [];
-	errorData = [];
-	//Update counts
-	updateUploadDialog();
-}
-
-function updateUploadDialog(){
-	$('#rowCount').html("" + fileData.length);
-	$('#processCount').html("" + processCount);
-	$('#errorCount').html("" + errorData.length);
-}
-
-function updateFileName(){
-	var $file = $('#employeeFile');
-	var fileName = $file.val();
-	$('#employeeFileName').html(fileName);
-}
-
-function displayUploadData(){
- 	resetUploadDialog();
-	$('#upload-employee-modal').modal('toggle');
 }
 
 function displayOrder(data){
@@ -373,30 +244,11 @@ function displayCreateOrderItems(orderItems) {
      $tbody.empty();
      for(var i in orderItems) {
            var e = orderItems[i];
-//           var buttonHtml = `<button onclick="deleteOrderItem('${e.barcode}')">Delete</button>`
-//           var buttonHtml = `<button type="button" onclick="deleteOrderItem('${e.barcode}')" data-toggle="tooltip"
-//                                                                     data-placement="bottom" title="Delete">
-//                                                                     <i class="fa fa-trash-o fa-1x"></i>
-//                                                                 </button>`
-//           var row = '<tr>'
-//           + '<td>&nbsp;</td>'
-//           + '<td>' + e.barcode + '</td>'
-//           + '<td>'  + e.sellingPrice + '</td>'
-//           + '<td>'  + <input
-//                       id="order-item-${item.barcode}"
-//                       type="number"
-//                       class="form-controll
-//                       quantityData"
-//                       value="${item.quantity}"
-//                       onchange="onQuantityChanged('${item.barcode}')"
-//                       style="width:70%" min="1"> + '</td>'
-//           + '<td>' + buttonHtml + '</td>'
-//           + '</tr>';
            const row = `
                  <tr>
                    <td>&nbsp;</td>
                    <td class="barcodeData">${e.barcode}</td>
-                   <td>${e.sellingPrice}</td>
+                   <td class="text-right">${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
                    <td>
                      <input
                        id="order-item-${e.barcode}"
@@ -514,16 +366,10 @@ function init(){
 	$('#add-item-form').submit(addOrderItem);
 	$('#add-edit-item-form').submit(addEditOrderItem);
 	$('#refresh-data').click(getOrderList);
-	$('#upload-data').click(displayUploadData);
-	$('#process-data').click(processData);
-	$('#download-errors').click(downloadErrors);
-    $('#employeeFile').on('change', updateFileName)
 }
 
-//Get the button
 let mybutton = document.getElementById("btn-back-to-top");
 
-// When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () {
   scrollFunction();
 };
@@ -538,7 +384,7 @@ function scrollFunction() {
     mybutton.style.display = "none";
   }
 }
-// When the user clicks on the button, scroll to the top of the document
+
 mybutton.addEventListener("click", backToTop);
 
 function backToTop() {

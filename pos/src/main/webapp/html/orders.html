@@ -18,11 +18,6 @@
               data-placement="bottom" title="Add">
         <i class="fa fa-plus-circle fa-2x"></i>
       </button>
-      &nbsp;
-      <button type="button" class="btn btn-secondary" id="refresh-data" data-toggle="tooltip"
-              data-placement="bottom" title="Refresh">
-        <i class="fa fa-refresh fa-2x"></i>
-      </button>
     </div>
   </div>
 
@@ -60,7 +55,7 @@
             <div class="form-group">
               <label for="inputQuantity" class="col-sm-2 col-form-label">Selling Price</label>
               <div class="col-sm-1">
-                <input required type="number" class="form-control" name="sellingPrice" id="inputSellingPrice" min="1" placeholder="Enter Quantity">
+                <input required type="number" class="form-control" name="sellingPrice" id="inputSellingPrice" min="1" placeholder="Enter Quantity" step="0.01">
               </div>
             </div>
             <div class="text-center form-inline">
@@ -132,7 +127,7 @@
             <div class="form-group">
               <label for="inputQuantity" class="col-sm-2 col-form-label">Selling Price</label>
               <div class="col-sm-1">
-                <input type="number" required class="form-control" name="sellingPrice" id="inputEditSellingPrice" min="1" placeholder="Enter Quantity">
+                <input type="number" required class="form-control" name="sellingPrice" id="inputEditSellingPrice" min="1" placeholder="Enter Quantity" step="0.01">
               </div>
             </div>
             <div class="text-center form-inline">
@@ -222,11 +217,11 @@
     <!-- Table -->
     <div class="col-12">
       <table class="table table-striped css-serial" id="order-table">
-        <thead>
+        <thead class="sticky-top" style="top: 78px; z-index: 2;">
         <tr>
           <th scope="col">Order Id</th>
           <th scope="col">Created At</th>
-          <th scope="col">Bill Amount</th>
+          <th scope="col" style="text-align: right;">Bill Amount</th>
           <th scope="col">Actions</th>
         </tr>
         </thead>

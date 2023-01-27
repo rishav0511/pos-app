@@ -35,11 +35,6 @@
 						<i class="fa fa-plus-circle fa-2x"></i>
 					</button>
 			  &nbsp;
-			  <button type="button" class="btn btn-secondary" id="refresh-data" data-toggle="tooltip"
-					  data-placement="bottom" title="Refresh">
-				  <i class="fa fa-refresh fa-2x"></i>
-			  </button>
-			  &nbsp;
 			  <button type="button" class="btn btn-info" id="upload-data" data-toggle="tooltip"
 					  data-placement="bottom" title="Upload">
 				  <i class="fa fa-upload fa-2x"></i>
@@ -59,7 +54,7 @@
  <!-- Table -->
  <div class="col-12">
 	<table class="table table-striped css-serial" id="brand-table">
-	  <thead>
+	  <thead class="sticky-top" style="top: 78px; z-index: 2;">
 	    <tr>
 	      <th scope="col">S.No</th>
 	      <th scope="col">Name</th>
@@ -104,7 +99,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="update-brand">Update</button>
+        <button type="button" class="btn btn-primary" id="update-brand">Edit</button>
       </div>
     </div>
   </div>

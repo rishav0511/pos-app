@@ -1,6 +1,5 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.BrandCategoryForm;
 import com.increff.pos.model.ProductData;
 import com.increff.pos.model.ProductForm;
 import com.increff.pos.pojo.BrandCategoryPojo;
@@ -9,7 +8,7 @@ import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandCategoryService;
 import com.increff.pos.service.ProductService;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,9 +37,9 @@ public class ProductDtoTest extends AbstractUnitTest {
     @Before
     public void addBrands() throws ApiException {
         BrandCategoryPojo firstPojo = TestUtils.getBrandCategoryPojo("amul","dairy");
-        brandCategoryService.insert(firstPojo);
+        brandCategoryService.addBrandCategory(firstPojo);
         BrandCategoryPojo secondPojo = TestUtils.getBrandCategoryPojo("nike","footwear");
-        brandCategoryService.insert(secondPojo);
+        brandCategoryService.addBrandCategory(secondPojo);
     }
 
     /**
@@ -71,7 +70,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm productForm = TestUtils.getProductForm(" haLF litre PasteurizED MIlk ","AM111",
                 50.75,"Puma", "footwear");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Brand-Category doesn't exist");
+        exceptionRule.expectMessage("Brand puma and Category footwear doesn't exists.");
         ProductData productData = productDto.addProduct(productForm);
     }
 
@@ -84,12 +83,12 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
+        productService.insertProduct(firstPojo);
         ProductPojo secondPojo = TestUtils.getProductpojo("am112",
                 "one litre pasteurized milk",100.00,brandCategoryPojo.getId());
-        productService.insert(secondPojo);
-        List<ProductData> productDataList = productDto.getAll();
-        List<ProductPojo> productPojos = productService.getAll();
+        productService.insertProduct(secondPojo);
+        List<ProductData> productDataList = productDto.getAllProducts();
+        List<ProductPojo> productPojos = productService.getAllProducts();
         assertEquals(productPojos.size(),productDataList.size());
     }
 
@@ -102,7 +101,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
+        productService.insertProduct(firstPojo);
         ProductData fetchedProductData = productDto.getByBarcode("am111");
         ProductPojo pojo = productService.getByBarcode("am111");
         assertEquals(pojo.getId(),fetchedProductData.getId());
@@ -122,9 +121,9 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
+        productService.insertProduct(firstPojo);
         ProductPojo pojo = productService.getByBarcode("am111");
-        ProductData fetchedProductData = productDto.get(pojo.getId());
+        ProductData fetchedProductData = productDto.getProduct(pojo.getId());
         assertEquals(pojo.getId(),fetchedProductData.getId());
         assertEquals(pojo.getProduct(),fetchedProductData.getProduct());
         assertEquals(pojo.getBarcode(),fetchedProductData.getBarcode());
@@ -142,10 +141,10 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
+        productService.insertProduct(firstPojo);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Product with given Id doesn't exist, id:20");
-        ProductData fetchedProductData = productDto.get(20);
+        ProductData fetchedProductData = productDto.getProduct(20);
     }
 
     /**
@@ -157,7 +156,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
+        productService.insertProduct(firstPojo);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Barcode doesn't exist:xy111");
         ProductData productData = productDto.getByBarcode("xy111");
@@ -172,11 +171,11 @@ public class ProductDtoTest extends AbstractUnitTest {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory("amul","dairy");
         ProductPojo firstPojo = TestUtils.getProductpojo("am111",
                 "half litre pasteurized milk",55.75,brandCategoryPojo.getId());
-        productService.insert(firstPojo);
-        ProductForm secondProductForm = TestUtils.getProductForm(" ONe litre PasteurizED MIlk ","AM112",
+        productService.insertProduct(firstPojo);
+        ProductForm secondProductForm = TestUtils.getProductForm(" ONe litre PasteurizED MIlk ","AM111",
                 100.0," Amul ", "daiRY");
-        ProductData updatedData = productDto.update(firstPojo.getId(),secondProductForm);
-        ProductPojo pojo = productService.get(firstPojo.getId());
+        ProductData updatedData = productDto.updateProduct(firstPojo.getId(),secondProductForm);
+        ProductPojo pojo = productService.getProduct(firstPojo.getId());
         assertEquals(pojo.getId(),updatedData.getId());
         assertEquals(pojo.getProduct(),updatedData.getProduct());
         assertEquals(pojo.getBarcode(),updatedData.getBarcode());
@@ -194,7 +193,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm firstProductForm = TestUtils.getProductForm("HaLF litre PasteurizED MIlk",null,
                 55.75," Amul ", "daiRY");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Please Enter Barcode, Name and a positive mrp!");
+        exceptionRule.expectMessage("Please Enter Barcode!");
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 
@@ -207,7 +206,7 @@ public class ProductDtoTest extends AbstractUnitTest {
         ProductForm firstProductForm = TestUtils.getProductForm(null,"AM111",
                 null," Amul ", "daiRY");
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Please Enter Barcode, Name and a positive mrp!");
+        exceptionRule.expectMessage("Please Enter Product Name!");
         ProductData productData = productDto.addProduct(firstProductForm);
     }
 
