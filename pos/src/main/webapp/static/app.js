@@ -2,7 +2,7 @@
 //HELPER METHOD
 function toJson($form){
     var serialized = $form.serializeArray();
-    console.log(serialized);
+//    console.log(serialized);
     var s = '';
     var data = {};
     for(s in serialized){
@@ -66,4 +66,8 @@ function extractNameAndCategory(brandCategory) {
         "brandName": name,
         "brandCategory": category
     };
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }

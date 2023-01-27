@@ -6,7 +6,7 @@ import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.UserService;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

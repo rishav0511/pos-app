@@ -19,17 +19,8 @@ public class NormalizeUtil {
         p.setProduct(StringUtil.toLowerCase(p.getProduct()));
     }
 
-    public static void normalizePojo(InventoryForm inventoryForm) {
-        inventoryForm.setBarcode(StringUtil.toLowerCase(inventoryForm.getBarcode()));
-    }
-
-    public static void normalizePojo(List<OrderItemForm> orderItemForms) {
-        for(OrderItemForm form:orderItemForms) {
-            form.setBarcode(StringUtil.toLowerCase(form.getBarcode()));
-        }
-    }
-
     public static void normalizeUser(UserPojo p) {
         p.setEmail(p.getEmail().toLowerCase().trim());
     }
+
 }

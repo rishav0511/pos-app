@@ -7,8 +7,6 @@ function filterSalesReport() {
     var $form = $("#sales-form");
     var json = toJson($form);
     var url = getSalesReportUrl();
-//    console.log(url);
-    console.log(json);
     $.ajax({
        url: url,
        type: 'POST',
@@ -17,7 +15,6 @@ function filterSalesReport() {
         'Content-Type': 'application/json'
        },
        success: function(response) {
-            console.log(response);
             displaySalesReport(response);
        },
        error: handleAjaxError
@@ -34,7 +31,7 @@ function displaySalesReport(data) {
         + '<td>' + b.brand + '</td>'
         + '<td>' + b.category + '</td>'
         + '<td>' + b.quantity + '</td>'
-        + '<td>' + b.revenue + '</td>'
+        + '<td style="text-align: right;">' + numberWithCommas(b.revenue.toFixed(2)) + '</td>'
         + '</tr>';
         $tbody.append(row);
     }
@@ -44,10 +41,9 @@ function displaySalesReport(data) {
 function init(){
    $('#filter-sales-report').click(filterSalesReport);
 }
-//Get the button
+
 let mybutton = document.getElementById("btn-back-to-top");
 
-// When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () {
   scrollFunction();
 };
@@ -62,7 +58,6 @@ function scrollFunction() {
     mybutton.style.display = "none";
   }
 }
-// When the user clicks on the button, scroll to the top of the document
 mybutton.addEventListener("click", backToTop);
 
 function backToTop() {

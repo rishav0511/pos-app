@@ -6,7 +6,7 @@ import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandCategoryService;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

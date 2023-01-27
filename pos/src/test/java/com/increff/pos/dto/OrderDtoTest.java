@@ -3,7 +3,7 @@ package com.increff.pos.dto;
 import com.increff.pos.model.*;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.spring.AbstractUnitTest;
-import com.increff.pos.util.TestUtils;
+import com.increff.pos.helper.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

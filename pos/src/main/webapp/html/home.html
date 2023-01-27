@@ -8,54 +8,63 @@
 
 <nav th:replace="snippets.html :: name_app_navbar"></nav>
 
-<div class="container">
-
-<h3>Home</h3>
+<div class="container" style="display:flex;min-height:80vh;align-items:center;">
 
  <!-- Top row with form-->
 <div class="row justify-content-around home-logo">
-	<a th:href="@{/ui/brands}" title="Brands">
-	 <div class="col">
-	 	 <img th:src="@{/static/images/brand-image.png}" alt="Brands" />
-		 <h4>Brands</h4>
-	 </div>
-	</a>
-	<a th:href="@{/ui/products}" title="Products">
-		<div class="col">
-			 <img th:src="@{/static/images/package.png}" alt="Products" />
-			<h4>Products</h4>
-		</div>
-	</a>
-	<a th:href="@{/ui/inventory}" title="Inventory">
-		<div class="col">
-			 <img th:src="@{/static/images/inventory-management.png}" alt="Inventory" />
-			<h4>Inventory</h4>
-		</div>
-	</a>
-</div>
 
-	<br><br><br><br>
-<div class="row justify-content-around home-logo">
-	<a th:href="@{/ui/orders}" title="Inventory">
-		<div class="col">
-			 <img th:src="@{/static/images/order.png}" alt="Orders" />
-			<h4>Orders</h4>
+	<div class="col-sm-4" style="padding-bottom: 3rem;">
+		<a th:href="@{/ui/brands}" title="Brands">
+			<div class="col">
+				<img th:src="@{/static/images/brand-image.png}" alt="Brands" />
+				<h4>Brands</h4>
+			</div>
+		</a>
+	</div>
+	<div class="col-sm-4" style="padding-bottom: 3rem;">
+		<a th:href="@{/ui/products}" title="Products">
+			<div class="col">
+				<img th:src="@{/static/images/package.png}" alt="Products" />
+				<h4>Products</h4>
+			</div>
+		</a>
 		</div>
-	</a>
-	<a th:href="@{/ui/reports}" title="Reports">
-		<div class="col">
-			 <img th:src="@{/static/images/report.png}" alt="Reports" />
-			<h4>Reports</h4>
+	<div class="col-sm-4" style="padding-bottom: 3rem;">
+		<a th:href="@{/ui/inventory}" title="Inventory">
+			<div class="col">
+				<img th:src="@{/static/images/inventory-management.png}" alt="Inventory" />
+				<h4>Inventory</h4>
+			</div>
+		</a>
 		</div>
-	</a>
-	<a th:href="@{/ui/admin}" title="Users" th:if="${info.getRole() == 'supervisor'}">
-		<div class="col">
-			 <img th:src="@{/static/images/admin.png}" alt="Admin" />
-			<h4>Users</h4>
-		</div>
-	</a>
-</div>
 
+	<div class="col-sm-4" style="padding-top: 3rem;">
+		<a th:href="@{/ui/orders}" title="Inventory">
+			<div class="col">
+				<img th:src="@{/static/images/order.png}" alt="Orders" />
+				<h4>Orders</h4>
+			</div>
+		</a>
+	</div>
+	<div class="col-sm-4" style="padding-top: 3rem;">
+		<a th:href="@{/ui/reports}" title="Reports">
+			<div class="col">
+				<img th:src="@{/static/images/report.png}" alt="Reports" />
+				<h4>Reports</h4>
+			</div>
+		</a>
+	</div>
+	<div class="col-sm-4" style="padding-top: 3rem;">
+		<a th:href="@{/ui/admin}" title="Users" th:if="${info.getRole() == 'supervisor'}">
+			<div class="col">
+				<img th:src="@{/static/images/admin.png}" alt="Admin" />
+				<h4>Users</h4>
+			</div>
+		</a>
+	</div>
+
+
+</div>
 
 
 </div> <!-- Container end-->

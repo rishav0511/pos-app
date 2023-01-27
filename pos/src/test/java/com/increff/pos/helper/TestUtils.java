@@ -1,4 +1,4 @@
-package com.increff.pos.util;
+package com.increff.pos.helper;
 
 import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
@@ -81,6 +81,14 @@ public class TestUtils {
         inventoryPojo.setProductId(productId);
         inventoryPojo.setQuantity(quantity);
         return inventoryPojo;
+    }
+
+    public static UserPojo getUserPojo (String email,String password,String role) {
+        UserPojo userPojo = new UserPojo();
+        userPojo.setEmail(email);
+        userPojo.setPassword(password);
+        userPojo.setRole(role);
+        return userPojo;
     }
 
     public static List<OrderItemPojo> getOrderItemPojoList (int orderId,List<ProductPojo>products,
