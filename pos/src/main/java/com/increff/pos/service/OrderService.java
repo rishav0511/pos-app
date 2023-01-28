@@ -50,7 +50,7 @@ public class OrderService {
         return path;
     }
 
-    public List<OrderPojo> getAllBetween (Date startingDate, Date endingDate) {
+    public List<OrderPojo> getAllBetween (Date startingDate, Date endingDate) throws ApiException {
         if(startingDate==null && endingDate==null) {
             return orderDao.selectAll();
         } else if(startingDate==null) {
@@ -62,6 +62,9 @@ public class OrderService {
         } else {
             startingDate = TimeUtil.getStartOfDay(startingDate);
             endingDate = TimeUtil.getEndOfDay(endingDate);
+            if(startingDate.after(endingDate) == true) {
+                throw new ApiException("Start Date can't be greater tha End Date");
+            }
             return orderDao.selectAllBetween(startingDate, endingDate);
         }
     }

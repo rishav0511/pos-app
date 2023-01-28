@@ -6,6 +6,11 @@ function getSalesReportUrl(){
 function filterSalesReport() {
     var $form = $("#sales-form");
     var json = toJson($form);
+    var data = JSON.parse(json);
+    if(Date.parse(data["startDate"]) > Date.parse(data["endDate"])) {
+        $.notify("Start Date is greater than End date", "error");
+        return;
+    }
     var url = getSalesReportUrl();
     $.ajax({
        url: url,
@@ -46,6 +51,22 @@ function displaySalesReport(data) {
 function init(){
    $('#filter-sales-report').click(filterSalesReport);
    displaySalesReport([]);
+   $(function(){
+       var dtToday = new Date();
+
+       var month = dtToday.getMonth() + 1;
+       var day = dtToday.getDate();
+       var year = dtToday.getFullYear();
+
+       if(month < 10)
+           month = '0' + month.toString();
+       if(day < 10)
+           day = '0' + day.toString();
+
+       var maxDate = year + '-' + month + '-' + day;
+       $('#inputStartDate').attr('max', maxDate);
+       $('#inputEndDate').attr('max', maxDate);
+   });
 }
 
 let mybutton = document.getElementById("btn-back-to-top");

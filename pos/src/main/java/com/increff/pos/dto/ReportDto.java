@@ -104,7 +104,7 @@ public class ReportDto {
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
-    public void generateDailySalesReport() {
+    public void generateDailySalesReport() throws ApiException {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         Date yesterday = TimeUtil.getStartOfDay(cal.getTime());

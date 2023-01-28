@@ -148,7 +148,7 @@ function displayEditOrderItems(orderItems) {
                      <tr>
                        <td>&nbsp;</td>
                        <td class="barcodeData">${e.barcode}</td>
-                       <td class="text-right">${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
+                       <td class="text-right">₹${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
                        <td>
                          <input
                            id="order-item-${e.barcode}"
@@ -199,7 +199,7 @@ function displayDetailsModal(data) {
        + '<td>&nbsp;</td>'
        + '<td>' + e.barcode + '</td>'
        + '<td>' + e.product + '</td>'
-       + '<td class="text-right">' + numberWithCommas(e.sellingPrice.toFixed(2)) + '</td>'
+       + '<td class="text-right">' + "₹" + numberWithCommas(e.sellingPrice.toFixed(2)) + '</td>'
        + '<td>'  + e.quantity + '</td>'
        + '<td class="text-right">' + numberWithCommas((e.sellingPrice * e.quantity).toFixed(2)) + '</td>'
        + '</tr>';
@@ -252,7 +252,7 @@ function displayCreateOrderItems(orderItems) {
                  <tr>
                    <td>&nbsp;</td>
                    <td class="barcodeData">${e.barcode}</td>
-                   <td class="text-right">${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
+                   <td class="text-right"> ₹${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
                    <td>
                      <input
                        id="order-item-${e.barcode}"
