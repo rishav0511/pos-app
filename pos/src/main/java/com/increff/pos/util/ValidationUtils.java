@@ -66,5 +66,12 @@ public class ValidationUtils {
         if (StringUtil.isEmpty(userForm.getPassword())) {
             throw new ApiException("Password must not be blank!");
         }
+
+        if(StringUtil.isEmpty(userForm.getConfirmPassword())){
+            throw new ApiException("Please confirm password!");
+        }
+        if(!userForm.getPassword().equals(userForm.getConfirmPassword())){
+            throw new ApiException("Passwords do not match!");
+        }
     }
 }

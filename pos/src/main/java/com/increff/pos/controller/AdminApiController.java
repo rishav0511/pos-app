@@ -58,11 +58,4 @@ public class AdminApiController {
 		return d;
 	}
 
-	private static UserPojo convert(UserForm f) {
-		UserPojo p = new UserPojo();
-		p.setEmail(f.getEmail());
-		p.setPassword(f.getPassword());
-		return p;
-	}
-
 }

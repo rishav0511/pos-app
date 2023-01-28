@@ -11,6 +11,10 @@ function addOrder(event){
           sellingPrice: it.sellingPrice,
         };
       });
+      if(data.length===0) {
+        $.notify("Crate is Empty", "error");
+        return;
+      }
     const json = JSON.stringify(data);
 
 	var url = getOrdersUrl();

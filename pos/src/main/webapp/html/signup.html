@@ -20,23 +20,23 @@
   	</div>
   	<div class="card-body">
   		Provide an email and password
-		<form class="form" id="init-form" method="POST" th:action="@{/site/signup}">
-			<div class="form-group">
-				<label for="email" class="col-sm-10 col-form-label">Email</label>
-			    <div class="col-sm-10">
-			      <input type="email" class="form-control" name="email" id="email" placeholder="enter email" required>
+		<form class="" onSubmit = "return checkPassword(this)" id="init-form" method="POST" th:action="@{/site/signup}">
+			<div class="form-group row">
+				<label for="email" class="col-sm-4 col-form-label">Email</label>
+			    <div class="col-sm-8">
+			      <input type="email" class="form-control w-100" name="email" id="email" placeholder="enter email" required>
 			    </div>
 			</div>
-			<div class="form-group">
-			    <label for="password" class="col-sm-10 col-form-label">Password</label>
-			    <div class="col-sm-10">
-			      <input type="password" class="form-control" name="password" id="password" placeholder="password" required>
+			<div class="form-group row">
+			    <label for="password" class="col-sm-4 col-form-label">Password</label>
+			    <div class="col-sm-8">
+			      <input type="password" class="form-control w-100" name="password" id="password" placeholder="password" required>
 			    </div>
 			</div>
-			<div class="form-group">
-				<label for="password" class="col-sm-10 col-form-label">Confirm Password</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" name="password" id="confirmPassword" placeholder="confirm password" required>
+			<div class="form-group row">
+				<label for="password" class="col-sm-4 col-form-label">Confirm Password</label>
+				<div class="col-sm-8">
+					<input type="password" class="form-control w-100" name="confirmPassword" id="confirmPassword" placeholder="confirm password" required>
 				</div>
 			</div>
 			<input type="hidden" name="role" id="role">
@@ -58,6 +58,31 @@
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
+<script>
+	function checkPassword(form) {
+		password1 = form.password.value;
+		password2 = form.confirmPassword.value;
+
+		// If password not entered
+		if (password1 == '')
+			alert ("Please enter Password");
+
+		// If confirm password not entered
+		else if (password2 == '')
+			alert ("Please enter confirm password");
+
+		// If Not same return False.
+		else if (password1 != password2) {
+			$.notify("Password did not match: Please try again...", "error");
+			return false;
+		}
+
+		// If same return True.
+		else{
+			return true;
+		}
+	}
+</script>
 </body>
 
 </html>
