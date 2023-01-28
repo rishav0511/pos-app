@@ -72,12 +72,16 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
-document.querySelector("input[type=number]").addEventListener("keypress", function (evt) {
-    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
-    {
-        evt.preventDefault();
-    }
-});
+
+var arrayInputNumber = document.querySelectorAll('.numberInput');
+for(var e in arrayInputNumber) {
+    e.onkeypress = function (evt) {
+             if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+             {
+                 evt.preventDefault();
+             }
+         };
+}
 // 0 for null values
 // 8 for backspace
 // 48-57 for 0-9 numbers

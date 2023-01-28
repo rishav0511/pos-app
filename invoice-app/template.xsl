@@ -130,16 +130,26 @@
                 </fo:table-body>
             </fo:table>
             <fo:table table-layout="fixed" width="100%">
-                <fo:table-column column-width="50%" />
-                <fo:table-column column-width="50%" />
+                <fo:table-column column-width="25%" />
+                <fo:table-column column-width="25%" />
                 <fo:table-body>
                     <fo:table-row>
-                        <fo:table-cell padding-top="50pt">
+                        <fo:table-cell padding-top="30pt">
                             <fo:block font-size="20pt" font-family="sans-serif" color="black" text-align="center">
                                 Total
                             </fo:block>
                         </fo:table-cell>
-                        <fo:table-cell padding-top="50pt">
+                        <fo:table-cell padding-top="30pt">
+                            <fo:block font-size="20pt" font-family="sans-serif" color="black" text-align="center">
+
+                            </fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell padding-top="30pt">
+                            <fo:block font-size="20pt" font-family="sans-serif" color="black" text-align="center">
+
+                            </fo:block>
+                        </fo:table-cell>
+                        <fo:table-cell padding-top="30pt">
                             <fo:block font-size="20pt" font-family="sans-serif" color="red" text-align="center">
                                 <xsl:value-of select="total" />
                             </fo:block>
