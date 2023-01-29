@@ -59,7 +59,12 @@ var processCount = 0;
 
 
 function processData(){
-	var file = $('#employeeFile')[0].files[0];
+	var file = $('#inventoryFile')[0].files[0];
+	if(!file)
+    {
+        $.notify("No file detected!", "error");
+        return;
+    }
 	readFileData(file, readFileDataCallback);
 }
 
@@ -76,12 +81,14 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+	    $('#download-errors').show();
 	    getInventoryList();
 		return;
 	}
 
 	//Process next row
 	var row = fileData[processCount];
+	console.log(row);
 	processCount++;
 
 	var json = JSON.stringify(row);
@@ -99,13 +106,19 @@ function uploadRows(){
 	   		uploadRows();
 	   },
 	   error: function(response){
-	   		row.error=response.responseText
+	        row.Sno=processCount;
+            var data = JSON.parse(response.responseText);
+            row.error=data["message"];
+            if(row.__parsed_extra != null) {
+                row.error="Extra Fields exist.";
+            }
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
 	});
 
 }
+
 
 function downloadErrors(){
 	writeFileData(errorData);
@@ -148,9 +161,9 @@ function displayEditInventory(barcode){
 
 function resetUploadDialog(){
 	//Reset file name
-	var $file = $('#employeeFile');
+	var $file = $('#inventoryFile');
 	$file.val('');
-	$('#employeeFileName').html("Choose File");
+	$('#inventoryFileName').html("Choose File");
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
@@ -166,14 +179,15 @@ function updateUploadDialog(){
 }
 
 function updateFileName(){
-	var $file = $('#employeeFile');
+	var $file = $('#inventoryFile');
 	var fileName = $file.val();
-	$('#employeeFileName').html(fileName);
+	$('#inventoryFileName').html(fileName);
 }
 
 function displayUploadData(){
  	resetUploadDialog();
-	$('#upload-employee-modal').modal('toggle');
+	$('#upload-inventory-modal').modal('toggle');
+	$('#download-errors').hide();
 }
 
 function displayInventory(data){
@@ -191,7 +205,7 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#employeeFile').on('change', updateFileName)
+    $('#inventoryFile').on('change', updateFileName);
 }
 
 let mybutton = document.getElementById("btn-back-to-top");
