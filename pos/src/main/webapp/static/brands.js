@@ -78,7 +78,12 @@ var processCount = 0;
 
 
 function processData(){
-	var file = $('#employeeFile')[0].files[0];
+	var file = $('#brandFile')[0].files[0];
+	if(!file)
+	{
+	    $.notify("No file detected!", "error");
+	    return;
+	}
 	readFileData(file, readFileDataCallback);
 }
 
@@ -95,6 +100,7 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
+	    $('#download-errors').show();
 	    getBrandList();
 		return;
 	}
@@ -118,7 +124,12 @@ function uploadRows(){
 	   		uploadRows();  
 	   },
 	   error: function(response){
-	   		row.error=response.responseText
+		   	row.Sno=processCount;
+		   	var data = JSON.parse(response.responseText);
+	   		row.error=data["message"];
+	   		if(row.__parsed_extra != null) {
+	   		    row.error="Extra Fields exist.";
+	   		}
 	   		errorData.push(row);
 	   		uploadRows();
 	   }
@@ -167,9 +178,9 @@ function displayEditBrand(id){
 
 function resetUploadDialog(){
 	//Reset file name
-	var $file = $('#employeeFile');
+	var $file = $('#brandFile');
 	$file.val('');
-	$('#employeeFileName').html("Choose File");
+	$('#brandFileName').html("Choose File");
 	//Reset various counts
 	processCount = 0;
 	fileData = [];
@@ -185,14 +196,14 @@ function updateUploadDialog(){
 }
 
 function updateFileName(){
-	var $file = $('#employeeFile');
+	var $file = $('#brandFile');
 	var fileName = $file.val();
-	$('#employeeFileName').html(fileName);
+	$('#brandFileName').html(fileName);
 }
 
 function displayUploadData(){
  	resetUploadDialog(); 	
-	$('#upload-employee-modal').modal('toggle');
+	$('#upload-brand-modal').modal('toggle');
 }
 
 function displayBrand(data){
@@ -212,7 +223,8 @@ function init(){
 	$('#upload-data').click(displayUploadData);
 	$('#process-data').click(processData);
 	$('#download-errors').click(downloadErrors);
-    $('#employeeFile').on('change', updateFileName)
+    $('#brandFile').on('change', updateFileName);
+    $('#download-errors').hide();
 }
 
 
