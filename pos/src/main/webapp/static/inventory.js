@@ -70,6 +70,22 @@ function processData(){
 
 function readFileDataCallback(results){
 	fileData = results.data;
+	var meta = results.meta;
+    if(meta.fields.length!=2 ) {
+        var row = {};
+        row.error="Number of headers don't match.";
+        errorData.push(row);
+        $('#download-errors').show();
+        return;
+    }
+    if(meta.fields[0]!="barcode" || meta.fields[1]!="quantity")
+    {
+        var row = {};
+        row.error="Incorrect headers name.";
+        errorData.push(row);
+        $('#download-errors').show();
+        return;
+    }
 	if(fileData.length >= 5000) {
         $.notify("Row Count greater than 5000!", "error");
     }
@@ -81,15 +97,27 @@ function uploadRows(){
 	updateUploadDialog();
 	//If everything processed then return
 	if(processCount==fileData.length){
-	    $('#download-errors').show();
 	    getInventoryList();
-		return;
+	    if(errorData.length===0) {
+	        return;
+	    } else {
+            $('#download-errors').show();
+            return;
+		}
 	}
 
 	//Process next row
 	var row = fileData[processCount];
 	console.log(row);
 	processCount++;
+
+	if(row.__parsed_extra != null) {
+	    row.Sno=processCount;
+        row.error="Extra Fields exist.";
+        errorData.push(row);
+        uploadRows();
+        return;
+    }
 
 	var json = JSON.stringify(row);
 	var url = getInventoryUrl();
@@ -109,9 +137,6 @@ function uploadRows(){
 	        row.Sno=processCount;
             var data = JSON.parse(response.responseText);
             row.error=data["message"];
-            if(row.__parsed_extra != null) {
-                row.error="Extra Fields exist.";
-            }
 	   		errorData.push(row);
 	   		uploadRows();
 	   }

@@ -124,6 +124,22 @@ function processData(){
 
 function readFileDataCallback(results){
    fileData = results.data;
+   var meta = results.meta;
+   if(meta.fields.length!=2 ) {
+       var row = {};
+       row.error="Number of headers don't match.";
+       errorData.push(row);
+       $('#download-errors').show();
+       return;
+   }
+   if(meta.fields[0]!="product" || meta.fields[1]!="bname" || meta.fields[2]!="bcategory" || meta.fields[3]!="barcode" || meta.fields[4]!="mrp")
+   {
+   	   var row = {};
+       row.error="Incorrect headers name.";
+       errorData.push(row);
+       $('#download-errors').show();
+       return;
+   }
    if(fileData.length >= 5000) {
        $.notify("Row Count greater than 5000!", "error");
    }
@@ -136,12 +152,25 @@ function uploadRows(){
    //If everything processed then return
    if(processCount==fileData.length){
       getProductList();
-      return;
+      if(errorData.length===0) {
+          return;
+      } else {
+          $('#download-errors').show();
+          return;
+      }
    }
 
    //Process next row
    var row = fileData[processCount];
    processCount++;
+
+   if(row.__parsed_extra != null) {
+       row.Sno=processCount;
+       row.error="Extra Fields exist.";
+       errorData.push(row);
+       uploadRows();
+       return;
+   }
 
    var json = JSON.stringify(row);
    var url = getProductUrl();
@@ -158,7 +187,9 @@ function uploadRows(){
              uploadRows();
       },
       error: function(response){
-             row.error=response.responseText
+             row.Sno=processCount;
+             var data = JSON.parse(response.responseText);
+             row.error=data["message"];
              errorData.push(row);
              uploadRows();
       }
@@ -275,6 +306,7 @@ function updateFileName(){
 function displayUploadData(){
    resetUploadDialog();
    $('#upload-product-modal').modal('toggle');
+   $('#download-errors').hide();
 }
 
 function displayProduct(data){
