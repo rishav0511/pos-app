@@ -20,7 +20,7 @@ public class DailySalesReportService {
     }
 
     public List<DailySalesReportPojo> select_Between(Date startingDate, Date endingDate) {
-        return dailySalesReportDao.selectAllBetween(startingDate,endingDate);
+        return dailySalesReportDao.selectAllBetween(startingDate, endingDate);
     }
 
     public DailySalesReportPojo select_By_Date(Date date) {
@@ -28,6 +28,6 @@ public class DailySalesReportService {
     }
 
     public List<DailySalesReportPojo> getAll() {
-        return  dailySalesReportDao.selectAll();
+        return dailySalesReportDao.selectAll();
     }
 }

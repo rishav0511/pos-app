@@ -15,19 +15,19 @@ public class DailySalesReportDao extends AbstractDao {
 
     public List<DailySalesReportPojo> selectAllBetween(Date startingDate, Date endingDate) {
         TypedQuery<DailySalesReportPojo> query = em.createQuery(select_Between, DailySalesReportPojo.class);
-        query.setParameter("startingDate",startingDate);
-        query.setParameter("endingDate",endingDate);
+        query.setParameter("startingDate", startingDate);
+        query.setParameter("endingDate", endingDate);
         return query.getResultList();
     }
 
-    public DailySalesReportPojo select (Date date) {
-        TypedQuery<DailySalesReportPojo>query = em.createQuery(select_By_Date, DailySalesReportPojo.class);
-        query.setParameter("date",date);
+    public DailySalesReportPojo select(Date date) {
+        TypedQuery<DailySalesReportPojo> query = em.createQuery(select_By_Date, DailySalesReportPojo.class);
+        query.setParameter("date", date);
         return getSingle(query);
     }
 
-    public List<DailySalesReportPojo> selectAll () {
-        TypedQuery<DailySalesReportPojo>query = em.createQuery(select_All, DailySalesReportPojo.class);
+    public List<DailySalesReportPojo> selectAll() {
+        TypedQuery<DailySalesReportPojo> query = em.createQuery(select_All, DailySalesReportPojo.class);
         return query.getResultList();
     }
 }

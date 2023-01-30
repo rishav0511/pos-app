@@ -1,7 +1,6 @@
 package com.increff.pos.pojo;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,12 +9,12 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "brand_categories", //
-indexes = { //
-        @Index(name = "brand_category_idx", columnList = "brand,category",unique = true)
-})
+        indexes = { //
+                @Index(name = "brand_category_idx", columnList = "brand,category", unique = true)
+        })
 public class BrandCategoryPojo {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
     private String brand;

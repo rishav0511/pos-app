@@ -1,11 +1,8 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.*;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.pojo.UserPojo;
-
-import java.util.List;
 
 public class NormalizeUtil {
 

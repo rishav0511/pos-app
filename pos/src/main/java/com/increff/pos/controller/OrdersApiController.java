@@ -4,8 +4,6 @@ import com.increff.pos.dto.OrderDto;
 import com.increff.pos.model.InvoiceData;
 import com.increff.pos.model.OrderData;
 import com.increff.pos.model.OrderItemForm;
-import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.pojo.OrderPojo;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -56,7 +53,7 @@ public class OrdersApiController {
     @ApiOperation(value = "Update Order")
     @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.PUT)
     public OrderData update(@PathVariable int id, @RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
-       return orderDto.updateOrder(id,orderItemForms);
+        return orderDto.updateOrder(id, orderItemForms);
     }
 
     @ApiOperation(value = "Download invoice")

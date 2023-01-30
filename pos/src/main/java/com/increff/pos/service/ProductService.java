@@ -29,8 +29,8 @@ public class ProductService {
 
     public ProductPojo getProduct(Integer id) throws ApiException {
         ProductPojo pojo = productDao.select(ProductPojo.class, id);
-        if(pojo==null) {
-            throw new ApiException("Product with given Id doesn't exist, id:"+id);
+        if (pojo == null) {
+            throw new ApiException("Product with given Id doesn't exist, id:" + id);
         }
         return pojo;
     }
@@ -45,7 +45,7 @@ public class ProductService {
         if (productPojo != null) {
             return productPojo;
         } else {
-            throw new ApiException("Barcode doesn't exist:"+barcode);
+            throw new ApiException("Barcode doesn't exist:" + barcode);
         }
     }
 
@@ -59,7 +59,7 @@ public class ProductService {
         ProductPojo existing = productDao.select(id);
         if (existing != null && existing.getId() == id) {
             ProductPojo pojoByBarcode = productDao.select(productPojo.getBarcode());
-            if(id == pojoByBarcode.getId()) {
+            if (id == pojoByBarcode.getId()) {
                 return productDao.update(productPojo);
             } else {
                 throw new ApiException("Barcode wrong.");
@@ -69,10 +69,10 @@ public class ProductService {
         }
     }
 
-    public ProductPojo checkSellingPrice(String barcode,Double sellingPrice) throws ApiException {
+    public ProductPojo checkSellingPrice(String barcode, Double sellingPrice) throws ApiException {
         barcode = StringUtil.toLowerCase(barcode);
         ProductPojo productPojo = productDao.select(barcode);
-        if(productPojo!=null) {
+        if (productPojo != null) {
             if (productPojo.getMrp() < sellingPrice) {
                 throw new ApiException("Selling price higher than mrp for " + barcode);
             }

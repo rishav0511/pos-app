@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ProductDto {
@@ -40,7 +39,7 @@ public class ProductDto {
         inventoryPojo.setQuantity(0);
         inventoryPojo.setProductId(productPojo.getId());
         inventoryService.insert(inventoryPojo);
-        return ConvertUtil.convertPojotoData(productPojo,brandCategoryPojo);
+        return ConvertUtil.convertPojotoData(productPojo, brandCategoryPojo);
     }
 
     public ProductData getProduct(Integer id) throws ApiException {
@@ -53,7 +52,7 @@ public class ProductDto {
     public List<ProductData> getAllProducts() throws ApiException {
         List<ProductPojo> allProducts = productService.getAllProducts();
         List<ProductData> productDataList = new ArrayList<>();
-        for(ProductPojo pojo:allProducts){
+        for (ProductPojo pojo : allProducts) {
             ProductData productData = ConvertUtil.convertPojotoData(pojo, brandCategoryService.select(pojo.getBrandId()));
             productDataList.add(productData);
         }
@@ -73,7 +72,7 @@ public class ProductDto {
         BrandCategoryPojo brandCategoryPojo = brandCategoryService.getCheckForBrandCategory(brandCategoryForm.getBrand(), brandCategoryForm.getCategory());
         ProductPojo productPojo = ConvertUtil.convertFormtoPojo(productForm, brandCategoryPojo);
         productPojo.setId(id);
-        ProductPojo pojo = productService.updateProduct(id,productPojo);
-        return ConvertUtil.convertPojotoData(pojo,brandCategoryPojo);
+        ProductPojo pojo = productService.updateProduct(id, productPojo);
+        return ConvertUtil.convertPojotoData(pojo, brandCategoryPojo);
     }
 }

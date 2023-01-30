@@ -10,7 +10,6 @@ import com.increff.pos.pojo.ProductPojo;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.GeneratePDFUtil;
-import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,16 +33,16 @@ public class OrderDto {
     public OrderData addOrder(List<OrderItemForm> orderItemForms) throws ApiException {
         ValidationUtils.validateForm(orderItemForms);
         OrderPojo orderPojo = orderService.createNewOrder();
-        List<OrderItemPojo> orderItemPojos = alterInventory(orderPojo.getId(),orderItemForms);
+        List<OrderItemPojo> orderItemPojos = alterInventory(orderPojo.getId(), orderItemForms);
         String path = generateInvoice(orderPojo.getId());
         orderPojo.setPath(path);
-        return ConvertUtil.convertPojoToData(orderPojo,orderItemPojos);
+        return ConvertUtil.convertPojoToData(orderPojo, orderItemPojos);
     }
 
-    public List<OrderItemPojo> alterInventory(int orderId,List<OrderItemForm> orderItemForms) throws ApiException {
+    public List<OrderItemPojo> alterInventory(int orderId, List<OrderItemForm> orderItemForms) throws ApiException {
         List<OrderItemPojo> orderItemPojos = new ArrayList<>();
         for (OrderItemForm orderItemForm : orderItemForms) {
-            ProductPojo productPojo = productService.checkSellingPrice(orderItemForm.getBarcode(),orderItemForm.getSellingPrice());
+            ProductPojo productPojo = productService.checkSellingPrice(orderItemForm.getBarcode(), orderItemForm.getSellingPrice());
             OrderItemPojo orderItemPojo = ConvertUtil.
                     convertFormToPojo(orderItemForm, orderId, productPojo.getId());
             orderItemPojos.add(orderItemPojo);
@@ -89,16 +88,16 @@ public class OrderDto {
         ValidationUtils.validateForm(orderItems);
         revertInventory(orderId);
         orderItemService.deleteByOrderId(orderId);
-        List<OrderItemPojo> newOrderItems = alterInventory(orderId,orderItems);
+        List<OrderItemPojo> newOrderItems = alterInventory(orderId, orderItems);
         generateInvoice(orderId);
         OrderPojo orderPojo = orderService.getById(orderId);
-        return ConvertUtil.convertPojoToData(orderPojo,newOrderItems);
+        return ConvertUtil.convertPojoToData(orderPojo, newOrderItems);
     }
 
     public String generateInvoice(Integer orderId) throws ApiException {
         try {
             InvoiceData invoiceData = getInvoiceDataByOrderId(orderId);
-            return GeneratePDFUtil.generatePDF(invoiceData,orderId);
+            return GeneratePDFUtil.generatePDF(invoiceData, orderId);
         } catch (Exception e) {
             throw new ApiException(e.getMessage());
         }

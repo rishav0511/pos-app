@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Table(name = "orders")
 public class OrderPojo {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @CreationTimestamp
     private Timestamp createdAt;

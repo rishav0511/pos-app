@@ -4,10 +4,7 @@ import com.increff.pos.model.*;
 import com.increff.pos.pojo.*;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ConvertUtil;
-import com.increff.pos.util.NormalizeUtil;
 import com.increff.pos.util.TimeUtil;
-import com.increff.pos.util.ValidationUtils;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -34,7 +31,7 @@ public class ReportDto {
     public List<InventoryReportData> getInventoryReport() throws ApiException {
         List<InventoryReportData> inventoryReportDataList = new ArrayList<InventoryReportData>();
         List<BrandCategoryPojo> brandPojoList = brandCategoryService.selectAll();
-        for(BrandCategoryPojo pojo : brandPojoList) {
+        for (BrandCategoryPojo pojo : brandPojoList) {
             int totalQuantity = getProductQuantityForBrandCategory(pojo.getId());
             InventoryReportData inventoryReportData = new InventoryReportData(pojo.getBrand(), pojo.getCategory(), totalQuantity);
             inventoryReportDataList.add(inventoryReportData);
@@ -45,7 +42,7 @@ public class ReportDto {
     private Integer getProductQuantityForBrandCategory(Integer brandId) throws ApiException {
         Integer totalQuantity = 0;
         List<ProductPojo> productPojoList = productService.getProductByBrandCategory(brandId);
-        for(ProductPojo product : productPojoList) {
+        for (ProductPojo product : productPojoList) {
             InventoryPojo inventory = inventoryService.getInventory(product.getId());
             totalQuantity += inventory.getQuantity();
         }
@@ -61,21 +58,21 @@ public class ReportDto {
         Date startingDate = form.getStartDate();
         Date endingDate = form.getEndDate();
         List<OrderPojo> orderList = orderService.getAllBetween(startingDate, endingDate);
-        List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAlikeBrandCategory(form.getBrand(),form.getCategory());
+        List<BrandCategoryPojo> brandCategoryList = brandCategoryService.selectAlikeBrandCategory(form.getBrand(), form.getCategory());
         List<OrderItemPojo> orderItemList = new ArrayList<OrderItemPojo>();
         for (OrderPojo order : orderList) {
             List<OrderItemPojo> orderItemListTemp = orderItemService.selectByOrderId(order.getId());
             orderItemList.addAll(orderItemListTemp);
         }
-        List<SalesReportData> salesReportData = getReport(orderItemList,brandCategoryList);
+        List<SalesReportData> salesReportData = getReport(orderItemList, brandCategoryList);
         return salesReportData;
     }
 
     public List<SalesReportData> getReport(List<OrderItemPojo> orderItemList, List<BrandCategoryPojo> brandCategoryList) throws ApiException {
-        Map<Integer,SalesReportData> salesReportDataMap = initializeBrandSalesMap(brandCategoryList);
-        for(OrderItemPojo orderItemPojo:orderItemList){
+        Map<Integer, SalesReportData> salesReportDataMap = initializeBrandSalesMap(brandCategoryList);
+        for (OrderItemPojo orderItemPojo : orderItemList) {
             ProductPojo productPojo = productService.getProduct(orderItemPojo.getProductId());
-            if(salesReportDataMap.containsKey(productPojo.getBrandId())) {
+            if (salesReportDataMap.containsKey(productPojo.getBrandId())) {
                 SalesReportData salesReportData = salesReportDataMap.get(productPojo.getBrandId());
                 salesReportData.setQuantity(salesReportData.getQuantity() + orderItemPojo.getQuantity());
                 salesReportData.setRevenue(salesReportData.getRevenue() + orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice());
@@ -85,11 +82,11 @@ public class ReportDto {
         return ConvertUtil.getSalesReportData(salesReportDataMap);
     }
 
-    private Map<Integer,SalesReportData> initializeBrandSalesMap(List<BrandCategoryPojo> brandCategoryPojos){
-        Map<Integer,SalesReportData> brandSalesMapping = new HashMap<>();
-        for(BrandCategoryPojo brandCategoryPojo:brandCategoryPojos){
-            SalesReportData salesReportData = new SalesReportData(brandCategoryPojo.getBrand(),brandCategoryPojo.getCategory(),(Integer) 0,(Double) 0.0);
-            brandSalesMapping.put(brandCategoryPojo.getId(),salesReportData);
+    private Map<Integer, SalesReportData> initializeBrandSalesMap(List<BrandCategoryPojo> brandCategoryPojos) {
+        Map<Integer, SalesReportData> brandSalesMapping = new HashMap<>();
+        for (BrandCategoryPojo brandCategoryPojo : brandCategoryPojos) {
+            SalesReportData salesReportData = new SalesReportData(brandCategoryPojo.getBrand(), brandCategoryPojo.getCategory(), (Integer) 0, (Double) 0.0);
+            brandSalesMapping.put(brandCategoryPojo.getId(), salesReportData);
         }
         return brandSalesMapping;
     }
@@ -97,7 +94,7 @@ public class ReportDto {
     public List<DailySalesReportData> getDailySalesReport() {
         List<DailySalesReportData> dailySalesReportDataList = new ArrayList<DailySalesReportData>();
         List<DailySalesReportPojo> dailySalesReportPojoList = dailySalesReportService.getAll();
-        for(DailySalesReportPojo dailySalesReportPojo : dailySalesReportPojoList) {
+        for (DailySalesReportPojo dailySalesReportPojo : dailySalesReportPojoList) {
             dailySalesReportDataList.add(ConvertUtil.getDailySalesReportData(dailySalesReportPojo));
         }
         return dailySalesReportDataList;
@@ -115,13 +112,13 @@ public class ReportDto {
         double revenue = 0;
         for (OrderPojo order : orderPojoList) {
             List<OrderItemPojo> orderItemList = orderItemService.selectByOrderId(order.getId());
-            for(OrderItemPojo orderItem: orderItemList) {
+            for (OrderItemPojo orderItem : orderItemList) {
                 revenue = revenue + orderItem.getQuantity() * orderItem.getSellingPrice();
             }
             itemsSold += orderItemList.size();
         }
         DailySalesReportPojo dailySalesReportPojo = ConvertUtil
-                .setDailySalesReportPojo(new Date(),itemsSold,orderPojoList.size(),revenue);
+                .setDailySalesReportPojo(new Date(), itemsSold, orderPojoList.size(), revenue);
         dailySalesReportService.insert(dailySalesReportPojo);
     }
 }

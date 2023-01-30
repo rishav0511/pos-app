@@ -1,7 +1,6 @@
 package com.increff.pos.util;
 
 import com.increff.pos.model.*;
-
 import com.increff.pos.pojo.*;
 
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class ConvertUtil {
         return brandData;
     }
 
-    public static BrandCategoryForm convertProductFormtoBrandForm(ProductForm productForm){
+    public static BrandCategoryForm convertProductFormtoBrandForm(ProductForm productForm) {
         BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
         brandCategoryForm.setBrand(productForm.getBName());
         brandCategoryForm.setCategory(productForm.getBCategory());
@@ -49,7 +48,7 @@ public class ConvertUtil {
         productData.setBName(brandCategoryPojo.getBrand());
         productData.setMrp(productPojo.getMrp());
         productData.setId(productPojo.getId());
-        return  productData;
+        return productData;
     }
 
     public static InventoryData convertPojotoData(InventoryPojo inventoryPojo, ProductPojo productPojo) {
@@ -83,8 +82,8 @@ public class ConvertUtil {
         orderData.setCreatedAt(pojo.getCreatedAt());
         orderData.setOrderId(pojo.getId());
         Double billAmount = (double) 0;
-        for(OrderItemPojo orderItemPojo:orderItemPojos) {
-            billAmount+=orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
+        for (OrderItemPojo orderItemPojo : orderItemPojos) {
+            billAmount += orderItemPojo.getQuantity() * orderItemPojo.getSellingPrice();
         }
         orderData.setBillAmount(billAmount);
         return orderData;
@@ -132,7 +131,7 @@ public class ConvertUtil {
         return dailySalesReportData;
     }
 
-    public static List<SalesReportData> getSalesReportData(Map<Integer,SalesReportData> salesReportDataMap) {
+    public static List<SalesReportData> getSalesReportData(Map<Integer, SalesReportData> salesReportDataMap) {
         List<SalesReportData> salesReportDataList = new ArrayList<SalesReportData>();
         for (Map.Entry<Integer, SalesReportData> pair : salesReportDataMap.entrySet()) {
             salesReportDataList.add(pair.getValue());

@@ -1,7 +1,6 @@
 package com.increff.pos.service;
 
 import com.increff.pos.dao.InventoryDao;
-import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.pojo.InventoryPojo;
 import com.increff.pos.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;

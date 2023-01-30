@@ -3,9 +3,6 @@ package com.increff.pos.util;
 import com.increff.pos.model.*;
 import com.increff.pos.service.ApiException;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ValidationUtils {
@@ -20,21 +17,21 @@ public class ValidationUtils {
             throw new ApiException("Please Enter Barcode!");
         } else if (productForm.getProduct() == null) {
             throw new ApiException("Please Enter Product Name!");
-        } else if(productForm.getMrp()==null) {
+        } else if (productForm.getMrp() == null) {
             throw new ApiException("Please Enter mrp!");
-        } else if(productForm.getMrp() <= 0) {
+        } else if (productForm.getMrp() <= 0) {
             throw new ApiException("Please Enter a positive mrp!");
-        } else if(productForm.getBName()==null) {
+        } else if (productForm.getBName() == null) {
             throw new ApiException("Please Enter a Brand Name!");
-        } else if(productForm.getBCategory()==null) {
+        } else if (productForm.getBCategory() == null) {
             throw new ApiException("Please Enter a Brand Category!");
         }
     }
 
     public static void validateForm(BrandCategoryForm brandCategoryForm) throws ApiException {
-        if(StringUtil.isEmpty(brandCategoryForm.getBrand())){
+        if (StringUtil.isEmpty(brandCategoryForm.getBrand())) {
             throw new ApiException("No Brand provided");
-        } else if( StringUtil.isEmpty(brandCategoryForm.getCategory())) {
+        } else if (StringUtil.isEmpty(brandCategoryForm.getCategory())) {
             throw new ApiException("No Category provided");
         }
     }
@@ -58,7 +55,7 @@ public class ValidationUtils {
         }
     }
 
-    public static void validateForm (UserForm userForm) throws ApiException {
+    public static void validateForm(UserForm userForm) throws ApiException {
         if (!isValidEmail(userForm.getEmail())) {
             throw new ApiException("Invalid email!");
         }
@@ -67,10 +64,10 @@ public class ValidationUtils {
             throw new ApiException("Password must not be blank!");
         }
 
-        if(StringUtil.isEmpty(userForm.getConfirmPassword())){
+        if (StringUtil.isEmpty(userForm.getConfirmPassword())) {
             throw new ApiException("Please confirm password!");
         }
-        if(!userForm.getPassword().equals(userForm.getConfirmPassword())){
+        if (!userForm.getPassword().equals(userForm.getConfirmPassword())) {
             throw new ApiException("Passwords do not match!");
         }
     }

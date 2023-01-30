@@ -30,17 +30,17 @@ public class BrandCategoryService {
         return brandCategoryDao.selectAll();
     }
 
-    public List<BrandCategoryPojo> selectAlikeBrandCategory(String brand,String category) {
+    public List<BrandCategoryPojo> selectAlikeBrandCategory(String brand, String category) {
         brand = StringUtil.toLowerCase(brand);
         category = StringUtil.toLowerCase(category);
-        if(brand.isEmpty() && category.isEmpty()) {
+        if (brand.isEmpty() && category.isEmpty()) {
             return brandCategoryDao.selectAll();
-        } else if(!brand.isEmpty() && category.isEmpty()) {
+        } else if (!brand.isEmpty() && category.isEmpty()) {
             return brandCategoryDao.selectByBrand(brand);
-        } else if(!category.isEmpty() && brand.isEmpty()) {
+        } else if (!category.isEmpty() && brand.isEmpty()) {
             return brandCategoryDao.selectByCategory(category);
         } else {
-            return brandCategoryDao.selectAlikeBrandCategory(brand,category);
+            return brandCategoryDao.selectAlikeBrandCategory(brand, category);
         }
     }
 
@@ -68,7 +68,7 @@ public class BrandCategoryService {
         category = StringUtil.toLowerCase(category);
         BrandCategoryPojo brandCategoryPojo = brandCategoryDao.selectByBrandCategory(brand, category);
         if (brandCategoryPojo != null) {
-            throw new ApiException("Brand " +brand + " and Category "+ category +" already exists");
+            throw new ApiException("Brand " + brand + " and Category " + category + " already exists");
         }
     }
 
@@ -77,7 +77,7 @@ public class BrandCategoryService {
         category = StringUtil.toLowerCase(category);
         BrandCategoryPojo pojo = brandCategoryDao.selectByBrandCategory(brand, category);
         if (pojo == null) {
-            throw new ApiException("Brand " +brand + " and Category "+ category +" doesn't exists.");
+            throw new ApiException("Brand " + brand + " and Category " + category + " doesn't exists.");
         }
         return pojo;
     }

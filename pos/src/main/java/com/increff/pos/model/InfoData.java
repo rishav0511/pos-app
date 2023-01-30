@@ -1,48 +1,48 @@
 package com.increff.pos.model;
 
-import java.io.Serializable;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Component
-@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
+@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class InfoData implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String message;
-	private String email;
-	private String role;
+    private String message;
+    private String email;
+    private String role;
 
-	public InfoData() {
-		message = "";
-		email = "";
-		role="";
-	}
-	
-	public String getMessage() {
-		return message;
-	}
+    public InfoData() {
+        message = "";
+        email = "";
+        role = "";
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public String getRole() {
-		return role;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }

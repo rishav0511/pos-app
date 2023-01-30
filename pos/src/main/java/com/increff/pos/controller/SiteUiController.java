@@ -9,30 +9,30 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SiteUiController extends AbstractUiController {
 
-	@Autowired
-	private InfoData infoData;
+    @Autowired
+    private InfoData infoData;
 
-	// WEBSITE PAGES
-	@RequestMapping(value = "")
-	public ModelAndView index() {
-		if(!infoData.getEmail().isEmpty()) {
-			return new ModelAndView("redirect:/ui/home");
-		}
-		infoData.setMessage("");
-		return mav("index.html");
-	}
+    // WEBSITE PAGES
+    @RequestMapping(value = "")
+    public ModelAndView index() {
+        if (!infoData.getEmail().isEmpty()) {
+            return new ModelAndView("redirect:/ui/home");
+        }
+        infoData.setMessage("");
+        return mav("index.html");
+    }
 
-	@RequestMapping(value = "/site/login")
-	public ModelAndView login() {
-		if(!infoData.getEmail().isEmpty()) {
-			return new ModelAndView("redirect:/ui/home");
-		}
-		return mav("login.html");
-	}
+    @RequestMapping(value = "/site/login")
+    public ModelAndView login() {
+        if (!infoData.getEmail().isEmpty()) {
+            return new ModelAndView("redirect:/ui/home");
+        }
+        return mav("login.html");
+    }
 
-	@RequestMapping(value = "/site/logout")
-	public ModelAndView logout() {
-		return mav("logout.html");
-	}
+    @RequestMapping(value = "/site/logout")
+    public ModelAndView logout() {
+        return mav("logout.html");
+    }
 
 }

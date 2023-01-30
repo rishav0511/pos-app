@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "products",
-indexes = {
-        @Index(name = "barcode_idx", columnList = "barcode",unique = true)
-})
+        indexes = {
+                @Index(name = "barcode_idx", columnList = "barcode", unique = true)
+        })
 public class ProductPojo {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
     private String barcode;

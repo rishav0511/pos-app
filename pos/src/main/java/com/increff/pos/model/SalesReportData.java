@@ -1,6 +1,5 @@
 package com.increff.pos.model;
 
-import com.increff.pos.pojo.BrandCategoryPojo;
 import lombok.Getter;
 import lombok.Setter;
 

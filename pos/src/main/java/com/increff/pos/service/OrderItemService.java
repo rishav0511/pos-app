@@ -2,7 +2,6 @@ package com.increff.pos.service;
 
 import com.increff.pos.dao.OrderItemDao;
 import com.increff.pos.pojo.OrderItemPojo;
-import com.increff.pos.util.NormalizeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

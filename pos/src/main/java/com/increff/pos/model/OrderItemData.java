@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Data
-public class OrderItemData extends OrderItemForm{
+public class OrderItemData extends OrderItemForm {
     private String product;
 }

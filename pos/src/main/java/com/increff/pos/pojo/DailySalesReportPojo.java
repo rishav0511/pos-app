@@ -10,9 +10,9 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "daily_sales_report",
-indexes = {
-        @Index(name = "date_idx", columnList = "date")
-})
+        indexes = {
+                @Index(name = "date_idx", columnList = "date")
+        })
 public class DailySalesReportPojo {
     @Id
     private Date date;

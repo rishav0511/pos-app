@@ -54,6 +54,6 @@ public class InventoryDto {
         InventoryPojo inventoryPojo = inventoryService.getInventory(productPojo.getId());
         inventoryPojo.setQuantity(inventoryForm.getQuantity());
         inventoryService.updateInventory(inventoryPojo);
-        return ConvertUtil.convertPojotoData(inventoryPojo,productPojo);
+        return ConvertUtil.convertPojotoData(inventoryPojo, productPojo);
     }
 }

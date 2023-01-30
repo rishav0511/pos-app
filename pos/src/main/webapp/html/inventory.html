@@ -14,7 +14,7 @@
         <h3 class="column">Inventory</h3>
         <div class="col d-flex justify-content-end" float="left" th:if="${info.getRole() == 'supervisor'}">
             &nbsp;
-            <button type="button" class="btn btn-info" id="upload-data"  data-toggle="tooltip"
+            <button type="button" class="btn btn-info" id="upload-data" data-toggle="tooltip"
                     data-placement="bottom" title="Upload">
                 <i class="fa fa-upload fa-2x"></i>
             </button>
@@ -61,27 +61,30 @@
                     </button>
                 </div>
                 <form class="form-inline" id="inventory-edit-form">
-                <div class="modal-body">
+                    <div class="modal-body">
 
                         <div class="form-group">
                             <label for="inputName" class="col-sm-4 col-form-label justify-content-start">Barcode</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control w-100" name="barcode" placeholder="enter barcode" readonly="readonly">
+                                <input type="text" class="form-control w-100" name="barcode" placeholder="enter barcode"
+                                       readonly="readonly">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="inputCategory" class="col-sm-4 col-form-label justify-content-start">Quantity</label>
+                            <label for="inputCategory"
+                                   class="col-sm-4 col-form-label justify-content-start">Quantity</label>
                             <div class="col-sm-8">
-                                <input type="number" class="form-control w-100 numberInput" name="quantity" placeholder="enter quantity" required>
+                                <input type="number" class="form-control w-100 numberInput" name="quantity"
+                                       placeholder="enter quantity" required>
                             </div>
                         </div>
-                        <input type="hidden" name="id" >
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="update-inventory">Update</button>
-                </div>
-                </div>
+                        <input type="hidden" name="id">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" id="update-inventory">Update</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -130,7 +133,8 @@
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script th:src="@{/static/inventory.js}"/></script>
+<script th:src="@{/static/inventory.js}"/>
+</script>
 
 </body>
 

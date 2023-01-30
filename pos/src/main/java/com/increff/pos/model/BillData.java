@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class BillData {
-    private  Integer id;
+    private Integer id;
     private List<InvoiceData> items;
 }

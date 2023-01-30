@@ -10,45 +10,45 @@
 
 <div class="container">
 
-<h3>Users</h3>
+    <h3>Users</h3>
 
 
+    <!-- Blank Row -->
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
 
-<!-- Blank Row -->
-<div class="row">
-	&nbsp;
-</div>
-<div class="row">
+        <!-- Table -->
+        <div class="col-12">
+            <table class="table table-striped" id="user-table">
+                <thead class="sticky-top" style="top: 78px; z-index: 2;">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
 
- <!-- Table -->
- <div class="col-12">
-	<table class="table table-striped" id="user-table">
-		<thead class="sticky-top" style="top: 78px; z-index: 2;">
-	    <tr>
-	      <th scope="col">ID</th>
-	      <th scope="col">Email</th>
-	      <th scope="col">Role</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	  </tbody>
-	</table>
-
-</div>
-</div>
+        </div>
+    </div>
 
 
 </div> <!-- Container end-->
 <button type="button"
-		class="btn btn-secondary btn-floating btn-sm"
-		id="btn-back-to-top">
-	<i class="fa fa-arrow-up fa-2x"></i>
+        class="btn btn-secondary btn-floating btn-sm"
+        id="btn-back-to-top">
+    <i class="fa fa-arrow-up fa-2x"></i>
 </button>
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script th:src="@{/static/user.js}"/></script>
+<script th:src="@{/static/user.js}"/>
+</script>
 
-</body>	
+</body>
 
 </html>

@@ -9,12 +9,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "order_items",
-indexes = {
-        @Index(name = "orderId_idx", columnList = "orderId")
-})
+        indexes = {
+                @Index(name = "orderId_idx", columnList = "orderId")
+        })
 public class OrderItemPojo {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(nullable = false)
     private Integer orderId;
@@ -23,5 +23,5 @@ public class OrderItemPojo {
     @Column(nullable = false)
     private Integer quantity;
     @Column(nullable = false)
-    private  Double sellingPrice;
+    private Double sellingPrice;
 }

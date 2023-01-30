@@ -5,10 +5,10 @@ import com.increff.pos.model.BrandCategoryForm;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandCategoryService;
+import com.increff.pos.util.ConvertUtil;
 import com.increff.pos.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.increff.pos.util.ConvertUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;
