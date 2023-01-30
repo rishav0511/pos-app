@@ -118,8 +118,17 @@ var processCount = 0;
 
 
 function processData(){
-   var file = $('#productFile')[0].files[0];
-   readFileData(file, readFileDataCallback);
+    var file = $('#productFile')[0].files[0];
+    processCount=0;
+    errorData=[];
+    fileData=[];
+    updateUploadDialog();
+    if(!file)
+    {
+        $.notify("No file detected!", "error");
+        return;
+    }
+    readFileData(file, readFileDataCallback);
 }
 
 function readFileDataCallback(results){
@@ -142,6 +151,7 @@ function readFileDataCallback(results){
    }
    if(fileData.length >= 5000) {
        $.notify("Row Count greater than 5000!", "error");
+       return;
    }
    uploadRows();
 }
