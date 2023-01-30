@@ -12,6 +12,7 @@ function addOrder(event){
         };
       });
       if(data.length===0) {
+        $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("Crate is Empty", "error");
         return;
       }
@@ -201,7 +202,7 @@ function displayDetailsModal(data) {
        + '<td>' + e.product + '</td>'
        + '<td class="text-right">' + "₹" + numberWithCommas(e.sellingPrice.toFixed(2)) + '</td>'
        + '<td>'  + e.quantity + '</td>'
-       + '<td class="text-right">' + numberWithCommas((e.sellingPrice * e.quantity).toFixed(2)) + '</td>'
+       + '<td class="text-right">' + "₹"  + numberWithCommas((e.sellingPrice * e.quantity).toFixed(2)) + '</td>'
        + '</tr>';
        total=total+(e.sellingPrice * e.quantity);
        $tbody.append(row);

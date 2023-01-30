@@ -8,6 +8,7 @@ function filterSalesReport() {
     var json = toJson($form);
     var data = JSON.parse(json);
     if(Date.parse(data["startDate"]) > Date.parse(data["endDate"])) {
+        $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("Start Date is greater than End date", "error");
         return;
     }
@@ -27,11 +28,13 @@ function filterSalesReport() {
 }
 
 function displaySalesReport(data) {
-    if(data.length==0) {
-        $('#sales-table').hide();
-    } else {
-        $('#sales-table').show();
+    if(data.length===0)
+    {
+        $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify("No Data Found", "error");
+        return;
     }
+     $('#sales-table').show();
     var $tbody = $('#sales-table').find('tbody');
     $tbody.empty();
     for(var i in data){
@@ -50,7 +53,7 @@ function displaySalesReport(data) {
 //INITIALIZATION CODE
 function init(){
    $('#filter-sales-report').click(filterSalesReport);
-   displaySalesReport([]);
+   $('#sales-table').hide();
    $(function(){
        var dtToday = new Date();
 

@@ -45,6 +45,7 @@ function addProduct(event){
          $("#product-add-form input[name=bcategory]").val('');
          $("#product-add-form input[name=mrp]").val('');
          $.notify("Product Added", "success");
+         $('#add-product-modal').modal('toggle');
       },
       error: handleAjaxError
    });
@@ -125,6 +126,7 @@ function processData(){
     updateUploadDialog();
     if(!file)
     {
+        $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("No file detected!", "error");
         return;
     }
@@ -150,6 +152,7 @@ function readFileDataCallback(results){
        return;
    }
    if(fileData.length >= 5000) {
+       $('.notifyjs-wrapper').trigger('notify-hide');
        $.notify("Row Count greater than 5000!", "error");
        return;
    }
@@ -338,7 +341,7 @@ function addProductModal() {
 function init(){
    $('#nav-products').addClass('active');
    $('#add-product-button').click(addProductModal);
-   $('#add-product').submit(addProduct);
+   $('#add-product-modal').submit(addProduct);
    $('#edit-product-modal').submit(updateProduct);
    $('#refresh-data').click(getProductList);
    $('#upload-data').click(displayUploadData);

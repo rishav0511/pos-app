@@ -66,6 +66,7 @@ function processData(){
     updateUploadDialog();
 	if(!file)
     {
+        $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("No file detected!", "error");
         return;
     }

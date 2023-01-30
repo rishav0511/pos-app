@@ -13,6 +13,7 @@ function toJson($form){
 }
 
 function showError(message) {
+    $('.notifyjs-wrapper').trigger('notify-hide');
     $.notify(message, "error");
 }
 

@@ -85,6 +85,7 @@ function processData(){
 	updateUploadDialog();
 	if(!file)
 	{
+	    $('.notifyjs-wrapper').trigger('notify-hide');
 	    $.notify("No file detected!", "error");
 	    return;
 	}
@@ -110,6 +111,7 @@ function readFileDataCallback(results){
         return;
 	}
     if(fileData.length >= 5000) {
+        $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("Row Count greater than 5000!", "error");
         return;
     }
@@ -248,7 +250,7 @@ function displayBrand(data){
 
 function init(){
     $('#nav-brands').addClass('active');
-	$('#add-brand').submit(addBrand);
+	$('#brand-form').submit(addBrand);
 	$('#brand-edit-form').submit(updateBrand);
 	$('#refresh-data').click(getBrandList);
 	$('#upload-data').click(displayUploadData);
