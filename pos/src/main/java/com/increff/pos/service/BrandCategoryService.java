@@ -44,7 +44,7 @@ public class BrandCategoryService {
         }
     }
 
-    // todo ask shubham for Api exception
+
     @Transactional
     public BrandCategoryPojo updateBrandCategory(Integer id, BrandCategoryPojo brandCategoryPojo) throws ApiException {
         NormalizeUtil.normalizePojo(brandCategoryPojo);

@@ -24,12 +24,7 @@ public class InvoiceController {
         XMLUtil.createXml(data);
         PDFUtil.createPDF();
         byte[] encodedBytes = org.apache.commons.io.FileUtils.readFileToByteArray(new File("bill.pdf"));
-//        PDFUtil.createResponse(response, encodedBytes);
-
-//        String BasicBase64format = Base64.getEncoder().encodeToString(invoiceData.getBytes());
-//        System.out.println("Encoded String:\n" + BasicBase64format);
         String b64PDF = Base64.getEncoder().encodeToString(encodedBytes);
-//        System.out.println(b64PDF);
         return b64PDF;
     }
 }

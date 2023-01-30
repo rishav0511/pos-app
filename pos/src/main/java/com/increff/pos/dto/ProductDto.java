@@ -48,7 +48,7 @@ public class ProductDto {
         return ConvertUtil.convertPojotoData(productPojo, brandCategoryPojo);
     }
 
-    // todo Ask shubham for this
+
     public List<ProductData> getAllProducts() throws ApiException {
         List<ProductPojo> allProducts = productService.getAllProducts();
         List<ProductData> productDataList = new ArrayList<>();

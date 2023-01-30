@@ -37,7 +37,13 @@ public class ValidationUtils {
     }
 
     public static void validateForm(InventoryForm inventoryForm) throws ApiException {
-        if (inventoryForm.getQuantity() < 0) {
+        if(inventoryForm.getQuantity()==null) {
+            throw new ApiException("Please Enter quantity!");
+        }
+        else if(inventoryForm.getBarcode()==null) {
+            throw new ApiException("Please Enter barcode!");
+        }
+        else if (inventoryForm.getQuantity() < 0) {
             throw new ApiException("Please enter a positive quantity");
         }
     }
@@ -47,7 +53,13 @@ public class ValidationUtils {
             throw new ApiException("Order items cannot be empty");
         }
         for (OrderItemForm orderItem : orderItemForms) {
-            if (orderItem.getQuantity() <= 0) {
+            if(orderItem.getQuantity() == null) {
+                throw new ApiException("Please Enter quantity!");
+            }
+            else if(orderItem.getSellingPrice() == null) {
+                throw new ApiException("Please Enter selling price!");
+            }
+            else if (orderItem.getQuantity() <= 0) {
                 throw new ApiException("Quantity cannot be less than or equal to 0");
             } else if (orderItem.getSellingPrice() < 0) {
                 throw new ApiException("Selling Price cannot be less than 0");

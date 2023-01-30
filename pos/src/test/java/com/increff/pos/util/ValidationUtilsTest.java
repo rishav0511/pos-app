@@ -87,6 +87,22 @@ public class ValidationUtilsTest {
     }
 
     @Test
+    public void validateFormNullQuantityTest() throws ApiException {
+        InventoryForm inventoryForm = TestUtils.getInventoryForm("am123",null);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Please Enter quantity!");
+        ValidationUtils.validateForm(inventoryForm);
+    }
+
+    @Test
+    public void validateFormNullBarcodeInventoryTest() throws ApiException {
+        InventoryForm inventoryForm = TestUtils.getInventoryForm(null,5);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Please Enter barcode!");
+        ValidationUtils.validateForm(inventoryForm);
+    }
+
+    @Test
     public void validateFormNullOrderItemTest() throws ApiException {
         List<String> barcodes = new ArrayList<>();
         List<Integer>quantities = new ArrayList<>();
@@ -112,6 +128,20 @@ public class ValidationUtilsTest {
     }
 
     @Test
+    public void validateFormNullQuantityOrderTest() throws ApiException {
+        List<String>barcodes = new ArrayList<>();
+        barcodes.add("xy111");
+        List<Integer>quantities = new ArrayList<>();
+        quantities.add(null);
+        List<Double>sellingPrices = new ArrayList<>();
+        sellingPrices.add(52.0);
+        List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Please Enter quantity!");
+        ValidationUtils.validateForm(orderItemFormList);
+    }
+
+    @Test
     public void validateFormNegativeSellingPriceOrderTest() throws ApiException {
         List<String>barcodes = new ArrayList<>();
         barcodes.add("xy111");
@@ -122,6 +152,20 @@ public class ValidationUtilsTest {
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Selling Price cannot be less than 0");
+        ValidationUtils.validateForm(orderItemFormList);
+    }
+
+    @Test
+    public void validateFormNullSellingPriceOrderTest() throws ApiException {
+        List<String>barcodes = new ArrayList<>();
+        barcodes.add("xy111");
+        List<Integer>quantities = new ArrayList<>();
+        quantities.add(5);
+        List<Double>sellingPrices = new ArrayList<>();
+        sellingPrices.add(null);
+        List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
+        exceptionRule.expect(ApiException.class);
+        exceptionRule.expectMessage("Please Enter selling price!");
         ValidationUtils.validateForm(orderItemFormList);
     }
 

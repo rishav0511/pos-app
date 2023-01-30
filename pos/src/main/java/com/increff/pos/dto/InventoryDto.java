@@ -29,16 +29,9 @@ public class InventoryDto {
         return ConvertUtil.convertPojotoData(inventoryPojo, productPojo);
     }
 
-    // todo Ask shubham for this
+
     public List<InventoryData> getAll() throws ApiException {
         List<InventoryPojo> inventoryPojos = inventoryService.getAll();
-//        return inventoryPojos.stream().map(it-> {
-//            try {
-//                return ConvertUtil.convertPojotoData(it,productService.getProduct(it.getProductId()));
-//            } catch (ApiException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }).collect(Collectors.toList());
         List<InventoryData> inventoryData = new ArrayList<>();
         for (InventoryPojo pojo : inventoryPojos) {
             ProductPojo productPojo = productService.getProduct(pojo.getProductId());

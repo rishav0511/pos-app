@@ -4,18 +4,25 @@ function getOrdersUrl(){
 }
 
 function addOrder(event){
-	const data = orderItems.map((it) => {
+    var ok = true;
+    const data = orderItems.map((it) => {
+        if(isNaN(it.quantity)) {
+           $.notify("Quantity cannot be empty", "error");
+           ok = false;
+        }
         return {
-          barcode: it.barcode,
-          quantity: it.quantity,
-          sellingPrice: it.sellingPrice,
+            barcode: it.barcode,
+            quantity: it.quantity,
+            sellingPrice: it.sellingPrice,
         };
-      });
-      if(data.length===0) {
+    });
+    if(!ok)
+        return;
+    if(data.length===0) {
         $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify("Crate is Empty", "error");
         return;
-      }
+    }
     const json = JSON.stringify(data);
 
 	var url = getOrdersUrl();
@@ -39,12 +46,23 @@ function addOrder(event){
 
 function updateOrder(event){
 	const data = orderItems.map((it) => {
-            return {
-              barcode: it.barcode,
-              quantity: it.quantity,
-              sellingPrice: it.sellingPrice,
-            };
-          });
+        if(isNaN(it.quantity)) {
+           $.notify("Quantity cannot be empty", "error");
+           ok = false;
+        }
+        return {
+            barcode: it.barcode,
+            quantity: it.quantity,
+            sellingPrice: it.sellingPrice,
+        };
+    });
+    if(!ok)
+        return;
+    if(data.length===0) {
+        $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify("Crate is Empty", "error");
+        return;
+    }
     const json = JSON.stringify(data);
     var id = $("#edit-order-modal input[name=id]").val();
     var url = getOrdersUrl() + "/" + id;
