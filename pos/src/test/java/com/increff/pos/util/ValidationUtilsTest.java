@@ -171,7 +171,7 @@ public class ValidationUtilsTest {
 
     @Test
     public void validateFormUserTest() throws ApiException {
-        UserForm userForm = TestUtils.getUserForm("xyz","xyz");
+        UserForm userForm = TestUtils.getUserForm("xyz","xyz","xyz");
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Invalid email!");
         ValidationUtils.validateForm(userForm);
@@ -179,7 +179,7 @@ public class ValidationUtilsTest {
 
     @Test
     public void validateFormUserPasswordTest() throws ApiException {
-        UserForm userForm = TestUtils.getUserForm("xyz@xyz.com","     ");
+        UserForm userForm = TestUtils.getUserForm("xyz@xyz.com","     ","     ");
         exceptionRule.expect(ApiException.class);
         exceptionRule.expectMessage("Password must not be blank!");
         ValidationUtils.validateForm(userForm);

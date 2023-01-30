@@ -128,7 +128,7 @@ public class ConvertUtilsTest {
 
     @Test
     public void convertFormToUserPojo() {
-        UserForm userForm = TestUtils.getUserForm("xyz@xyz.com", "xyz");
+        UserForm userForm = TestUtils.getUserForm("xyz@xyz.com", "xyz","xyz");
         UserPojo pojo = ConvertUtil.convertFormToPojo(userForm);
         assertEquals("xyz@xyz.com", pojo.getEmail());
         assertEquals("xyz", pojo.getPassword());

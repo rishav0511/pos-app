@@ -53,10 +53,11 @@ public class TestUtils {
         return salesReportForm;
     }
 
-    public static UserForm getUserForm(String email,String password) {
+    public static UserForm getUserForm(String email,String password,String confirmPasswprd) {
         UserForm userForm = new UserForm();
         userForm.setEmail(email);
         userForm.setPassword(password);
+        userForm.setConfirmPassword(confirmPasswprd);
         return userForm;
     }
 

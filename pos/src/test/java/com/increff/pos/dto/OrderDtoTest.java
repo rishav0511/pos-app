@@ -255,7 +255,7 @@ public class OrderDtoTest extends AbstractUnitTest {
         sellingPrices.add(52.0);
         List<OrderItemForm> orderItemFormList = TestUtils.getOrderItemArray(barcodes,quantities,sellingPrices);
         exceptionRule.expect(ApiException.class);
-        exceptionRule.expectMessage("Selling price higher than mrp for am111");
+        exceptionRule.expectMessage("Selling price higher than mrp 50.75 for am111");
         orderData = orderDto.addOrder(orderItemFormList);
     }
 

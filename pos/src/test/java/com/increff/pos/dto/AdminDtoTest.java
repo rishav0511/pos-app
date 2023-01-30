@@ -25,7 +25,7 @@ public class AdminDtoTest extends AbstractUnitTest {
      */
     @Test
     public void addSupervisorTest() throws ApiException {
-        UserForm userForm = TestUtils.getUserForm("xyz@increff.com","xyz");
+        UserForm userForm = TestUtils.getUserForm("xyz@increff.com","xyz","xyz");
         adminApiDto.add(userForm);
         List<UserData> list = adminApiDto.getAll();
         List<UserPojo> pojos = userService.getAll();
@@ -40,7 +40,7 @@ public class AdminDtoTest extends AbstractUnitTest {
      */
     @Test
     public void addOperatorTest() throws ApiException {
-        UserForm userForm = TestUtils.getUserForm("operator1@increff.com","xyz");
+        UserForm userForm = TestUtils.getUserForm("operator1@increff.com","xyz","xyz");
         adminApiDto.add(userForm);
         List<UserData> list = adminApiDto.getAll();
         List<UserPojo> pojos = userService.getAll();
