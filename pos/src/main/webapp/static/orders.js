@@ -45,6 +45,7 @@ function addOrder(event){
 }
 
 function updateOrder(event){
+    var ok = true;
 	const data = orderItems.map((it) => {
         if(isNaN(it.quantity)) {
            $.notify("Quantity cannot be empty", "error");
@@ -234,7 +235,7 @@ function displayDetailsModal(data) {
        total=total+(e.sellingPrice * e.quantity);
        $tbody.append(row);
     }
-    $('#grand-total').text(total.toFixed(2))
+    $('#grand-total').text("₹"+total.toFixed(2))
 }
 
 function displayOrder(data){

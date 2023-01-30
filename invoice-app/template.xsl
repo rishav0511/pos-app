@@ -45,7 +45,7 @@
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell padding-top="50pt">
-                            <fo:block font-size="20pt" font-family="sans-serif" color="red" text-align="center">
+                            <fo:block font-size="20pt" font-family="sans-serif" color="black" text-align="center">
                                 <xsl:value-of select="orderId" />
                             </fo:block>
                         </fo:table-cell>
@@ -80,22 +80,22 @@
                 <fo:table-body>
                     <fo:table-row>
                         <fo:table-cell padding-top="30pt">
-                            <fo:block font-size="15pt" font-family="sans-serif" background-color="blue" color="white" text-align="center" padding-top="3pt">
+                            <fo:block font-size="15pt" font-family="sans-serif" background-color="black" color="white" text-align="center" padding-top="3pt">
                                 Item-No.
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell padding-top="30pt">
-                            <fo:block font-size="15pt" font-family="sans-serif" background-color="blue" color="white" text-align="center" padding-top="3pt">
+                            <fo:block font-size="15pt" font-family="sans-serif" background-color="black" color="white" text-align="center" padding-top="3pt">
                                 Name
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell padding-top="30pt">
-                            <fo:block font-size="15pt" font-family="sans-serif" background-color="blue" color="white" text-align="center" padding-top="3pt">
+                            <fo:block font-size="15pt" font-family="sans-serif" background-color="black" color="white" text-align="center" padding-top="3pt">
                                 Quantity
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell padding-top="30pt">
-                            <fo:block font-size="15pt" font-family="sans-serif" background-color="blue" color="white" text-align="center" padding-top="3pt">
+                            <fo:block font-size="15pt" font-family="sans-serif" background-color="black" color="white" text-align="center" padding-top="3pt">
                                 MRP
                             </fo:block>
                         </fo:table-cell>
@@ -150,7 +150,7 @@
                             </fo:block>
                         </fo:table-cell>
                         <fo:table-cell padding-top="30pt">
-                            <fo:block font-size="20pt" font-family="sans-serif" color="red" text-align="center">
+                            <fo:block font-size="20pt" font-family="sans-serif" color="black" text-align="center">
                                 <xsl:value-of select="total" />
                             </fo:block>
                         </fo:table-cell>
