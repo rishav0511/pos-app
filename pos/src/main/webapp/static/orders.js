@@ -167,7 +167,15 @@ function displayEditOrderItems(orderItems) {
                      <tr>
                        <td>&nbsp;</td>
                        <td class="barcodeData">${e.barcode}</td>
-                       <td class="text-right">₹${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
+                       <td class="d-flex justify-content-center">
+                            <input
+                              id="order-item-sp-${e.barcode}"
+                              type="number"
+                              class="form-control sellingPriceData numberInput"
+                              value="${e.sellingPrice}"
+                              onchange="onSellingPriceChanged('${e.barcode}')"
+                              style="width:70%" min="0" step="0.01">
+                       </td>
                        <td>
                          <input
                            id="order-item-${e.barcode}"
@@ -271,7 +279,15 @@ function displayCreateOrderItems(orderItems) {
                  <tr>
                    <td>&nbsp;</td>
                    <td class="barcodeData">${e.barcode}</td>
-                   <td class="text-right"> ₹${numberWithCommas(e.sellingPrice.toFixed(2))}</td>
+                   <td class="d-flex justify-content-center">
+                       <input
+                         id="order-item-sp-${e.barcode}"
+                         type="number"
+                         class="form-control sellingPriceData numberInput"
+                         value="${e.sellingPrice}"
+                         onchange="onSellingPriceChanged('${e.barcode}')"
+                         style="width:70%" min="0" step="0.01">
+                  </td>
                    <td>
                      <input
                        id="order-item-${e.barcode}"
@@ -299,6 +315,12 @@ function onQuantityChanged(barcode) {
   if (index == -1) return;
   const newQuantity = $(`#order-item-${barcode}`).val();
   orderItems[index].quantity = Number.parseInt(newQuantity);
+}
+function onSellingPriceChanged(barcode) {
+  const index = orderItems.findIndex((it) => it.barcode === barcode);
+  if (index == -1) return;
+  const newSellingPrice = $(`#order-item-sp-${barcode}`).val();
+  orderItems[index].sellingPrice = Number.parseFloat(newSellingPrice);
 }
 
 function getCurrentOrderItem() {
@@ -416,5 +438,4 @@ function backToTop() {
 }
 $(document).ready(init);
 $(document).ready(getOrderList);
-
 

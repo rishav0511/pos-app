@@ -11,10 +11,15 @@ public class ValidationUtils {
     public static boolean isValidEmail(String email) {
         return email.matches(EMAIL_PATTERN);
     }
+    public static boolean isValidBarcode(String barcode) {
+        return barcode.trim().matches("\\w+");
+    }
 
     public static void validateForm(ProductForm productForm) throws ApiException {
         if (productForm.getBarcode() == null) {
             throw new ApiException("Please Enter Barcode!");
+        } else if (!isValidBarcode(productForm.getBarcode())) {
+            throw new ApiException("Invalid Barcode!");
         } else if (productForm.getProduct() == null) {
             throw new ApiException("Please Enter Product Name!");
         } else if (productForm.getMrp() == null) {
