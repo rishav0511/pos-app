@@ -74,15 +74,18 @@ function numberWithCommas(x) {
 }
 
 
-var arrayInputNumber = document.querySelectorAll('.numberInput');
-arrayInputNumber.forEach( (input) => input.addEventListener("keypress", function (evt) {
-    if (evt.which != 8 && evt.which != 0 && evt.which != 46 && evt.which < 48 || evt.which > 57) {
-        evt.preventDefault();
+//prevent 'e' press in number field
+var invalidChars = [
+    "-",
+    "+",
+    "e",
+];
+const verifyNumberInput = () =>  document.querySelectorAll('input[type="number"]').forEach( input => input.addEventListener("keydown", function(e) {
+    if (invalidChars.includes(e.key)) {
+      e.preventDefault();
     }
-    if (window.location.pathname === "/pos/ui/inventory" && evt.which === 46) {
-        evt.preventDefault();
-    }
-}));
+  }));
+verifyNumberInput();
 // 0 for null values
 // 8 for backspace
 // 48-57 for 0-9 numbers

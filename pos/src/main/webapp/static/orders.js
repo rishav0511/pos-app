@@ -196,6 +196,7 @@ function displayEditOrderItems(orderItems) {
 
                $tbody.append(row);
          }
+         verifyNumberInput();
 }
 
 
@@ -308,6 +309,7 @@ function displayCreateOrderItems(orderItems) {
 
            $tbody.append(row);
      }
+     verifyNumberInput();
 }
 
 function onQuantityChanged(barcode) {
