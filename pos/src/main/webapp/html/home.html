@@ -71,7 +71,15 @@
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
-<script>$('#nav-home').addClass('active');</script>
+<script>
+    $('#nav-home').hide();
+    $('#nav-brands').hide();
+    $('#nav-products').hide();
+    $('#nav-inventory').hide();
+    $('#nav-orders').hide();
+    $('#nav-reports').hide();
+    $('#nav-users').hide();
+</script>
 </body>
 
 </html>

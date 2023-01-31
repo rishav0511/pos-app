@@ -136,7 +136,7 @@ function processData(){
 function readFileDataCallback(results){
    fileData = results.data;
    var meta = results.meta;
-   if(meta.fields.length!=2 ) {
+   if(meta.fields.length!=5 ) {
        var row = {};
        row.error="Number of headers don't match.";
        errorData.push(row);

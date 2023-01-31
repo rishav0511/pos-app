@@ -48,4 +48,12 @@ ReportDtoTest:
 4. Get sales report empty category
 5. Get sales report empty brand
 6. Get sales report
-7. Generate dailySalesReport and retrieve 
+7. Generate dailySalesReport and retrieve
+
+
+Types of TSVs:
+1. Headers empty
+2. Header wrong
+3. Extra Headers
+4. Empty TSV
+5. Fields empty, Extra field at the end, All correct

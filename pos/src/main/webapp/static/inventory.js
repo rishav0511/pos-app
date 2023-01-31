@@ -114,7 +114,6 @@ function uploadRows(){
 
 	//Process next row
 	var row = fileData[processCount];
-	console.log(row);
 	processCount++;
 
 	if(row.__parsed_extra != null) {
