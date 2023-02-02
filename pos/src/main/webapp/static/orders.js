@@ -154,6 +154,7 @@ function displayEditOrder(id) {
             var dateTime = data.orderData.createdAt;
             $('#edit-orderDateTime').text(convertTimeStampToDateTime(dateTime));
             displayEditOrderItems(data.orderItemDataList);
+            resetEditAddItemForm();
        },
        error: handleAjaxError
     });

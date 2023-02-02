@@ -256,17 +256,17 @@ function populateBrandCategoryDropDown(formType) {
 function displayProductList(data){
    var $tbody = $('#product-table').find('tbody');
    $tbody.empty();
+   $('#results-found').text("There were " + data.length + " results found.")
    for(var i in data){
       var e = data[i];
       var buttonHtml = '';
       if(getRole() === "supervisor") {
          buttonHtml = '<td>' + `<button type="button" onclick="displayEditProduct('${e.id}')" data-toggle="tooltip"
-                                              data-placement="bottom" style='background-color: transparent;border: 0;' title="Edit">
+                                              data-placement="bottom" style='background-color: transparent;border: 0;' title="Update">
                                         <i class="fa fa-pencil-square-o fa-1x"></i>
                                       </button>` + '</td>';
       }
       var row = '<tr>'
-      + '<td>&nbsp;</td>'
       + '<td>' + e.barcode + '</td>'
       + '<td>' + e.product + '</td>'
       + '<td>' + e.bname + '</td>'

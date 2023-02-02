@@ -12,7 +12,6 @@ public class SiteUiController extends AbstractUiController {
     @Autowired
     private InfoData infoData;
 
-    // WEBSITE PAGES
     @RequestMapping(value = "")
     public ModelAndView index() {
         if (!infoData.getEmail().isEmpty()) {

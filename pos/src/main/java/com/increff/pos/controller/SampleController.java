@@ -17,7 +17,6 @@ public class SampleController {
 
     @RequestMapping(value = "/sample/{fileName:.+}", method = RequestMethod.GET)
     public void getFile(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
-        // get your file as InputStream
         response.setContentType("text/csv");
         response.addHeader("Content-disposition:", "attachment; filename=" + fileName);
         String fileClasspath = "/com/increff/pos/" + fileName;

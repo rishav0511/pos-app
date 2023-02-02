@@ -177,17 +177,17 @@ function downloadErrors(){
 function displayBrandList(data){
 	var $tbody = $('#brand-table').find('tbody');
 	$tbody.empty();
+	 $('#results-found').text("There were " + data.length + " results found.")
 	for(var i in data){
 		var e = data[i];
 		var buttonHtml = '';
 		if(getRole() === "supervisor") {
 		    buttonHtml = '<td>' + `<button type="button" onclick="displayEditBrand('${e.id}')" data-toggle="tooltip"
-                                        data-placement="bottom" style='background-color: transparent;border: 0;' title="Edit" >
+                                        data-placement="bottom" style='background-color: transparent;border: 0;' title="Update" >
                                   <i class="fa fa-pencil-square-o fa-1x"></i>
                                 </button>` + '</td>';
         }
 		var row = '<tr>'
-		+ '<td>&nbsp;</td>'
 		+ '<td>' + e.brand + '</td>'
 		+ '<td>'  + e.category + '</td>'
 		+  buttonHtml
@@ -246,10 +246,14 @@ function displayBrand(data){
 	$('#edit-brand-modal').modal('toggle');
 }
 
+function addBrandModal() {
+    $('#add-brand-modal').modal('toggle');
+}
 
 
 function init(){
     $('#nav-brands').addClass('active');
+    $('#add-brand').click(addBrandModal)
 	$('#brand-form').submit(addBrand);
 	$('#brand-edit-form').submit(updateBrand);
 	$('#refresh-data').click(getBrandList);

@@ -49,7 +49,17 @@ function displaySalesReport(data) {
         $tbody.append(row);
     }
 }
+function startDateChanged(event){
+    if( $('#inputEndDate').val()==="") {
+        $('#inputEndDate').attr('min',event.target.value)
+    }
+}
 
+function endDateChanged(event){
+    if( $('#inputStartDate').val()==="") {
+        $('#inputStartDate').attr('max',event.target.value);
+    }
+}
 //INITIALIZATION CODE
 function init(){
    $('#filter-sales-report').click(filterSalesReport);
@@ -70,6 +80,8 @@ function init(){
        $('#inputStartDate').attr('max', maxDate);
        $('#inputEndDate').attr('max', maxDate);
    });
+   $('#inputStartDate').change(startDateChanged);
+   $('#inputEndDate').change(endDateChanged);
 }
 
 let mybutton = document.getElementById("btn-back-to-top");

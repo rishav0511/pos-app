@@ -42,17 +42,11 @@ public class LoginController {
             return new ModelAndView("redirect:/site/login");
         }
 
-        // Create authentication object
         Authentication authentication = convert(p);
-        // Create new session
         HttpSession session = req.getSession(true);
-        // Attach Spring SecurityContext to this new session
         SecurityUtil.createContext(session);
-        // Attach Authentication object to the Security Context
         SecurityUtil.setAuthentication(authentication);
-
         return new ModelAndView("redirect:/ui/home");
-
     }
 
     @RequestMapping(path = "/session/logout", method = RequestMethod.GET)

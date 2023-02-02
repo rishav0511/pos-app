@@ -34,7 +34,6 @@ body {
 table{
 	width: 100%; /* For Responsive design set 100% */
 	border-collapse: collapse;
-	margin: 30px 0px 30px;
 	background-color: #fff;
 	font-size: 1.1rem;
 }
