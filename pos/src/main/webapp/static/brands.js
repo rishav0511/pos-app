@@ -86,6 +86,7 @@ function processData(){
 	if(!file)
 	{
 	    $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
 	    $.notify("No file detected!", "error");
 	    return;
 	}
@@ -112,6 +113,7 @@ function readFileDataCallback(results){
 	}
     if(fileData.length >= 5000) {
         $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
         $.notify("Row Count greater than 5000!", "error");
         return;
     }

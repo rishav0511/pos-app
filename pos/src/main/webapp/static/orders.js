@@ -7,6 +7,8 @@ function addOrder(event){
     var ok = true;
     const data = orderItems.map((it) => {
         if(isNaN(it.quantity)) {
+           $('.notifyjs-wrapper').trigger('notify-hide');
+           $.notify.defaults({clickToHide:true,autoHide:false});
            $.notify("Quantity cannot be empty", "error");
            ok = false;
         }
@@ -20,6 +22,7 @@ function addOrder(event){
         return;
     if(data.length===0) {
         $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
         $.notify("Crate is Empty", "error");
         return;
     }
@@ -48,6 +51,8 @@ function updateOrder(event){
     var ok = true;
 	const data = orderItems.map((it) => {
         if(isNaN(it.quantity)) {
+           $('.notifyjs-wrapper').trigger('notify-hide');
+           $.notify.defaults({clickToHide:true,autoHide:false});
            $.notify("Quantity cannot be empty", "error");
            ok = false;
         }
@@ -61,6 +66,7 @@ function updateOrder(event){
         return;
     if(data.length===0) {
         $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
         $.notify("Crate is Empty", "error");
         return;
     }

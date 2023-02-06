@@ -9,58 +9,97 @@
 <nav th:replace="snippets.html :: name_site_navbar"></nav>
 
 
+<!--<div class="container">-->
+
+<!--    <div class="row justify-content-center">-->
+<!--        <div class="col-6">-->
+
+<!--            <div class="card">-->
+<!--                <div class="card-header">-->
+<!--                    Sign up to POS Application-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <form class="" onSubmit="return checkPassword(this)" id="init-form" method="POST"-->
+<!--                          th:action="@{/site/signup}">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label for="email" class="col-sm-4 col-form-label">Email</label>-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <input type="email" class="form-control w-100" name="email" id="email"-->
+<!--                                       placeholder="enter email" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group row">-->
+<!--                            <label for="password" class="col-sm-4 col-form-label">Password</label>-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <input type="password" class="form-control w-100" name="password" id="password"-->
+<!--                                       placeholder="password" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group row">-->
+<!--                            <label for="password" class="col-sm-4 col-form-label">Confirm Password</label>-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <input type="password" class="form-control w-100" name="confirmPassword"-->
+<!--                                       id="confirmPassword" placeholder="confirm password" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <input type="hidden" name="role" id="role">-->
+<!--                        <button type="submit" class="btn btn-primary" id="login">Sign Up</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="card-footer text-danger">-->
+<!--                    [[${info.getMessage()}]]-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+
+<!--        </div> &lt;!&ndash; Col &ndash;&gt;-->
+<!--    </div> &lt;!&ndash; Row &ndash;&gt;-->
+
+<!--</div> &lt;!&ndash; Container&ndash;&gt;-->
+
 <div class="container">
-
-    <div class="row justify-content-center">
-        <div class="col-6">
-
-            <div class="card">
-                <div class="card-header">
-                    Sign up to POS Application
-                </div>
-                <div class="card-body">
-                    <form class="" onSubmit="return checkPassword(this)" id="init-form" method="POST"
-                          th:action="@{/site/signup}">
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input type="email" class="form-control w-100" name="email" id="email"
-                                       placeholder="enter email" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-sm-4 col-form-label">Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control w-100" name="password" id="password"
-                                       placeholder="password" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-sm-4 col-form-label">Confirm Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control w-100" name="confirmPassword"
-                                       id="confirmPassword" placeholder="confirm password" required>
-                            </div>
-                        </div>
-                        <input type="hidden" name="role" id="role">
-                        <button type="submit" class="btn btn-primary" id="login">Sign Up</button>
-                    </form>
-                </div>
-                <div class="card-footer text-danger">
-                    [[${info.getMessage()}]]
-                </div>
-
+    <div style="width:50%;margin:auto;margin-top:16vh;">
+        <div class="card" style="box-shadow: 1px 3px 5px #999;">
+            <div class="card-header font-weight-bold">
+                Signup
             </div>
-
-
-        </div> <!-- Col -->
+            <div class="card-body">
+                <form class="form" onSubmit="return checkPassword(this)" id="signup-form" method="POST" th:action="@{/site/signup}">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-10 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" autocomplete="off" name="email" id="email"
+                                   placeholder="Enter Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-10 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" id="password" placeholder="Enter Password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword" class="col-sm-10 col-form-label">Confirm Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
+                                   placeholder="Enter Confirm Password">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary" id="signup" style="margin-left:1rem">Signup</button>
+                </form>
+            </div>
+            <div class="card-footer text-danger">
+                [[${info.getMessage()}]]
+            </div>
+        </div>
     </div> <!-- Row -->
-
 </div> <!-- Container-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
 
 <script>
+    $("#nav-signup").hide();
 	function checkPassword(form) {
 		password1 = form.password.value;
 		password2 = form.confirmPassword.value;
@@ -75,6 +114,8 @@
 
 		// If Not same return False.
 		else if (password1 != password2) {
+		    $('.notifyjs-wrapper').trigger('notify-hide');
+            $.notify.defaults({clickToHide:true,autoHide:false});
 			$.notify("Password did not match: Please try again...", "error");
 			return false;
 		}

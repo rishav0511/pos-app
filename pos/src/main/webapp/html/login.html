@@ -9,47 +9,82 @@
 <nav th:replace="snippets.html :: name_site_navbar"></nav>
 
 
+<!--<div class="container">-->
+
+<!--    <div class="row justify-content-center">-->
+<!--        <div class="col-6">-->
+
+<!--            <div class="card">-->
+<!--                <div class="card-header">-->
+<!--                    Login-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <form class="form" id="login-form" method="POST" th:action="@{/session/login}">-->
+<!--                        <div class="form-group row">-->
+<!--                            <label for="email" class="col-sm-4 col-form-label">Email</label>-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <input type="email" class="form-control" name="email" id="email"-->
+<!--                                       placeholder="enter email" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group row">-->
+<!--                            <label for="password" class="col-sm-4 col-form-label">Password</label>-->
+<!--                            <div class="col-sm-8">-->
+<!--                                <input type="password" class="form-control" name="password" id="password"-->
+<!--                                       placeholder="password" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <button type="submit" class="btn btn-primary" id="login">Login</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                <div class="card-footer text-danger">-->
+<!--                    [[${info.getMessage()}]]-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+
+<!--        </div> &lt;!&ndash; Col &ndash;&gt;-->
+<!--    </div> &lt;!&ndash; Row &ndash;&gt;-->
+
+<!--</div> &lt;!&ndash; Container&ndash;&gt;-->
 <div class="container">
-
-    <div class="row justify-content-center">
-        <div class="col-6">
-
-            <div class="card">
-                <div class="card-header">
-                    Login
-                </div>
-                <div class="card-body">
-                    <form class="form" id="login-form" method="POST" th:action="@{/session/login}">
-                        <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input type="email" class="form-control" name="email" id="email"
-                                       placeholder="enter email" required>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="password" class="col-sm-4 col-form-label">Password</label>
-                            <div class="col-sm-8">
-                                <input type="password" class="form-control" name="password" id="password"
-                                       placeholder="password" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="login">Login</button>
-                    </form>
-                </div>
-                <div class="card-footer text-danger">
-                    [[${info.getMessage()}]]
-                </div>
-
+    <div style="width:50%;margin:auto;margin-top:7rem;">
+        <div class="card" style="box-shadow: 1px 3px 5px #999;">
+            <div class="card-header font-weight-bold">
+                Login
             </div>
-
-
-        </div> <!-- Col -->
+            <div class="card-body">
+                <form class="form" id="login-form" method="POST" th:action="@{/session/login}">
+                    <div class="form-group">
+                        <label for="email" class="col-sm-10 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" autocomplete="off" name="email" id="email"
+                                   placeholder="Enter Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-10 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" name="password" id="password"
+                                   placeholder="Enter Password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary" id="login"
+                            style="margin-left:1rem">Login</button>
+                </form>
+            </div>
+            <div class="card-footer text-danger">
+                [[${info.getMessage()}]]
+            </div>
+        </div>
     </div> <!-- Row -->
-
 </div> <!-- Container-->
 
 <footer th:replace="snippets.html :: name_footer"></footer>
+<script>
+    $("#nav-login").hide();
+</script>
 
 </body>
 

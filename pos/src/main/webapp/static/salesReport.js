@@ -9,6 +9,7 @@ function filterSalesReport() {
     var data = JSON.parse(json);
     if(Date.parse(data["startDate"]) > Date.parse(data["endDate"])) {
         $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
         $.notify("Start Date is greater than End date", "error");
         return;
     }
@@ -31,6 +32,7 @@ function displaySalesReport(data) {
     if(data.length===0)
     {
         $('.notifyjs-wrapper').trigger('notify-hide');
+        $.notify.defaults({clickToHide:true,autoHide:false});
         $.notify("No Data Found", "error");
         return;
     }
