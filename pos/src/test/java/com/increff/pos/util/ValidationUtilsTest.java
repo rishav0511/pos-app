@@ -1,7 +1,7 @@
 package com.increff.pos.util;
 
 import com.increff.pos.helper.TestUtils;
-import com.increff.pos.model.*;
+import com.increff.pos.model.form.*;
 import com.increff.pos.service.ApiException;
 import org.junit.Rule;
 import org.junit.Test;

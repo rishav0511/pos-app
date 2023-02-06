@@ -1,7 +1,11 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.ReportDto;
-import com.increff.pos.model.*;
+import com.increff.pos.model.data.BrandCategoryData;
+import com.increff.pos.model.data.DailySalesReportData;
+import com.increff.pos.model.data.InventoryReportData;
+import com.increff.pos.model.data.SalesReportData;
+import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

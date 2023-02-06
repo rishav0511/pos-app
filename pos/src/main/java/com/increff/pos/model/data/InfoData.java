@@ -1,4 +1,4 @@
-package com.increff.pos.model;
+package com.increff.pos.model.data;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;

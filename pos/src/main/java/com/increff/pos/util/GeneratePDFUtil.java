@@ -1,6 +1,6 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.InvoiceData;
+import com.increff.pos.model.data.InvoiceData;
 import com.increff.pos.service.ApiException;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.client.RestTemplate;

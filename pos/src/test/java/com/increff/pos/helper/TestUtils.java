@@ -1,6 +1,6 @@
 package com.increff.pos.helper;
 
-import com.increff.pos.model.*;
+import com.increff.pos.model.form.*;
 import com.increff.pos.pojo.*;
 
 import java.util.ArrayList;
@@ -9,14 +9,14 @@ import java.util.List;
 
 public class TestUtils {
 
-    public static BrandCategoryForm getBrandCategoryForm (String brand,String category) {
+    public static BrandCategoryForm getBrandCategoryForm (String brand, String category) {
         BrandCategoryForm brandCategoryForm = new BrandCategoryForm();
         brandCategoryForm.setBrand(brand);
         brandCategoryForm.setCategory(category);
         return brandCategoryForm;
     }
 
-    public static ProductForm getProductForm (String product,String barcode,Double mrp,String bName, String bCategory) {
+    public static ProductForm getProductForm (String product, String barcode, Double mrp, String bName, String bCategory) {
         ProductForm productForm = new ProductForm();
         productForm.setProduct(product);
         productForm.setBarcode(barcode);
@@ -26,7 +26,7 @@ public class TestUtils {
         return productForm;
     }
 
-    public static InventoryForm getInventoryForm (String barcode,Integer quantity) {
+    public static InventoryForm getInventoryForm (String barcode, Integer quantity) {
         InventoryForm inventoryForm = new InventoryForm();
         inventoryForm.setBarcode(barcode);
         inventoryForm.setQuantity(quantity);
@@ -46,7 +46,7 @@ public class TestUtils {
         return orderItemFormList;
     }
 
-    public static SalesReportForm getSalesReportForm(String brand,String category) {
+    public static SalesReportForm getSalesReportForm(String brand, String category) {
         SalesReportForm salesReportForm = new SalesReportForm();
         salesReportForm.setBrand(brand);
         salesReportForm.setCategory(category);

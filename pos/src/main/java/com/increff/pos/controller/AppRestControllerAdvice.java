@@ -1,7 +1,7 @@
 package com.increff.pos.controller;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.increff.pos.model.MessageData;
+import com.increff.pos.model.data.MessageData;
 import com.increff.pos.service.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

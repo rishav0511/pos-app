@@ -1,8 +1,8 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.BrandCategoryDto;
-import com.increff.pos.model.BrandCategoryData;
-import com.increff.pos.model.BrandCategoryForm;
+import com.increff.pos.model.data.BrandCategoryData;
+import com.increff.pos.model.form.BrandCategoryForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,6 +2,7 @@ function getDailySalesReportUrl(){
    var baseUrl = $("meta[name=baseUrl]").attr("content")
    return baseUrl + "/api/reports/daily-sales";
 }
+const dayDate= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 function filterSalesReport() {
     var url = getDailySalesReportUrl();
@@ -46,12 +47,8 @@ function convertTimeStampToDateTime(timestamp) {
       (date.getMonth() + 1) +
       "/" +
       date.getFullYear() +
-      " " +
-      date.getHours() +
-      ":" +
-      date.getMinutes() +
-      ":" +
-      date.getSeconds()
+      " (" +
+      dayDate[date.getDay()] + ")"
     );
   }
 

@@ -1,6 +1,6 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.model.InfoData;
+import com.increff.pos.model.data.InfoData;
 import com.increff.pos.util.SecurityUtil;
 import com.increff.pos.util.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;

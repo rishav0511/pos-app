@@ -1,6 +1,10 @@
 package com.increff.pos.util;
 
-import com.increff.pos.model.*;
+import com.increff.pos.model.data.*;
+import com.increff.pos.model.form.BrandCategoryForm;
+import com.increff.pos.model.form.OrderItemForm;
+import com.increff.pos.model.form.ProductForm;
+import com.increff.pos.model.form.UserForm;
 import com.increff.pos.pojo.*;
 
 import java.util.ArrayList;

@@ -94,6 +94,10 @@ function readFileDataCallback(results){
         $('#download-errors').show();
         return;
     }
+    if (file.type != 'text/tab-separated-values') {
+        handleErrorNotification("Wrong file type");
+        return;
+    }
 	if(fileData.length >= 5000) {
 	    $('.notifyjs-wrapper').trigger('notify-hide');
         $.notify.defaults({clickToHide:true,autoHide:false});

@@ -1,6 +1,6 @@
 package com.increff.pos.controller;
 
-import com.increff.pos.model.UserData;
+import com.increff.pos.model.data.UserData;
 import com.increff.pos.pojo.UserPojo;
 import com.increff.pos.service.UserService;
 import io.swagger.annotations.Api;

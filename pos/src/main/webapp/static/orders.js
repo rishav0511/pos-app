@@ -3,6 +3,23 @@ function getOrdersUrl(){
 	return baseUrl + "/api/orders";
 }
 
+function getProductUrl(){
+    var baseUrl = $("meta[name=baseUrl]").attr("content")
+	return baseUrl + "/api/products";
+}
+
+function getProductByBarcode(barcode, onSuccess) {
+  const url = getProductUrl() + "/b/" + barcode;
+  $.ajax({
+    url: url,
+    type: 'GET',
+    success: function (data) {
+      onSuccess(data);
+    },
+    error: handleAjaxError,
+  });
+}
+
 function addOrder(event){
     var ok = true;
     const data = orderItems.map((it) => {
@@ -386,9 +403,15 @@ function fetchOrderDetails(id) {
 function addOrderItem(event) {
   event.preventDefault();
   const item = getCurrentOrderItem();
-  addItem(item);
-  displayCreateOrderItems(orderItems);
-  resetAddItemForm();
+  getProductByBarcode(item.barcode, (product) => {
+      if(product.mrp<item.sellingPrice){
+        showError("Selling Price should not be greater than MRP: "+product.mrp);
+        return;
+      }
+      addItem(item);
+      displayCreateOrderItems(orderItems);
+      resetAddItemForm();
+  })
 }
 function deleteOrderItem(barcode) {
   const index = orderItems.findIndex((it) => it.barcode.toString() === barcode.toString());
@@ -398,11 +421,17 @@ function deleteOrderItem(barcode) {
 }
 
 function addEditOrderItem(event) {
-event.preventDefault();
+  event.preventDefault();
   const item = getCurrentEditOrderItem();
-  addItem(item);
-  displayEditOrderItems(orderItems);
-  resetEditAddItemForm();
+  getProductByBarcode(item.barcode, (product) => {
+        if(product.mrp<item.sellingPrice){
+          showError("Selling Price should not be greater than MRP: "+product.mrp);
+          return;
+        }
+        addItem(item);
+        displayEditOrderItems(orderItems);
+        resetEditAddItemForm();
+    })
 }
 
 function deleteEditOrderItem(barcode) {

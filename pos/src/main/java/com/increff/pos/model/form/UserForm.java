@@ -1,9 +1,19 @@
-package com.increff.pos.model;
+package com.increff.pos.model.form;
 
-public class LoginForm {
+public class UserForm {
 
     private String email;
     private String password;
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    private String confirmPassword;
 
     public String getEmail() {
         return email;
@@ -20,5 +30,4 @@ public class LoginForm {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

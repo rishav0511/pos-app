@@ -131,6 +131,10 @@ function processData(){
         $.notify("No file detected!", "error");
         return;
     }
+    if (file.type != 'text/tab-separated-values') {
+        handleErrorNotification("Wrong file type");
+        return;
+    }
     readFileData(file, readFileDataCallback);
 }
 

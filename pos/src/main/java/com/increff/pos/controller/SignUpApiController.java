@@ -1,8 +1,8 @@
 package com.increff.pos.controller;
 
 import com.increff.pos.dto.AdminApiDto;
-import com.increff.pos.model.InfoData;
-import com.increff.pos.model.UserForm;
+import com.increff.pos.model.data.InfoData;
+import com.increff.pos.model.form.UserForm;
 import com.increff.pos.service.ApiException;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

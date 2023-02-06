@@ -1,6 +1,10 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.*;
+import com.increff.pos.model.data.BrandCategoryData;
+import com.increff.pos.model.data.DailySalesReportData;
+import com.increff.pos.model.data.InventoryReportData;
+import com.increff.pos.model.data.SalesReportData;
+import com.increff.pos.model.form.SalesReportForm;
 import com.increff.pos.pojo.*;
 import com.increff.pos.service.*;
 import com.increff.pos.util.ConvertUtil;

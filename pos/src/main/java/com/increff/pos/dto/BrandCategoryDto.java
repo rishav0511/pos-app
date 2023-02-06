@@ -1,7 +1,7 @@
 package com.increff.pos.dto;
 
-import com.increff.pos.model.BrandCategoryData;
-import com.increff.pos.model.BrandCategoryForm;
+import com.increff.pos.model.data.BrandCategoryData;
+import com.increff.pos.model.form.BrandCategoryForm;
 import com.increff.pos.pojo.BrandCategoryPojo;
 import com.increff.pos.service.ApiException;
 import com.increff.pos.service.BrandCategoryService;
