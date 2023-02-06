@@ -14,13 +14,13 @@ function toJson($form){
 
 function showError(message) {
     $('.notifyjs-wrapper').trigger('notify-hide');
+    $.notify.defaults({clickToHide:true,autoHide:false});
     $.notify(message, "error");
 }
 
 function handleAjaxError(response){
 	var response = JSON.parse(response.responseText);
 	showError(response.message);
-//	alert(response.message);
 }
 
 function readFileData(file, callback){

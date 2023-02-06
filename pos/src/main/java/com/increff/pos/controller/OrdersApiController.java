@@ -22,42 +22,43 @@ import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/api/orders")
 public class OrdersApiController {
     @Autowired
     private OrderDto orderDto;
 
     @ApiOperation(value = "Adds a Order")
-    @RequestMapping(value = "/api/orders", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public OrderData addOrder(@RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
         return orderDto.addOrder(orderItemForms);
     }
 
     @ApiOperation(value = "Gets a Order by orderId")
-    @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public OrderData getByOrderId(@PathVariable int id) throws ApiException {
         return orderDto.getOrderDetails(id);
     }
 
     @ApiOperation(value = "Gets InvoiceData by orderId")
-    @RequestMapping(value = "/api/orders/{id}/invoice", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/invoice", method = RequestMethod.GET)
     public InvoiceData getInvoiceDataByOrderId(@PathVariable int id) throws ApiException {
         return orderDto.getInvoiceDataByOrderId(id);
     }
 
     @ApiOperation(value = "Gets all Orders")
-    @RequestMapping(value = "/api/orders", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public List<OrderData> getAll() {
         return orderDto.getAllOrders();
     }
 
     @ApiOperation(value = "Update Order")
-    @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public OrderData update(@PathVariable int id, @RequestBody List<OrderItemForm> orderItemForms) throws ApiException {
         return orderDto.updateOrder(id, orderItemForms);
     }
 
     @ApiOperation(value = "Download invoice")
-    @RequestMapping(value = "/api/orders/download/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
     public ResponseEntity<Resource> downloadInvoice(@PathVariable int id) throws ApiException, IOException {
         String fileUri = orderDto.getFilePath(id);
         File file = new File(fileUri);

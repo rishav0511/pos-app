@@ -23,7 +23,6 @@ function displaybrandReportList(data) {
     var e = data[i];
     var row =
       "<tr>" +
-      '<td>&nbsp;</td>' +
       "<td>" +
       e.brand +
       "</td>" +

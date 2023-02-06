@@ -103,11 +103,11 @@ function displayOrderList(data){
 	for(var i in data){
 		var e = data[i];
 		var buttonHtml = `<button type="button" onclick="displayEditOrder('${e.orderId}')" data-toggle="tooltip"
-                        style='background-color: transparent;border: 0;' data-placement="bottom" title="Edit">
+                        style='background-color: transparent;border: 0;' data-placement="bottom" title="Update">
                                                                   <i class="fa fa-pencil-square-o fa-1x"></i>
                                                               </button>` +
                          `<button type="button" class="mx-2" onclick="displayOrderDetails('${e.orderId}')" data-toggle="tooltip"
-                         style='background-color: transparent;border: 0;' data-placement="bottom" title="Order Details">
+                         style='background-color: transparent;border: 0;' data-placement="bottom" title="View Order">
                                                                   <i class="fa fa-info-circle fa-1x"></i>
                                                               </button>` +
                          `<button class = "downloadInvoiceBtn" type="button" onclick="downloadInvoice('${e.orderId}')" data-toggle="tooltip"
@@ -115,7 +115,7 @@ function displayOrderList(data){
                                                                  <i class="fa fa-file-pdf-o fa-1x"></i>
                                                               </button>`;
 		var row = '<tr>'
-		+ '<td>&nbsp;</td>'
+		+ '<td>'+ e.orderId + '</td>'
 		+ '<td>' + convertTimeStampToDateTime(e.createdAt) + '</td>'
 		+ '<td style="text-align: right;">' + '₹' + numberWithCommas(e.billAmount.toFixed(2)) + '</td>'
 		+ '<td>' + buttonHtml + '</td>'

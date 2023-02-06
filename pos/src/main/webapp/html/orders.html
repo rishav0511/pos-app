@@ -15,7 +15,7 @@
         <h3 class="column">Orders</h3>
         <div class="col d-flex justify-content-end" float="left">
             <button type="button" class="btn btn-success" id="add-order-button" data-toggle="tooltip"
-                    data-placement="bottom" title="Add">
+                    data-placement="bottom" title="Create">
                 <i class="fa fa-plus-circle fa-2x"></i>
             </button>
         </div>
@@ -32,7 +32,7 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Order</h5>
+                    <h5 class="modal-title">Create Order</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="place-order">Place Order</button>
                     </div>
                 </div>
@@ -98,17 +98,17 @@
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Edit Order</h5>
+                    <h5 class="modal-title">Update Order</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="d-flex justify-content-between m-3">
-                    <div>
+                    <div class="row" style="margin-left: 0;">
                         <strong>Order ID:</strong>
                         <p id="edit-orderId"></p>
                     </div>
-                    <div>
+                    <div class="row" style="margin-right: 1.5rem;">
                         <strong>Order Time:</strong>
                         <p id="edit-orderDateTime"></p>
                     </div>
@@ -162,8 +162,8 @@
                     </div>
                     <input type="hidden" name="id">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="edit-order">Edit Order</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="edit-order">Update Order</button>
                     </div>
                 </div>
             </div>
@@ -181,11 +181,11 @@
                     </button>
                 </div>
                 <div class="d-flex justify-content-between m-3">
-                    <div>
+                    <div class="row" style="margin-left: 0;">
                         <strong>Order ID:</strong>
                         <p id="details-orderId"></p>
                     </div>
-                    <div>
+                    <div class="row" style="margin-right: 1.5rem;">
                         <strong>Order Time:</strong>
                         <p id="details-orderDateTime"></p>
                     </div>
@@ -216,7 +216,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -226,13 +226,13 @@
     <div class="row">
 
         <!-- Table -->
-        <div class="col-12">
-            <table class="table table-striped css-serial" id="order-table">
+        <div class="col-12" style="padding: 0;">
+            <table class="table table-striped" id="order-table">
                 <thead class="sticky-top" style="top: 75px; z-index: 2;">
                 <tr>
                     <th scope="col">Order Id</th>
                     <th scope="col">Created At</th>
-                    <th scope="col" style="text-align: right;">Bill Amount</th>
+                    <th scope="col">Bill Amount</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -270,7 +270,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="process-data">Upload</button>
                     <button type="button" class="btn btn-warning" id="download-errors">Download Errors</button>
                 </div>

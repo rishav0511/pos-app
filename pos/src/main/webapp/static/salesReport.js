@@ -44,7 +44,7 @@ function displaySalesReport(data) {
         + '<td>' + b.brand + '</td>'
         + '<td>' + b.category + '</td>'
         + '<td>' + b.quantity + '</td>'
-        + '<td style="text-align: right;">' + numberWithCommas(b.revenue.toFixed(2)) + '</td>'
+        + '<td style="text-align: right;">' + '₹' + numberWithCommas(b.revenue.toFixed(2)) + '</td>'
         + '</tr>';
         $tbody.append(row);
     }

@@ -27,7 +27,7 @@ function displaySalesReport(data) {
         + '<td>' + convertTimeStampToDateTime(b.date) + '</td>'
         + '<td>' + b.orderCount + '</td>'
         + '<td>' + b.itemCount + '</td>'
-        + '<td style="text-align: right;">' + numberWithCommas(b.totalRevenue.toFixed(2)) + '</td>'
+        + '<td style="text-align: right;">' + '₹' + numberWithCommas(b.totalRevenue.toFixed(2)) + '</td>'
         + '</tr>';
         $tbody.append(row);
     }
