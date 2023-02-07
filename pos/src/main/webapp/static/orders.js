@@ -407,7 +407,7 @@ function init(){
 	$('#refresh-data').click(getOrderList);
 }
 
-let mybutton = document.getElementById("btn-back-to-top");
+let mybutton = document.getElementsByClassName("btn-back-to-top")[0];
 
 window.onscroll = function () {
   scrollFunction();

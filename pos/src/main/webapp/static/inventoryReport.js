@@ -37,7 +37,7 @@ function init() {
   $("#refresh-data").click(getInventoryReport);
 }
 //Get the button
-let mybutton = document.getElementById("btn-back-to-top");
+let mybutton = document.getElementsByClassName("btn-back-to-top")[0];
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () {

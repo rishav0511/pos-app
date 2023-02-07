@@ -77,7 +77,7 @@ function init(){
    $('#inputEndDate').change(endDateChanged);
 }
 
-let mybutton = document.getElementById("btn-back-to-top");
+let mybutton = document.getElementsByClassName("btn-back-to-top")[0];
 
 window.onscroll = function () {
   scrollFunction();
