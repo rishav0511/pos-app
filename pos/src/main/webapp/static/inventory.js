@@ -22,35 +22,20 @@ function updateInventory(event){
 	    return;
 	}
 	var json = toJson($form);
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	   		getInventoryList();
-	   		$('#edit-inventory-modal').modal('toggle');
-	   		$.notify("Inventory Updated", "success");
-	   },
-	   error: handleAjaxError
-	});
-
+	makeAjaxCall(url,'PUT',json,(response)=> {
+        getInventoryList();
+        $('#edit-inventory-modal').modal('toggle');
+        $.notify("Inventory Updated", "success");
+    },handleAjaxError);
 	return false;
 }
 
 
 function getInventoryList(){
 	var url = getInventoryUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayInventoryList(data);
-	   },
-	   error: handleAjaxError
-	});
+	makeAjaxCall(url,'GET',{},(data)=> {
+        displayInventoryList(data);
+    },handleAjaxError);
 }
 
 
@@ -136,26 +121,15 @@ function uploadRows(){
 	var json = JSON.stringify(row);
 	var url = getInventoryUrl();
 
-	//Make ajax call
-	$.ajax({
-	   url: url,
-	   type: 'PUT',
-	   data: json,
-	   headers: {
-       	'Content-Type': 'application/json'
-       },
-	   success: function(response) {
-	   		uploadRows();
-	   },
-	   error: function(response){
-	        row.Sno=processCount;
-            var data = JSON.parse(response.responseText);
-            row.error=data["message"];
-	   		errorData.push(row);
-	   		uploadRows();
-	   }
-	});
-
+    makeAjaxCall(url,'PUT',json,(response)=>{
+        uploadRows();
+    },(response)=>{
+        row.Sno=processCount;
+        var data = JSON.parse(response.responseText);
+        row.error=data["message"];
+        errorData.push(row);
+        uploadRows();
+    });
 }
 
 
@@ -189,14 +163,9 @@ function displayInventoryList(data){
 
 function displayEditInventory(barcode){
 	var url = getInventoryUrl() + "/" + barcode;
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayInventory(data);
-	   },
-	   error: handleAjaxError
-	});
+	makeAjaxCall(url,'GET',{},(data)=> {
+        displayInventory(data);
+    },handleAjaxError);
 }
 
 function resetUploadDialog(){

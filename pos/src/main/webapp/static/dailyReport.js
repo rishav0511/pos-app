@@ -6,16 +6,9 @@ const dayDate= ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Sat
 
 function filterSalesReport() {
     var url = getDailySalesReportUrl();
-    console.log(url);
-    $.ajax({
-       url: url,
-       type: 'GET',
-       success: function(response) {
-            console.log(response);
-            displaySalesReport(response);
-       },
-       error: handleAjaxError
-    });
+    makeAjaxCall(url,'GET',{},(response)=> {
+        displaySalesReport(response);
+    },handleAjaxError);
 }
 
 function displaySalesReport(data) {

@@ -5,14 +5,9 @@ function getbrandReportUrl() {
 
 function getbrandReport() {
   var url = getbrandReportUrl();
-  $.ajax({
-    url: url,
-    type: "GET",
-    success: function (data) {
-      displaybrandReportList(data);
-    },
-    error: handleAjaxError,
-  });
+  makeAjaxCall(url,'GET',{},(data)=> {
+          displaybrandReportList(data);
+  },handleAjaxError);
 }
 
 //UI DISPLAY METHODS

@@ -5,14 +5,9 @@ function getInventoryReportUrl() {
 
 function getInventoryReport() {
   var url = getInventoryReportUrl();
-  $.ajax({
-    url: url,
-    type: "GET",
-    success: function (data) {
+  makeAjaxCall(url,'GET',{},(data)=> {
       displayInventoryReportList(data);
-    },
-    error: handleAjaxError,
-  });
+  },handleAjaxError);
 }
 
 //UI DISPLAY METHODS

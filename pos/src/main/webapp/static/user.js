@@ -6,14 +6,9 @@ function getUserUrl(){
 
 function getUserList(){
 	var url = getUserUrl();
-	$.ajax({
-	   url: url,
-	   type: 'GET',
-	   success: function(data) {
-	   		displayUserList(data);   
-	   },
-	   error: handleAjaxError
-	});
+	makeAjaxCall(url,'GET',{},(data)=>{
+                displayUserList(data);
+    },handleAjaxError);
 }
 
 

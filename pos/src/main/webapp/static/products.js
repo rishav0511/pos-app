@@ -28,28 +28,16 @@ function addProduct(event){
    var json = toJson($form);
    var url = getProductUrl();
 
-   console.log(json);
-
-   $.ajax({
-      url: url,
-      type: 'POST',
-      data: json,
-      headers: {
-           'Content-Type': 'application/json'
-       },
-      success: function(response) {
-         getProductList();
-         $("#product-add-form input[name=barcode]").val('');
-         $("#product-add-form input[name=product]").val('');
-         $("#product-add-form input[name=bname]").val('');
-         $("#product-add-form input[name=bcategory]").val('');
-         $("#product-add-form input[name=mrp]").val('');
-         $.notify("Product Added", "success");
-         $('#add-product-modal').modal('toggle');
-      },
-      error: handleAjaxError
-   });
-
+   makeAjaxCall(url,'POST',json,(response)=>{
+        getProductList();
+        $("#product-add-form input[name=barcode]").val('');
+        $("#product-add-form input[name=product]").val('');
+        $("#product-add-form input[name=bname]").val('');
+        $("#product-add-form input[name=bcategory]").val('');
+        $("#product-add-form input[name=mrp]").val('');
+        $.notify("Product Added", "success");
+        $('#add-product-modal').modal('toggle');
+   },handleAjaxError);
    return false;
 }
 
@@ -68,48 +56,20 @@ function updateProduct(event){
 
 
    var json = toJson($form);
-   $.ajax({
-      url: url,
-      type: 'PUT',
-      data: json,
-      headers: {
-           'Content-Type': 'application/json'
-       },
-      success: function(response) {
-             getProductList();
-             $('#edit-product-modal').modal('toggle');
-             $.notify("Product Updated", "success");
-      },
-      error: handleAjaxError
-   });
-
+   makeAjaxCall(url,'PUT',json,(response)=>{
+       getProductList();
+       $('#edit-product-modal').modal('toggle');
+       $.notify("Product Updated", "success");
+   },handleAjaxError);
    return false;
 }
 
 
 function getProductList(){
    var url = getProductUrl();
-   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(data) {
-             displayProductList(data);
-      },
-      error: handleAjaxError
-   });
-}
-
-function deleteProduct(id){
-   var url = getProductUrl() + "/" + id;
-
-   $.ajax({
-      url: url,
-      type: 'DELETE',
-      success: function(data) {
-             getProductList();
-      },
-      error: handleAjaxError
-   });
+   makeAjaxCall(url,'GET',{},(data)=>{
+      displayProductList(data);
+   },handleAjaxError);
 }
 
 // FILE UPLOAD METHODS
@@ -194,25 +154,15 @@ function uploadRows(){
    var json = JSON.stringify(row);
    var url = getProductUrl();
 
-   //Make ajax call
-   $.ajax({
-      url: url,
-      type: 'POST',
-      data: json,
-      headers: {
-           'Content-Type': 'application/json'
-       },
-      success: function(response) {
-             uploadRows();
-      },
-      error: function(response){
-             row.Sno=processCount;
-             var data = JSON.parse(response.responseText);
-             row.error=data["message"];
-             errorData.push(row);
-             uploadRows();
-      }
-   });
+    makeAjaxCall(url,'POST',json,(response)=>{
+        uploadRows();
+    },(response)=>{
+        row.Sno=processCount;
+        var data = JSON.parse(response.responseText);
+        row.error=data["message"];
+        errorData.push(row);
+        uploadRows();
+    });
 
 }
 
@@ -242,18 +192,13 @@ function addDataToBrandCategoryDropdown(data, formId) {
 
 function populateBrandCategoryDropDown(formType) {
 	var url = getBrandCategoryUrl();
-	$.ajax({
-	  url: url,
-	  type: "GET",
-	  success: function (data) {
-	    if(formType === "add-form") {
-		    addDataToBrandCategoryDropdown(data, "#product-add-form");
-		} else if(formType === "edit-form") {
-		    addDataToBrandCategoryDropdown(data, "#product-edit-form");
-        }
-	  },
-	  error: handleAjaxError,
-	});
+	makeAjaxCall(url,'GET',{},(data)=>{
+	        if(formType === "add-form") {
+    		    addDataToBrandCategoryDropdown(data, "#product-add-form");
+    		} else if(formType === "edit-form") {
+    		    addDataToBrandCategoryDropdown(data, "#product-edit-form");
+            }
+    },handleAjaxError);
 }
 
 
@@ -287,14 +232,9 @@ function displayProductList(data){
 function displayEditProduct(id){
    var url = getProductUrl() + "/" + id;
    populateBrandCategoryDropDown("edit-form");
-   $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(data) {
-             displayProduct(data);
-      },
-      error: handleAjaxError
-   });
+   makeAjaxCall(url,'GET',{},(data)=>{
+       displayProduct(data);
+   },handleAjaxError);
 }
 
 function resetUploadDialog(){

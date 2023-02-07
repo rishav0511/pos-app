@@ -14,18 +14,9 @@ function filterSalesReport() {
         return;
     }
     var url = getSalesReportUrl();
-    $.ajax({
-       url: url,
-       type: 'POST',
-       data: json,
-       headers: {
-        'Content-Type': 'application/json'
-       },
-       success: function(response) {
+    makeAjaxCall(url,'POST',json,(response)=>{
             displaySalesReport(response);
-       },
-       error: handleAjaxError
-    });
+    },handleAjaxError);
 }
 
 function displaySalesReport(data) {

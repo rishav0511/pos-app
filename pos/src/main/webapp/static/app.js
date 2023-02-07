@@ -73,6 +73,33 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
+function makeAjaxCall(url,type,data,success,error){
+    if(type==='GET')
+    {
+        $.ajax({
+            url: url,
+            type: type,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            success: success,
+            error: error
+        });
+    }
+    else{
+       $.ajax({
+                url: url,
+                type: type,
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                success: success,
+                error: error
+            });
+    }
+}
+
 
 //prevent 'e' press in number field
 var invalidChars = [
