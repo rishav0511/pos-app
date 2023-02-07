@@ -9,13 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @MappedSuperclass
 @Getter
 @Setter
-public class AbstractPojo {
+public abstract class AbstractPojo {
     @CreationTimestamp
     @Column(name = "created_at")
     private Timestamp createdAt;

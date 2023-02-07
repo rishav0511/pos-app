@@ -103,26 +103,4 @@ public class ReportDto {
         }
         return dailySalesReportDataList;
     }
-
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void generateDailySalesReport() throws ApiException {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -1);
-        Date yesterday = TimeUtil.getStartOfDay(cal.getTime());
-        Date present = new Date();
-
-        List<OrderPojo> orderPojoList = orderService.getAllBetween(yesterday, present);
-        int itemsSold = 0;
-        double revenue = 0;
-        for (OrderPojo order : orderPojoList) {
-            List<OrderItemPojo> orderItemList = orderItemService.selectByOrderId(order.getId());
-            for (OrderItemPojo orderItem : orderItemList) {
-                revenue = revenue + orderItem.getQuantity() * orderItem.getSellingPrice();
-            }
-            itemsSold += orderItemList.size();
-        }
-        DailySalesReportPojo dailySalesReportPojo = ConvertUtil
-                .setDailySalesReportPojo(new Date(), itemsSold, orderPojoList.size(), revenue);
-        dailySalesReportService.insert(dailySalesReportPojo);
-    }
 }
