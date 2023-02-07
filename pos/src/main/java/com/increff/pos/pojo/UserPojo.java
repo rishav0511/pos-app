@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class UserPojo {
+public class UserPojo extends AbstractPojo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -11,11 +11,9 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Table(name = "orders")
-public class OrderPojo {
+public class OrderPojo extends AbstractPojo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @CreationTimestamp
-    private Timestamp createdAt;
     private String path;
 }

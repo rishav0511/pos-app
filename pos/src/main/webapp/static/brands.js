@@ -35,6 +35,7 @@ function addBrand(event){
         $("#brand-form input[name=brand]").val('');
         $("#brand-form input[name=category]").val('');
         $.notify("Brand and Category Added", "success");
+        $('#add-brand-modal').modal('toggle');
     },handleAjaxError);
 	return false;
 }

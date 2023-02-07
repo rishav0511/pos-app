@@ -14,10 +14,10 @@ function filterSalesReport() {
 function displaySalesReport(data) {
     var $tbody = $('#daily-sales-table').find('tbody');
     $tbody.empty();
+    $('#results-found').text("There were " + data.length + " results found.")
     for(var i in data){
         var b = data[i];
         var row = '<tr>'
-        + '<td>&nbsp;</td>'
         + '<td>' + convertTimeStampToDateTime(b.date) + '</td>'
         + '<td>' + b.orderCount + '</td>'
         + '<td>' + b.itemCount + '</td>'

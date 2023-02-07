@@ -12,7 +12,7 @@ import javax.persistence.*;
         indexes = {
                 @Index(name = "barcode_idx", columnList = "barcode", unique = true)
         })
-public class ProductPojo {
+public class ProductPojo extends AbstractPojo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

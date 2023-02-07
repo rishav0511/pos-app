@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Table(name = "inventory")
-public class InventoryPojo {
+public class InventoryPojo extends AbstractPojo {
     @Id
     private Integer productId;
     private Integer quantity;

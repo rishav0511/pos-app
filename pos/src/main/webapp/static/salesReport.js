@@ -27,13 +27,13 @@ function displaySalesReport(data) {
         $.notify("No Data Found", "error");
         return;
     }
-     $('#sales-table').show();
+    $('#sales-table').show();
     var $tbody = $('#sales-table').find('tbody');
     $tbody.empty();
+    $('#results-found').text("There were " + data.length + " results found.")
     for(var i in data){
         var b = data[i];
         var row = '<tr>'
-        + '<td>&nbsp;</td>'
         + '<td>' + b.brand + '</td>'
         + '<td>' + b.category + '</td>'
         + '<td>' + b.quantity + '</td>'
@@ -41,6 +41,7 @@ function displaySalesReport(data) {
         + '</tr>';
         $tbody.append(row);
     }
+    $(location).attr('href','#filter-sales-report');
 }
 function startDateChanged(event){
     if( $('#inputEndDate').val()==="") {

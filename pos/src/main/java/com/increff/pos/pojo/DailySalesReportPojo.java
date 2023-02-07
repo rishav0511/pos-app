@@ -13,7 +13,7 @@ import java.util.Date;
         indexes = {
                 @Index(name = "date_idx", columnList = "date")
         })
-public class DailySalesReportPojo {
+public class DailySalesReportPojo extends AbstractPojo {
     @Id
     private Date date;
     @Column(nullable = false)

@@ -14,6 +14,7 @@ function getbrandReport() {
 function displaybrandReportList(data) {
   var $tbody = $("#brandCategory-table").find("tbody");
   $tbody.empty();
+  $('#results-found').text("There were " + data.length + " results found.")
   for (var i in data) {
     var e = data[i];
     var row =

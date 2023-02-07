@@ -162,7 +162,7 @@ function displayEditOrderItems(orderItems) {
                               id="order-item-sp-${e.barcode}"
                               type="number"
                               class="form-control sellingPriceData numberInput"
-                              value="${e.sellingPrice}"
+                              value="${e.sellingPrice.toFixed(2)}"
                               onchange="onSellingPriceChanged('${e.barcode}')"
                               style="width:70%" min="0" step="0.01">
                        </td>
@@ -270,7 +270,7 @@ function displayCreateOrderItems(orderItems) {
                          id="order-item-sp-${e.barcode}"
                          type="number"
                          class="form-control sellingPriceData numberInput"
-                         value="${e.sellingPrice}"
+                         value="${e.sellingPrice.toFixed(2)}"
                          onchange="onSellingPriceChanged('${e.barcode}')"
                          style="width:70%" min="0" step="0.01">
                   </td>
